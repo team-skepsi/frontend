@@ -49,7 +49,7 @@ function App() {
     }, [isAuthenticated, getAccessTokenSilently])
 
     const client = new ApolloClient({
-        uri: "http://127.0.0.1:8000/",
+        uri: "https://skepsi-api.herokuapp.com/",
         cache: new InMemoryCache(),
         headers: {
             authorization: isAuthenticated ? token : ""

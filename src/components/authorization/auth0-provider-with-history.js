@@ -18,7 +18,7 @@ const Auth0ProviderWithHistory = ({ children }) => {
       clientId={clientId}
       redirectUri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
-      audience="http://127.0.0.1:8000/"
+      audience="https://skepsi-api.herokuapp.com/"
     >
       {children}
     </Auth0Provider>

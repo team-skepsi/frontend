@@ -29,11 +29,6 @@ function AnnotationDotRouter() {
     const {data, loading, error} = useQuery(GET_ALL_TOPIC_SLUGS)
     const {data: paperData, loading: paperLoading, error: paperError} = useQuery(GET_ALL_PAPERS)
 
-    useEffect(() => {
-      console.log('TOPIC SLUG ERROR', error),
-      console.log('PAPER ERROR', paperError)
-    }, [error, paperError])
-
   // if(loading || paperLoading){
   //   return(
   //     <div>

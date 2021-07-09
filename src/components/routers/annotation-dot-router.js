@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Route, Switch} from 'react-router-dom'
 import {gql, useQuery} from "@apollo/client"
 
@@ -29,19 +29,19 @@ function AnnotationDotRouter() {
     const {data, loading, error} = useQuery(GET_ALL_TOPIC_SLUGS)
     const {data: paperData, loading: paperLoading, error: paperError} = useQuery(GET_ALL_PAPERS)
 
-  if(loading || paperLoading){
-    return(
-      <div>
-      </div>
-    )
-  }
+    useEffect(() => {
+      console.log('TOPIC SLUG ERROR', error),
+      console.log('PAPER ERROR', paperError)
+    }, [error, paperError])
 
-  useEffect(() => {
-    console.log('TOPIC SLUG ERROR', error),
-    console.log('PAPER ERROR', paperError)
-  }, [error, paperError])
+  // if(loading || paperLoading){
+  //   return(
+  //     <div>
+  //     </div>
+  //   )
+  // }
 
-    return (
+  return (
         <Switch>
             {data && data.allTopics.map((topic) =>
                 <Route key={topic.id} path={"/".concat(topic.slug)}>

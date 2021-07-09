@@ -51,7 +51,7 @@ h1 {
 }
 
 .ViewStateManager-Cover-container{
-    background-image: url("http://127.0.0.1:8000/static/bluetest.jpeg");
+    background-image: url("https://skepsi-api.herokuapp.com/static/bluetest.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
     background-color: white;

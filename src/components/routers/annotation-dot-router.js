@@ -26,8 +26,8 @@ const GET_ALL_PAPERS = gql`
 `
 
 function AnnotationDotRouter() {
-    const {data, loading} = useQuery(GET_ALL_TOPIC_SLUGS)
-    const {data: paperData, loading: paperLoading} = useQuery(GET_ALL_PAPERS)
+    const {data, loading, error} = useQuery(GET_ALL_TOPIC_SLUGS)
+    const {data: paperData, loading: paperLoading, error: paperError} = useQuery(GET_ALL_PAPERS)
 
   if(loading || paperLoading){
     return(
@@ -35,6 +35,11 @@ function AnnotationDotRouter() {
       </div>
     )
   }
+
+  useEffect(() => {
+    console.log('TOPIC SLUG ERROR', error),
+    console.log('PAPER ERROR', paperError)
+  }, [error, paperError])
 
     return (
         <Switch>

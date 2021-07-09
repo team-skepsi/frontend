@@ -1,0 +1,51 @@
+
+.AnnotationCard {
+    padding: 5px 0 5px 5px;
+    min-width: 225px;
+    background-color: white;
+}
+
+.AnnotationCard-gray {
+    background-color: grey;
+}
+
+.AnnotationCards-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 3px 0;
+}
+
+.AnnotationCards-author {
+    font-weight: bold;
+}
+
+.AnnotationCard-content {
+    margin: 2px 0;
+}
+
+.AnnotationCard-score-block-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: start;
+}
+
+.AnnotationCard-score-block {
+    border-top: 1px solid black;
+    margin: 1px 0;
+}
+
+.AnnotationCard-score-block-header-open {
+    background-color: lightgray;
+}
+
+.AnnotationCard-score-block-content {
+    margin-left: 10px;
+}
+
+.AnnotationCard-children-container {
+    margin-top: 5px;
+    margin-left: 10px;
+}

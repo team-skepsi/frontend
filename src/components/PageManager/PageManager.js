@@ -1,0 +1,89 @@
+import React, {useEffect} from 'react';
+import {gql, useQuery} from '@apollo/client'
+import {useLocation} from 'react-router-dom'
+import ViewStateManager from '../ViewStateManager/ViewStateManager.js'
+
+const GET_PAPER_AND_ANNOTATION_DATA = gql`
+    query GetPaperAndAnnotationData($paperId:ID!){
+        annotationsByPaperId(paperId: $paperId){
+            id
+            content
+            position
+            quote
+            childAnnotationCount
+            start
+            stop
+            author{
+                username
+            }
+            parent{
+                id
+            }
+        }
+        papersById(paperId: $paperId){
+            id
+            title
+            authors
+            abstract
+            citationAPA
+            citationMLA
+            citationChicago
+            md
+            topic{
+                header
+            }
+            references{
+                id
+                authors
+                title
+                citation
+                paperOrder
+            }
+        }
+    }
+`
+
+function PageManager() {
+    // DOCUMENT ROUTER
+    const location = useLocation()
+    // replace the paperId variable below with "location.pathname.replace('/','')"
+    // when you want to integrate with router
+
+
+    //NETWORK LOGIC
+    // the network logic currently sets the paper to one for testing,
+    // hook up to the document router output when integrating into the application
+    const {
+        data: paperAndAnnotationData,
+        error: networkRequestError,
+        loading
+    } = useQuery(GET_PAPER_AND_ANNOTATION_DATA, {
+        variables: {"paperId": 1}
+    })
+
+// //DEBUGGING LOGS
+//     if (networkRequestError) {
+//         console.log(
+//             `NETWORK LOGIC ERROR
+//     There was a network request error. To debug, make sure the backend is running, and double check the useQuery() hook, the GET_PAPER_AND_ANNOTATION_DATA constant, and the document router logic. Here\'s the network error: \n`
+//             , networkRequestError)
+//     }
+//
+//     useEffect(() => {
+//         console.log("NETWORK DATA [PAGE MANAGER]:", paperAndAnnotationData)
+//     }, [paperAndAnnotationData])
+
+
+    if (paperAndAnnotationData) {
+        return (
+            <ViewStateManager
+                document={paperAndAnnotationData.papersById}
+                annotations={paperAndAnnotationData.annotationsByPaperId}
+            />
+        )
+    } else {
+        return null
+    }
+}
+
+export default PageManager

@@ -1,0 +1,9 @@
+import React from "react"
+
+type ThingType = {}
+
+const Thing: React.FC<ThingType> = (props) => {
+    return <div />
+}
+
+export default Thing

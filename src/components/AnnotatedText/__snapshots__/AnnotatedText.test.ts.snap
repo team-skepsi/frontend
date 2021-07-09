@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render 1`] = `
+<span
+  className="AnnotatedText"
+>
+  <span
+    className="Section"
+    style={
+      Object {
+        "backgroundColor": "transparent",
+        "position": "relative",
+      }
+    }
+  >
+    the f
+  </span>
+  <span
+    className="Section"
+    style={
+      Object {
+        "backgroundColor": "yellow",
+        "position": "relative",
+      }
+    }
+  >
+    irst highligh
+  </span>
+  <span
+    className="Section"
+    style={
+      Object {
+        "backgroundColor": "transparent",
+        "position": "relative",
+      }
+    }
+  >
+    t asks for b
+  </span>
+  <span
+    className="Section"
+    style={
+      Object {
+        "backgroundColor": "yellow",
+        "position": "relative",
+      }
+    }
+  >
+    old form
+  </span>
+  <span
+    className="Section"
+    style={
+      Object {
+        "backgroundColor": "yellow",
+        "position": "relative",
+      }
+    }
+  >
+    at
+  </span>
+  <span
+    className="Section"
+    style={
+      Object {
+        "backgroundColor": "yellow",
+        "position": "relative",
+      }
+    }
+  >
+    ting, the 
+  </span>
+  <span
+    className="Section"
+    style={
+      Object {
+        "backgroundColor": "transparent",
+        "position": "relative",
+      }
+    }
+  >
+    second two overlap
+  </span>
+</span>
+`;

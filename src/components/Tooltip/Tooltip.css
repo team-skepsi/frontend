@@ -1,0 +1,115 @@
+
+.Tooltip {
+    height: 100%;
+}
+
+.Tooltip-dynamic-position {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transition: top 0.5s;
+    top: 0;
+    z-index: 50
+}
+
+.Knob {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.Knob-nav {
+    width: 14px;
+    height: 24px;
+    border-radius: 11px;
+    background: #FFFFFF;
+    border: 0.3px solid #E3DBD4;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+}
+
+.Knob-main {
+    background: linear-gradient(261.76deg, #FFFFFF 16.93%, #E3DBD4 182.12%);
+    border: 1px dashed #BDBDBD;
+    box-sizing: border-box;
+    border-radius: 35px;
+    padding: 3px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Knob-highlight-cursor {
+    width: 32px;
+    height: 32px;
+    border: 2px solid #ccb4ac;
+    border-radius: 18px;
+    background: linear-gradient(52.06deg, #EDD5BA 35.82%, #F6DDE3 76.1%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Knob-highlight-cursor-inner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #ccb4ac;
+    border-radius: 16px;
+    background-color: white;
+}
+
+.Knob-main-spacer {
+    height: 10px;
+}
+
+.Knob-menu-buttons-hairline {
+    padding: 1px;
+    border-radius: 25.1424px;
+    background-image: linear-gradient(to bottom right, rgba(211, 195, 188, 0.5), rgba(100, 100, 100, 0) 20%),
+                        linear-gradient(to top left, rgba(0, 0, 0, 0.2), rgba(237, 237, 237, 0) 20%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Knob-menu-buttons {
+    box-sizing: border-box;
+    background: #FFFFFF;
+    border-radius: 25.1424px;
+    padding: 1px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Knob-menu-button-each-container {
+    box-sizing: border-box;
+    height: 25.6px;
+    width: 25.6px;
+    border-radius: 12.8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Knob-menu-active {
+    background: linear-gradient(136.3deg, #E3DBD4 37.38%, rgba(255, 255, 255, 0) 184.13%);
+}
+
+.Knob-feature-container {
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid #BDBDBD;
+    color: #BDBDBD;
+    background-color: white;
+    z-index: 2000
+}

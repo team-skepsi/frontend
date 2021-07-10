@@ -21,7 +21,7 @@ import AnnotationDotRouter from './components/routers/annotation-dot-router.js'
 import {useAuth0} from "@auth0/auth0-react";
 
 
-import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client"
+import {ApolloClient, HttpLink, ApolloProvider, InMemoryCache} from "@apollo/client"
 import TexProvider from "./components/Tex/TexProvider";
 
 // STYLES
@@ -48,8 +48,18 @@ function App() {
         }
     }, [isAuthenticated, getAccessTokenSilently])
 
+    const URI_VARIABLE = process.env.REACT_APP_API_AUDIENCE
+
+    const link = new HttpLink({
+      uri: URI_VARIABLE
+    })
+
+    useEffect(() =>{
+      console.log('HERE!',process.env.REACT_APP_API_AUDIENCE)
+    }, [process.env.REACT_APP_API_AUDIENCE])
+
     const client = new ApolloClient({
-        uri: 'https://skepsi-api.herokuapp.com/',
+        uri: process.env.REACT_APP_API_AUDIENCE,
         cache: new InMemoryCache(),
         headers: {
             authorization: isAuthenticated ? token : ""

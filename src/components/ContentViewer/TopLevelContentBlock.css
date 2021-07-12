@@ -1,0 +1,41 @@
+
+.TopLevelContentBlock {
+    position: relative;
+    padding: 5px 0;
+}
+
+.TopLevelContentBlock-dot-target {
+    width: 20px;
+    height: 100%;
+
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: -49px; /* I eyeballed this. */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.TopLevelContentBlock-dot {
+    background-color: black;
+}
+
+.TopLevelContentBlock-dot-small {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+}
+
+.TopLevelContentBlock-dot-med {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+}
+
+.TopLevelContentBlock-dot-big {
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+}

@@ -5,7 +5,7 @@ import ContentBlock from "../ContentBlock/ContentBlock"
 import {nodePrettyId} from "../functions"
 import {nodesInNode} from "../processing"
 
-import "./TopLevelContentBlock.css"
+import styles from "./TopLevelContentBlock.module.css"
 
 type TopLevelContentBlockType = {
     node: ContentNodeType
@@ -31,17 +31,17 @@ const TopLevelContentBlock: React.FC<TopLevelContentBlockType> = (props) => {
     return (
         <div
             id={nodePrettyId(props.node)}
-            className={"TopLevelContentBlock"}
+            className={styles.main}
             ref={ref}
             onMouseUp={selectMe}
         >
             <ContentBlock node={props.node} />
-            <div onClick={selectMe} className={"TopLevelContentBlock-dot-target"}>
+            <div onClick={selectMe} className={styles.dotTarget}>
                 {
                     numAnnotationsInKids === 0? <></> :
-                        numAnnotationsInKids === 1? <div className={"TopLevelContentBlock-dot TopLevelContentBlock-dot-small"} /> :
-                            [2, 3,4].includes(numAnnotationsInKids)? <div className={"TopLevelContentBlock-dot TopLevelContentBlock-dot-med"} /> :
-                                <div className={"TopLevelContentBlock-dot TopLevelContentBlock-dot-big"} />
+                        numAnnotationsInKids === 1? <div className={`${styles.dot} ${styles.dotSmall}`} /> :
+                            [2, 3, 4].includes(numAnnotationsInKids)? <div className={`${styles.dot} ${styles.dotMed}`} /> :
+                                <div className={`${styles.dot} ${styles.dotBig}`} />
                 }
             </div>
         </div>

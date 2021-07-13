@@ -1,5 +1,6 @@
 import React from "react"
 import Cover from "./Cover"
+import "../../App.css"
 
 export default {
     title: "Page/Cover",

@@ -5,6 +5,8 @@ import {weaveMDAnnotations} from "../processing"
 import {AnnotationType} from "../types"
 import {Set} from "immutable"
 
+import "../../App.css"
+
 export default {
     title: "DocumentViewer/ContentViewer",
     component: ContentViewer,

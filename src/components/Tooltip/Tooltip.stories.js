@@ -1,6 +1,8 @@
 import React, {useState} from "react"
 import Tooltip from "./Tooltip"
 
+import "../../App.css"
+
 export default {
     title: "Tooltip/Tooltip",
     component: Tooltip,

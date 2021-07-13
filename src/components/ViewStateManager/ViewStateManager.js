@@ -24,7 +24,7 @@ const ViewStateManager = (props) => {
 
     const {md, ...paperMetadata} = props.document
 
-    const unwovenAnnotations = Set(props.annotations.map((annotation) => {
+    const parsedAnnotations = Set(props.annotations.map((annotation) => {
         const {start, stop, id, ...rest} = annotation
         return Annotation({
             start: parseInt(start),
@@ -34,10 +34,11 @@ const ViewStateManager = (props) => {
         })
     }))
 
-    const [root, annotations] = weaveMDAnnotations(
-        md,
-        userSelection ? unwovenAnnotations.add(userSelection) : unwovenAnnotations
-    )
+    const relatedToText = parsedAnnotations.filter(a => !isNaN(a.start) && !isNaN(a.stop))
+    const notRelatedToText = parsedAnnotations.filter(a => isNaN(a.start) || isNaN(a.stop))
+
+    const [root, annotationsWovenRelated] = weaveMDAnnotations(md, userSelection? relatedToText.add(userSelection): relatedToText)
+    const annotations = annotationsWovenRelated.concat(notRelatedToText)
 
     return (
         <div className={styles.main}>

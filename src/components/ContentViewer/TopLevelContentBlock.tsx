@@ -35,6 +35,7 @@ const TopLevelContentBlock: React.FC<TopLevelContentBlockType> = (props) => {
             ref={ref}
             onMouseUp={selectMe}
         >
+            {/*<div className={styles.numberLabel}/>*/}
             <ContentBlock node={props.node} />
             <div onClick={selectMe} className={styles.dotTarget}>
                 {

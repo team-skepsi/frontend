@@ -20,7 +20,7 @@
     width: 100%;
     height: 80%;
     border: black solid 2px;
-    background-image: url("https://skepsi-api.herokuapp.com/static/bluetest.jpeg");
+    /*background-image: url("https://skepsi-api.herokuapp.com/static/bluetest.jpeg");*/
     background-repeat: no-repeat;
     background-size: cover;
     background-color: white;
@@ -49,4 +49,8 @@
     height: 100%;
     width: 1px;
     border-left: 1px dashed black;
+}
+
+.annotationSidebarContainer{
+    padding-left: 50px;
 }

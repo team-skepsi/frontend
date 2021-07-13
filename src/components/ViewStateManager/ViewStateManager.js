@@ -2,11 +2,12 @@ import React, {useState} from "react"
 import {DraggableCore} from "react-draggable"
 import {Set} from "immutable"
 import {Annotation} from "../types"
-
 import {weaveMDAnnotations} from "../processing"
+
 import ContentViewer from "../ContentViewer/ContentViewer"
 import Cover from "../Cover/Cover.js"
 import TooltipRefRelative from "../Tooltip/TooltipRefRelative"
+import AnnotationSidebar from "../AnnotationSidebar/AnnotationSidebar"
 
 import styles from './ViewStateManager.module.css'
 
@@ -83,8 +84,10 @@ const ViewStateManager = (props) => {
                               position: 'relative',
                               left: '50px'
                             }}/>
+                    <div className={styles.annotationSidebarContainer}>
+                        <AnnotationSidebar annotations={annotations}/>
                     </div>
-
+                    </div>
                 </DraggableCore>
 
             </div>

@@ -1,6 +1,7 @@
 import React, {useState} from "react"
 import {AnnotationType} from "../types"
 import styles from "./AnnotationCard.module.css"
+import { Accordion } from 'semantic-ui-react'
 
 type AnnotationCardType = {
     annotation: AnnotationType,
@@ -19,7 +20,7 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
         <div className={`${styles.main} ${props.gray? styles.gray : null}`}>
             <div className={styles.header} onClick={() => setOpen(current => !current)}>
                 <div className={styles.author}>{props.annotation.data.author ? props.annotation.data.author.username : ""}</div>
-                <div className={styles.date}>{props.annotation.data.date}</div>
+                <div className={styles.date}>{props.annotation.data.date ? props.annotation.data.date : "No Date Provided"}</div>
             </div>
 
             {open &&

@@ -6,7 +6,7 @@ import Homepage from '../pages/homepage.js';
 import PaperCards from '../navigation/paper-cards.js'
 import RoleSelection from '../authorization/signup/role-selection.js'
 import SignupView from '../authorization/signup/signup-view.js'
-import PageManager from '../PageManager/PageManager.js'
+import UpdatedPageManager from '../UpdatedPageManager/UpdatedPageManager.js'
 
 const GET_ALL_TOPIC_SLUGS = gql`
     query{
@@ -47,7 +47,7 @@ function AnnotationDotRouter() {
             {paperData &&
                 paperData.allPapers.map((paper) =>
                     <Route key={paper.id} path={"/".concat(paper.id)}>
-                      <PageManager />
+                      <UpdatedPageManager />
                     </Route>
                 )
             }

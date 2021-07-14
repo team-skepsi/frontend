@@ -4,7 +4,7 @@ import {IconContext} from "react-icons"
 
 import TableContents from "../TableContents/TableContents"
 import CitationViewer from "../CitationViewer/CitationViewer"
-// import ReferenceViewer from "../ReferenceViewer/ReferenceViewer"
+import ReferenceViewer from "../ReferenceViewer/ReferenceViewer"
 
 import "./Tooltip.css"
 
@@ -12,7 +12,7 @@ const options = [
     [<VscInfo/>, <div>Info Panel</div>],
     [<VscSymbolRuler/>, TableContents],
     [<VscFileMedia/>, CitationViewer],
-    [<VscBook/>, "ReferenceViewer"],
+    [<VscBook/>, ReferenceViewer],
 ]
 
 const Tooltip = (props) => {

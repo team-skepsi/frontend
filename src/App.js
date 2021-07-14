@@ -34,7 +34,11 @@ function App() {
     useEffect(() => {
       WebFont.load({
         google: {
-          families: ['Alegreya Sans: 300, 400, 500, 700, 800, 900']
+          families: ['Roboto']
+        },
+        custom: {
+          families: ['Computer Modern'],
+          urls: ['https://cdn.rawgit.com/dreampulse/computer-modern-web-font/master/fonts.css']
         }
       })
     }, [])

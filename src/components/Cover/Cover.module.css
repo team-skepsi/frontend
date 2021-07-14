@@ -1,13 +1,13 @@
 
-.Cover {
+.main {
   display: flex;
 }
 
-.Cover-paper-wrapper {
+.paperWrapper {
   flex: 1;
 }
 
-.Cover-parent {
+.parent {
   display: flex;
   flex: 1;
   margin: 40px;
@@ -18,37 +18,37 @@
   left: 5%;
 }
 
-.Cover-title-metadata-container {
+.titleMetadataContainer {
   flex: 2;
   display: flex;
   flex-direction: column;
 }
 
-.Cover-title-container {
+.titleContainer {
   flex: 1;
   margin: 20px;
 }
 
-.Cover-title {
+.title {
   font-size: 40px;
   line-height: 35px;
   margin: 20px 5px;
   mix-blend-mode: screen;
 }
 
-.Cover-metadata-container {
+.metadataContainer {
   flex: 0.4;
   border-top: 2px solid rgb(129, 128, 128, 0.5);
   align-self: center;
 }
 
-.Cover-metadata {
+.metaData {
   display: flex;
   justify-content: space-around;
 
 }
 
-.Cover-icon-text{
+.iconText {
   flex: 1;
   font-size: 14px;
   line-height: 12px;
@@ -60,7 +60,7 @@
   padding-right: 15px;
 }
 
-.Cover-abstract {
+.abstract {
   flex: 1;
   margin-top: 10px;
   margin-left: 10px;
@@ -70,21 +70,22 @@
   border-left: 2px solid rgb(129, 128, 128, 0.5);
 }
 
-.Cover-abstract-text {
+.abstractText {
   font-weight: bold;
   line-height: 14px;
   text-align: left;
 }
 
-.Cover-annotation-wrapper {
+.annotationWrapper {
   flex: 1;
 }
 
+/*what are these? why doesn't anything change when i remove them? is there a global namespace clash here?*/
 
-.icon{
-  align-items: center;
-}
+/*.icon {*/
+/*  align-items: center;*/
+/*}*/
 
-.react-icons{
-  vertical-align: middle;
-}
+/*.react-icons {*/
+/*  vertical-align: middle;*/
+/*}*/

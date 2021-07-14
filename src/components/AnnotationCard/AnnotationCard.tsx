@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import {AnnotationType} from "../types"
-import "./AnnotationCard.css"
+import styles from "./AnnotationCard.module.css"
 
 type AnnotationCardType = {
     annotation: AnnotationType,
@@ -16,32 +16,32 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
     const toggleSectionOpen = (index: number) => setOpenSections(current => current.map((val, i) => val === (i !== index)))
 
     return (
-        <div className={`AnnotationCard AnnotationCard-top-${Boolean(props.top)} ${props.gray && "AnnotationCard-gray"}`}>
-            <div className={"AnnotationCards-header"} onClick={() => setOpen(current => !current)}>
-                <div className={"AnnotationCards-author"}>{props.annotation.data.author}</div>
-                <div className={"AnnotationCards-date"}>{props.annotation.data.date}</div>
+        <div className={`${styles.main} ${props.gray? styles.gray : null}`}>
+            <div className={styles.header} onClick={() => setOpen(current => !current)}>
+                <div className={styles.author}>{props.annotation.data.author}</div>
+                <div className={styles.date}>{props.annotation.data.date}</div>
             </div>
 
             {open &&
                 <>
-                    <div className={"AnnotationCard-content"}>{data.content}</div>
+                    <div className={styles.content}>{data.content}</div>
 
-                    <div className={"AnnotationCard-score-block-container"}>
+                    <div className={styles.scoreBlockContainer}>
                         {Array.isArray(props.annotation.data.sections) &&
                             props.annotation.data.sections.map(({header, content}, sectionIndex) => (
-                                <div key={sectionIndex} className={`AnnotationCard-score-block AnnotationCard-score-block-${openSections[sectionIndex]? "open": "closed"}`}>
+                                <div key={sectionIndex} className={`${styles.scoreBlock}`}>
                                     <div
-                                        className={`AnnotationCard-score-block-header AnnotationCard-score-block-header-${openSections[sectionIndex]? "open": "closed"}`}
+                                        className={`${styles.scoreBlockHeader} ${openSections[sectionIndex]? styles.scoreBlockHeaderOpen : null}`}
                                         onClick={() => toggleSectionOpen(sectionIndex)}>
                                         {header}
                                     </div>
                                     {openSections[sectionIndex] &&
-                                    <div className={"AnnotationCard-score-block-content"}>{content}</div>}
+                                    <div className={styles.scoreBlockContent}>{content}</div>}
                                 </div>
                             ))}
                     </div>
 
-                    <div className={"AnnotationCard-children-container"}>{props.children}</div>
+                    <div className={styles.childrenContainer}>{props.children}</div>
                 </>}
 
         </div>

@@ -1,15 +1,15 @@
 
-.AnnotationCard {
+.main {
     padding: 5px 0 5px 5px;
     min-width: 225px;
     background-color: white;
 }
 
-.AnnotationCard-gray {
+.gray {
     background-color: grey;
 }
 
-.AnnotationCards-header {
+.header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -17,35 +17,37 @@
     margin: 3px 0;
 }
 
-.AnnotationCards-author {
+.author {
     font-weight: bold;
 }
 
-.AnnotationCard-content {
+.date {}
+
+.content {
     margin: 2px 0;
 }
 
-.AnnotationCard-score-block-container {
+.scoreBlockContainer {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: start;
 }
 
-.AnnotationCard-score-block {
+.scoreBlock {
     border-top: 1px solid black;
     margin: 1px 0;
 }
 
-.AnnotationCard-score-block-header-open {
+.scoreBlockHeaderOpen {
     background-color: lightgray;
 }
 
-.AnnotationCard-score-block-content {
+.scoreBlockContent {
     margin-left: 10px;
 }
 
-.AnnotationCard-children-container {
+.childrenContainer {
     margin-top: 5px;
     margin-left: 10px;
 }

@@ -2,13 +2,14 @@ import React, {useState} from "react"
 import {DraggableCore} from "react-draggable"
 import {Set} from "immutable"
 import {Annotation} from "../types"
-
 import {weaveMDAnnotations} from "../processing"
+
 import ContentViewer from "../ContentViewer/ContentViewer"
 import Cover from "../Cover/Cover.js"
 import TooltipRefRelative from "../Tooltip/TooltipRefRelative"
-import './ViewStateManager.css'
-import AnnotationCardManager from '../AnnotationCards/AnnotationCardManager.js'
+import AnnotationSidebar from "../AnnotationSidebar/AnnotationSidebar"
+
+import styles from './ViewStateManager.module.css'
 
 /*
 takes document, an object with a md property carrying a string, and annotations, a JSON of annotations with start, stop
@@ -23,7 +24,7 @@ const ViewStateManager = (props) => {
 
     const {md, ...paperMetadata} = props.document
 
-    const unwovenAnnotations = Set(props.annotations.map((annotation) => {
+    const parsedAnnotations = Set(props.annotations.map((annotation) => {
         const {start, stop, id, ...rest} = annotation
         return Annotation({
             start: parseInt(start),
@@ -33,23 +34,24 @@ const ViewStateManager = (props) => {
         })
     }))
 
-    const [root, annotations] = weaveMDAnnotations(
-        md,
-        userSelection ? unwovenAnnotations.add(userSelection) : unwovenAnnotations
-    )
+    const relatedToText = parsedAnnotations.filter(a => !isNaN(a.start) && !isNaN(a.stop))
+    const notRelatedToText = parsedAnnotations.filter(a => isNaN(a.start) || isNaN(a.stop))
+
+    const [root, annotationsWovenRelated] = weaveMDAnnotations(md, userSelection? relatedToText.add(userSelection): relatedToText)
+    const annotations = annotationsWovenRelated.concat(notRelatedToText)
 
     return (
-        <div className={"ViewStateManager"}>
+        <div className={styles.main}>
 
-            <div className={'ViewStateManager-Menu-standin'}/>
+            <div className={styles.menuStandin}/>
 
-            <div className={"ViewStateManager-Cover-container"}>
+            <div className={styles.coverContainer}>
                 <Cover paperMetadata={paperMetadata}/>
             </div>
 
-            <div className={"ViewStateManager-main"}>
+            <div className={styles.mainContainer}>
 
-                <div className={"ViewStateManager-Paper-container"} style={{paddingTop: '8px'}}>
+                <div className={styles.paperContainer}>
                     <ContentViewer
                         root={root}
                         annotations={annotations}
@@ -67,9 +69,9 @@ const ViewStateManager = (props) => {
                     // adjustment of half the width of the slider = 21px
                     onDrag={e => setFeatureBarWidth(window.innerWidth - e.clientX + 21)}>
                     <div
-                        className={"ViewStateManager-Tooltip-container"}
+                        className={styles.tooltipContainer}
                         style={{flexBasis: featureBarWidth}}>
-                        <div className={"ViewStateManager-Tooltip-vertical"}/>
+                        <div className={styles.tooltipVertical}/>
                         <TooltipRefRelative
                             root={root}
                             annotations={annotations}
@@ -82,10 +84,11 @@ const ViewStateManager = (props) => {
                               width: '80%',
                               position: 'relative',
                               left: '50px'
-                            }}>
-                          </div>
+                            }}/>
+                    <div className={styles.annotationSidebarContainer}>
+                        <AnnotationSidebar annotations={annotations}/>
                     </div>
-
+                    </div>
                 </DraggableCore>
 
             </div>
@@ -94,7 +97,3 @@ const ViewStateManager = (props) => {
 }
 
 export default ViewStateManager
-
-// <AnnotationCardManager
-//     annotations={annotations}
-//     />

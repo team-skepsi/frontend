@@ -6,7 +6,7 @@ import Homepage from '../pages/homepage.js';
 import PaperCards from '../navigation/paper-cards.js'
 import RoleSelection from '../authorization/signup/role-selection.js'
 import SignupView from '../authorization/signup/signup-view.js'
-import UpdatedPageManager from '../UpdatedPageManager/UpdatedPageManager.js'
+import UpdatedPageManager from '../updatedPageManager/updated-page-manager.js'
 
 const GET_ALL_TOPIC_SLUGS = gql`
     query{

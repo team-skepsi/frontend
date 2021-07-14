@@ -13,7 +13,7 @@ type AnnotationCardType = {
 const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
     const [open, setOpen] = useState(!props.closed)
     const {data} = props.annotation
-    const [openSections, setOpenSections] = useState(Array.isArray(data.sections)? data.sections.map(() => false): [])
+    const [openSections, setOpenSections] = useState(Array.isArray(data.scores)? data.scores.map(() => false): [])
     const toggleSectionOpen = (index: number) => setOpenSections(current => current.map((val, i) => val === (i !== index)))
 
     return (
@@ -28,16 +28,16 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
                     <div className={styles.content}>{data.content}</div>
 
                     <div className={styles.scoreBlockContainer}>
-                        {Array.isArray(props.annotation.data.sections) &&
-                            props.annotation.data.sections.map(({header, content}, sectionIndex) => (
+                        {Array.isArray(props.annotation.data.scores) &&
+                            props.annotation.data.scores.map((score, sectionIndex) => (
                                 <div key={sectionIndex} className={`${styles.scoreBlock}`}>
                                     <div
                                         className={`${styles.scoreBlockHeader} ${openSections[sectionIndex]? styles.scoreBlockHeaderOpen : null}`}
                                         onClick={() => toggleSectionOpen(sectionIndex)}>
-                                        {header}
+                                        {score.score}
                                     </div>
                                     {openSections[sectionIndex] &&
-                                    <div className={styles.scoreBlockContent}>{content}</div>}
+                                    <div className={styles.scoreBlockContent}>{score.explanation? score.explanation : "No score"}</div>}
                                 </div>
                             ))}
                     </div>

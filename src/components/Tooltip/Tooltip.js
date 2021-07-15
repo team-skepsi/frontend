@@ -5,13 +5,14 @@ import {IconContext} from "react-icons"
 import TableContents from "../TableContents/TableContents"
 import CitationViewer from "../CitationViewer/CitationViewer"
 import ReferenceViewer from "../ReferenceViewer/ReferenceViewer"
+import FigureViewer from "../FigureViewer/FigureViewer"
 
 import styles from "./Tooltip.module.css"
 
 const options = [
-    [<VscInfo/>, "Info Panel"],
+    [<VscInfo/>, CitationViewer],
     [<VscSymbolRuler/>, TableContents],
-    [<VscFileMedia/>, CitationViewer],
+    [<VscFileMedia/>, FigureViewer],
     [<VscBook/>, ReferenceViewer],
 ]
 

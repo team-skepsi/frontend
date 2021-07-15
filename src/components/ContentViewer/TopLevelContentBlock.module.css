@@ -1,0 +1,45 @@
+
+.main {
+    position: relative;
+    padding: 5px 0;
+}
+
+.numberLabel {
+
+}
+
+.dotTarget {
+    width: 20px;
+    height: 100%;
+
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: -49px; /* I eyeballed this. */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dot {
+    background-color: black;
+}
+
+.dotSmall {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+}
+
+.dotMed {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+}
+
+.dotBig {
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+}

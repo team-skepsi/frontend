@@ -1,0 +1,32 @@
+.figureWrapper {
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.figureCard {
+  max-width: 400px;
+  max-height: 400px;
+  border: 2px black solid;
+  margin: 20px;
+}
+
+.figureImageCard {
+  width: 300px;
+  height: 300px;
+  max-width: 600px;
+  max-height: 600px;
+  border: 2px black solid;
+}
+
+.figureImage {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.figureTitle {
+  color: black;
+}
+
+.figureCaption {
+  color: black
+}

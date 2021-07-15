@@ -5,6 +5,8 @@ import AnnotationGroup from "./AnnotationGroup"
 import {AnnotationTree} from "../AnnotationSidebar/AnnotationSidebar"
 import {Annotation} from "../types"
 
+import "../../App.css"
+
 export default {
     title: "Annotations/AnnotationGroup",
     component: AnnotationGroup,

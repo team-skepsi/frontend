@@ -4,6 +4,8 @@ import AnnotatedText from "../AnnotatedText/AnnotatedText"
 import { Set } from "immutable"
 import { Annotation } from "../types"
 
+import "../../App.css"
+
 export default {
     title: 'DocumentViewer/AnnotatedText',
     component: AnnotatedText,

@@ -1,6 +1,8 @@
 import React from "react"
 import TableContents from "./TableContents"
-import {mdToNode} from "../processing";
+import {mdToNode} from "../processing"
+
+import "../../App.css"
 
 export default {
     title: "Tooltip/TableContents",

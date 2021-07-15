@@ -1,0 +1,71 @@
+
+.main {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.menuStandin {
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 60px;
+}
+
+.coverContainer {
+    width: 100%;
+    height: 80%;
+    border: black solid 2px;
+    background-image: url("https://skepsi-api.herokuapp.com/static/bluetest.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: white;
+    color: white;
+    overflow: hidden;
+}
+
+.mainContainer {
+    display: flex;
+    align-items: stretch;
+}
+
+.paperContainer {
+    flex: 1 0;
+    padding: 0 20px;
+    line-height: 1.5;
+    font-family: "Computer Modern";
+}
+
+.ViewStateManager-Paper-container h1 {
+  font-weight: bold;
+  color: #4F4F4F;
+}
+
+.ViewStateManager-Paper-container p {
+  line-height: 1.5;
+  /* color: #222222; */
+  color: orange;
+  font-family: "Computer Modern";
+    padding: 8px 20px 0;
+}
+
+.tooltipContainer {
+    flex: 0 35%;
+    position: relative;
+}
+
+.tooltipVertical {
+    position: absolute;
+    left: 19px;
+    height: 100%;
+    width: 1px;
+    border-left: 1px dashed black;
+}
+
+.annotationSidebarContainer{
+    padding-left: 50px;
+}

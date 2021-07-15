@@ -1,7 +1,7 @@
 import React from "react"
 import {Set, Map, List, RecordOf, Record} from "immutable"
 import {Annotation, AnnotationType} from "../types"
-import AnnotationGroup from "../AnnotationGroup/AnnotationGroup";
+import AnnotationGroup from "../AnnotationGroup/AnnotationGroup"
 
 export type AnnotationTreeType = {
     depth: number,
@@ -21,9 +21,12 @@ type AnnotationSidebarType = {
 
 const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
 
-    const annotationsList = List(props.annotations).sort((a, b) => a.start - b.start)
+    const annotationsList = List(props.annotations).sort((a, b) => (
+        (a.start - b.start) || (a._id - b._id)
+    ))
 
     const idToAnnotation = Map(annotationsList.map(a => a._id).zip(annotationsList))
+
     const idToChildren = Map(
         annotationsList.map(a => a._id).zip(
             annotationsList
@@ -44,7 +47,7 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
 
     return (
         <div className={"AnnotationSidebar"}>
-            {props.annotations
+            {annotationsList
                 .filter(a => !idsOfAnnotationsWhichAreChildren.has(a._id))
                 .map(a => makeAnnotationTree(a))
                 .map(tree => <AnnotationGroup key={tree.annotation._id} annotationTree={tree} />)}

@@ -1,9 +1,9 @@
 
-.Tooltip {
+.main {
     height: 100%;
 }
 
-.Tooltip-dynamic-position {
+.dynamicPosition {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -13,14 +13,14 @@
     z-index: 50
 }
 
-.Knob {
+.knob {
     display: flex;
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
 }
 
-.Knob-nav {
+.knobNav {
     width: 14px;
     height: 24px;
     border-radius: 11px;
@@ -33,7 +33,7 @@
     margin: 5px;
 }
 
-.Knob-main {
+.knobMain {
     background: linear-gradient(261.76deg, #FFFFFF 16.93%, #E3DBD4 182.12%);
     border: 1px dashed #BDBDBD;
     box-sizing: border-box;
@@ -46,7 +46,7 @@
     justify-content: space-between;
 }
 
-.Knob-highlight-cursor {
+.knobHighlightCursor {
     width: 32px;
     height: 32px;
     border: 2px solid #ccb4ac;
@@ -57,7 +57,7 @@
     justify-content: center;
 }
 
-.Knob-highlight-cursor-inner {
+.knobHighlightCursorInner {
     width: 24px;
     height: 24px;
     border: 2px solid #ccb4ac;
@@ -65,11 +65,11 @@
     background-color: white;
 }
 
-.Knob-main-spacer {
+.knobMainSpacer {
     height: 10px;
 }
 
-.Knob-menu-buttons-hairline {
+.knobMenuButtonsHairline {
     padding: 1px;
     border-radius: 25.1424px;
     background-image: linear-gradient(to bottom right, rgba(211, 195, 188, 0.5), rgba(100, 100, 100, 0) 20%),
@@ -79,10 +79,10 @@
     align-items: center;
 }
 
-.Knob-menu-buttons {
+.knobMenuButtons {
     box-sizing: border-box;
     background: #FFFFFF;
-    border-radius: 25.1424px;
+    border-radius: 25px;
     padding: 1px;
 
     display: flex;
@@ -90,7 +90,7 @@
     align-items: center;
 }
 
-.Knob-menu-button-each-container {
+.knobMenuButtonEachContainer {
     box-sizing: border-box;
     height: 25.6px;
     width: 25.6px;
@@ -101,11 +101,11 @@
     justify-content: center;
 }
 
-.Knob-menu-active {
+.knobMenuActive {
     background: linear-gradient(136.3deg, #E3DBD4 37.38%, rgba(255, 255, 255, 0) 184.13%);
 }
 
-.Knob-feature-container {
+.knobFeatureContainer {
     margin: 10px;
     padding: 10px;
     border: 2px solid #BDBDBD;

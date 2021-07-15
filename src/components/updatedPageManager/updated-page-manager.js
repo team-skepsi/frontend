@@ -36,6 +36,12 @@ query GetPaperAndAnnotationData($paperId:ID!){
       abstract
       citationAPA
       citationMLA
+      figures{
+        image
+        figureNumber
+        name
+        caption
+      }
       citationChicago
       md
       topic{

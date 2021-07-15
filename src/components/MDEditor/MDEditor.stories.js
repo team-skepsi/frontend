@@ -5,6 +5,8 @@ import {mdToNode} from "../processing"
 import ContentBlock from "../ContentBlock/ContentBlock"
 import TexProvider from "../Tex/TexProvider"
 
+import "../../App.css"
+
 export default {
     title: "MDEditor",
     component: MDEditor,

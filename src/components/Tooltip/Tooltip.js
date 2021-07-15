@@ -5,13 +5,14 @@ import {IconContext} from "react-icons"
 import TableContents from "../TableContents/TableContents"
 import CitationViewer from "../CitationViewer/CitationViewer"
 import ReferenceViewer from "../ReferenceViewer/ReferenceViewer"
+import FigureViewer from "../FigureViewer/FigureViewer"
 
-import "./Tooltip.css"
+import styles from "./Tooltip.module.css"
 
 const options = [
-    [<VscInfo/>, <div>Info Panel</div>],
+    [<VscInfo/>, CitationViewer],
     [<VscSymbolRuler/>, TableContents],
-    [<VscFileMedia/>, CitationViewer],
+    [<VscFileMedia/>, FigureViewer],
     [<VscBook/>, ReferenceViewer],
 ]
 
@@ -35,23 +36,23 @@ const Tooltip = (props) => {
     }
 
     return (
-        <div className={"Tooltip"} style={{width: props.width}}>
-            <div className={"Tooltip-dynamic-position"} style={{height: 150, ...knobStyles}}>
+        <div className={styles.main} style={{width: props.width}}>
+            <div className={styles.dynamicPosition} style={{height: 150, ...knobStyles}}>
                 <IconContext.Provider value={{color: "#E3DBD4"}}>
-                    <div className={"Knob"}>
-                        <div className={"Knob-nav Knob-nav-prev"}>
+                    <div className={styles.knob}>
+                        <div className={styles.knobNav}>
                             <VscChevronLeft />
                         </div>
 
-                        <div className={"Knob-main"}>
-                            <div className={"Knob-highlight-cursor"}>
-                                <div className={"Knob-highlight-cursor-inner"}/>
+                        <div className={styles.knobMain}>
+                            <div className={styles.knobHighlightCursor}>
+                                <div className={styles.knobHighlightCursorInner}/>
                             </div>
 
-                            <div className={"Knob-main-spacer"}/>
+                            <div className={styles.knobMainSpacer}/>
 
-                            <div className={"Knob-menu-buttons-hairline"}>
-                                <div className={"Knob-menu-buttons"}>
+                            <div className={styles.knobMenuButtonsHairline}>
+                                <div className={styles.knobMenuButtons}>
                                     {thumbnails.map((thumbnail, i) => (
                                         <IconContext.Provider
                                             key={i}
@@ -59,10 +60,10 @@ const Tooltip = (props) => {
                                                 {color: "#837C7C", size: 16.5}:
                                                 {color: "#E3DBD4", size: 16.5}}>
                                             <div
-                                                className={
-                                                    "Knob-menu-button-each-container " +
-                                                    ((i === featureComponentIndex)? "Knob-menu-active":"")
-                                                }
+                                                className={`
+                                                    ${styles.knobMenuButtonEachContainer}
+                                                    ${i === featureComponentIndex? styles.knobMenuActive : null}
+                                                `}
                                                 key={i}
                                                 onClick={makeClickCallback(i)}>
                                                 {thumbnail}
@@ -73,14 +74,14 @@ const Tooltip = (props) => {
                             </div>
                         </div>
 
-                        <div className={"Knob-nav Knob-nav-next"}>
+                        <div className={styles.knobNav}>
                             <VscChevronRight/>
                         </div>
                     </div>
                 </IconContext.Provider>
 
                 {!isNaN(featureComponentIndex) && components[featureComponentIndex] &&
-                    <div className={"Knob-feature-container"}>
+                    <div className={styles.knobFeatureContainer}>
                         {typeof components[featureComponentIndex] !== "function"? components[featureComponentIndex]:
                             React.createElement(
                                 components[featureComponentIndex],

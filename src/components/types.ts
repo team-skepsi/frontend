@@ -31,7 +31,7 @@ const annotationDefaults: _AnnotationType = {
     _node_id: List<number>(),
 }
 
-export const Annotation = Record(annotationDefaults)
+export const Annotation = Record(annotationDefaults,"Annotation")
 
 type _ContentNodeType = {
     _id: number
@@ -53,4 +53,4 @@ const contentNodeDefaults: _ContentNodeType = Object.freeze({
 })
 
 // format for storing rich text that gets rendered in the document viewer
-export const ContentNode = Record(contentNodeDefaults)
+export const ContentNode = Record(contentNodeDefaults,"ContentNode")

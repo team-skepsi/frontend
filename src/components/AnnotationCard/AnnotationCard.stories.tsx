@@ -3,6 +3,8 @@ import {Meta} from "@storybook/react"
 import AnnotationCard from "./AnnotationCard"
 import {Annotation} from "../types"
 
+import "../../App.css"
+
 export default {
     title: "Annotations/AnnotationCard",
     component: AnnotationCard,

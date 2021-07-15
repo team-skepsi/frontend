@@ -4,6 +4,8 @@ import {Set} from "immutable"
 import AnnotationSidebar from "./AnnotationSidebar"
 import {Annotation} from "../types"
 
+import "../../App.css"
+
 export default {
     title: "Annotations/AnnotationSidebar",
     component: AnnotationSidebar,

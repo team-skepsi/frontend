@@ -1,5 +1,5 @@
 import React from 'react'
-import './Cover.css'
+import styles from './Cover.module.css'
 
 const Cover = (props) => {
     if (!props.paperMetadata){
@@ -7,25 +7,25 @@ const Cover = (props) => {
     }
 
     return (
-        <div className={"Cover"}>
-            <div className={'Cover-paper-wrapper'}>
-                <div className={"Cover-parent"}>
+        <div className={styles.main}>
+            <div className={styles.paperWrapper}>
+                <div className={styles.parent}>
 
-                    <div className={"Cover-title-metadata-container"}>
-                        <div className={"Cover-title-container"}>
-                            <h1 className={"Cover-title"}>{props.paperMetadata.title || "TITLE"}</h1>
+                    <div className={styles.titleMetadataContainer}>
+                        <div className={styles.titleContainer}>
+                            <h1 className={styles.title}>{props.paperMetadata.title || "TITLE"}</h1>
                         </div>
 
-                        <div className={"Cover-metadata-container"}>
-                            <div className={"Cover-metadata"}>
+                        <div className={styles.metadataContainer}>
+                            <div className={styles.metaData}>
                                 <div>
-                                    <p className={"Cover-icon-text"}>{props.paperMetadata.authors || "AUTHOR"}</p>
+                                    <p className={styles.iconText}>{props.paperMetadata.authors || "AUTHOR"}</p>
                                 </div>
                                 <div>
-                                    <p className={"Cover-icon-text"}>{props.paperMetadata.createdDate || "DATE"}</p>
+                                    <p className={styles.iconText}>{props.paperMetadata.createdDate || "DATE"}</p>
                                 </div>
                                 <div>
-                                    <p className={"Cover-icon-text"}>
+                                    <p className={styles.iconText}>
                                         {props.paperMetadata.topic ? props.paperMetadata.topic.header : "HEADER"}
                                     </p>
                                 </div>
@@ -33,13 +33,13 @@ const Cover = (props) => {
                         </div>
                     </div>
 
-                    <div className={'Cover-abstract'}>
-                        <p className={'Cover-abstract-text'}>{props.paperMetadata.abstract || "Abstract not found"}</p>
+                    <div className={styles.abstract}>
+                        <p className={styles.abstractText}>{props.paperMetadata.abstract || "Abstract not found"}</p>
                     </div>
 
                 </div>
             </div>
-            <div className={'Cover-annotation-wrapper'}/>
+            <div className={styles.annotationWrapper}/>
         </div>
     )
 }

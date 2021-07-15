@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom'
-import UserSignupForm from './user-signup-form.js'
-import ScientistSignupForm from './scientist-signup-form.js'
-import ExpertSignupForm from './expert-signup-form.js'
+import UserSignupForm from './UserSignupForm.js'
+import ScientistSignupForm from './ScientistSignupForm.js'
+import ExpertSignupForm from './ExpertSignupForm.js'
 
 
 function SignupView(){

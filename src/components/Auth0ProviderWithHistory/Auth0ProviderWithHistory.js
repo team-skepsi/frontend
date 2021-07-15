@@ -18,7 +18,7 @@ const Auth0ProviderWithHistory = ({ children }) => {
       clientId={clientId}
       redirectUri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
-      audience={process.env.API_AUDIENCE}
+      audience={process.env.REACT_APP_API_AUDIENCE}
     >
       {children}
     </Auth0Provider>

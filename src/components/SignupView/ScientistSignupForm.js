@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import { Button, Checkbox, Form, Label } from 'semantic-ui-react'
 import { gql, useMutation } from "@apollo/client"
-import { isValidEmail, isValidPassword, isValidUsername, isValidOrcid } from "../../../utility/user-validators.js"
+import { isValidEmail, isValidPassword, isValidUsername, isValidOrcid } from "../../utility/user-validators.js"
 import { useHistory } from 'react-router-dom'
 import auth0 from "auth0-js"
 

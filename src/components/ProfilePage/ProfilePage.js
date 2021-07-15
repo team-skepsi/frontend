@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Message, Divider } from 'semantic-ui-react';
 
-import DeleteUserButton from '../authorization/delete-user-button.js'
+import DeleteUserButton from '../DeleteUserButton/DeleteUserButton.js'
 
-
-function ProfileInfo(){
+function ProfilePage(){
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [accessToken, setAccessToken] = useState("")
 
@@ -49,10 +48,4 @@ function ProfileInfo(){
   )
 }
 
-
-
-
-
-
-
-export default ProfileInfo;
+export default ProfilePage

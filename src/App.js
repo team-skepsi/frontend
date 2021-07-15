@@ -10,19 +10,21 @@ import WebFont from 'webfontloader'
 // import PageManager from './components/PageManager/PageManager.js'
 
 // NAVIGATION
-import HomepageNavbar from './components/navigation/homepage-navbar.js'
+import HomepageNavbar from './components/HomepageNavbar/HomepageNavbar.js'
 
 // ROUTERS
 // import TopicsRouter from './components/routers/topics-router.js'
 // import SignupRouter from './components/routers/signup-router.js'
 // import SignupAndTopicsRouter from './components/routers/signup-and-topics-router.js'
-import AnnotationDotRouter from './components/routers/annotation-dot-router.js'
+import Router from './components/Router/Router.js'
 
 import {useAuth0} from "@auth0/auth0-react";
 
 
 import {ApolloClient, HttpLink, ApolloProvider, InMemoryCache} from "@apollo/client"
 import TexProvider from "./components/Tex/TexProvider";
+
+import UserRolesTest from './components/UserRolesTest/UserRolesTest.js'
 
 // STYLES
 
@@ -80,7 +82,8 @@ function App() {
         <TexProvider>
             <div className="App">
                 <HomepageNavbar loading={isLoading}/>
-                <AnnotationDotRouter />
+                <Router />
+                <UserRolesTest />
             </div>
         </TexProvider>
     </ApolloProvider>

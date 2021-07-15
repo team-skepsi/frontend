@@ -34,7 +34,14 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
                                     <div
                                         className={`${styles.scoreBlockHeader} ${openSections[sectionIndex]? styles.scoreBlockHeaderOpen : null}`}
                                         onClick={() => toggleSectionOpen(sectionIndex)}>
-                                        {score.score}
+                                        <div className={styles.headerFlex}>
+                                          <div className={styles.scoreField}>
+                                            <p>{score.field}</p>
+                                          </div>
+                                          <div className={styles.scoreScore}>
+                                            <p>{score.score}/10</p>
+                                          </div>
+                                        </div>
                                     </div>
                                     {openSections[sectionIndex] &&
                                     <div className={styles.scoreBlockContent}>{score.explanation? score.explanation : "No score"}</div>}

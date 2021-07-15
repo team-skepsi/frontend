@@ -44,6 +44,17 @@
     background-color: lightgray;
 }
 
+.headerFlex {
+  display: flex;
+}
+
+.scoreField {
+  flex: 0.4
+}
+
+.scoreScore {
+}
+
 .scoreBlockContent {
     margin-left: 10px;
 }

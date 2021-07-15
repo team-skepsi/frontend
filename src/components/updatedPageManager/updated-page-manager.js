@@ -19,6 +19,7 @@ query GetPaperAndAnnotationData($paperId:ID!){
     }
     scores{
       score
+      field
       explanation
     }
     author{

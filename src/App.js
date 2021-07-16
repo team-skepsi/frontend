@@ -23,7 +23,6 @@ import {useAuth0} from "@auth0/auth0-react";
 import {ApolloClient, HttpLink, ApolloProvider, InMemoryCache} from "@apollo/client"
 import TexProvider from "./components/Tex/TexProvider";
 
-import UserRolesTest from './components/UserRolesTest/UserRolesTest.js'
 import { Divider } from 'semantic-ui-react'
 // STYLES
 
@@ -88,7 +87,6 @@ function App() {
                 <HomepageNavbar loading={isLoading}/>
                 <Router />
                 <Divider />
-                <UserRolesTest />
               </RoleContext.Provider>
             </div>
         </TexProvider>

@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import styles from "./ScoreMetadata.module.css"
 import { Card } from 'semantic-ui-react'
-
+import { titleize } from '../../utility/StringManipulation.js'
+import { std } from 'mathjs'
 function ScoreMetadata(props){
 
   const fieldSet = new Set(props.scores.map(score => score.field))
@@ -9,6 +10,7 @@ function ScoreMetadata(props){
 
   let scoreArray = []
   let name = ""
+  let tempArray = []
   // this is an immediately invoked function expression (IIFE)
   const calculateMetadata = (function(){
       for(let fieldName of fieldArray){
@@ -20,11 +22,13 @@ function ScoreMetadata(props){
           if(fieldName===score.field){
             sum += score.score
             counter += 1
+            tempArray.push(score.score)
         }
       }
       let obj = {}
-      obj["field"] = name
-      obj["metadata"]=Number(sum/counter).toFixed(2)
+      obj["field"] = titleize(name)
+      obj["average"]=Number(sum/counter).toFixed(2)
+      obj["standard_deviation"]=std(tempArray).toFixed(2)
       scoreArray.push(obj)
     }
 
@@ -42,10 +46,10 @@ function ScoreMetadata(props){
   return(
     <div>
       <div className={styles.metadataWrapper}>
-        {calculateMetadata.map(({field, metadata}, index)=>
+        {calculateMetadata.map(({field, average, standard_deviation}, index)=>
           <div key={index}>
             <Card>
-                <p className={styles.metadataText}>{field}: {metadata}</p>
+                <p className={styles.metadataText}>{field}: {average} [std: {standard_deviation}]</p>
             </Card>
           </div>
         )}

@@ -9,7 +9,8 @@ function ScoreMetadata(props){
 
   let scoreArray = []
   let name = ""
-  const sumFields = (function(){
+  // this is an immediately invoked function expression (IIFE)
+  const calculateMetadata = (function(){
       for(let fieldName of fieldArray){
         console.log(typeof fieldName)
         name = fieldName
@@ -34,14 +35,14 @@ function ScoreMetadata(props){
   // DEBUG:
   useEffect(()=>{
     console.log(fieldArray)
-    console.log('look at me', sumFields)
+    console.log('look at me', calculateMetadata)
   }, [fieldArray, props.scores,])
 
 
   return(
     <div>
       <div className={styles.metadataWrapper}>
-        {sumFields.map(({field, metadata}, index)=>
+        {calculateMetadata.map(({field, metadata}, index)=>
           <div key={index}>
             <Card>
                 <p className={styles.metadataText}>{field}: {metadata}</p>

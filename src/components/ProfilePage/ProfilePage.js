@@ -3,6 +3,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Message, Divider } from 'semantic-ui-react';
 
 import DeleteUserButton from '../DeleteUserButton/DeleteUserButton.js'
+import UserRolesTest from '../UserRolesTest/UserRolesTest.js'
+
 
 function ProfilePage(){
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
@@ -27,23 +29,27 @@ function ProfilePage(){
 
   return (
     isAuthenticated && (
-      <Message info size='tiny'>
-        <Message.Content>
-          <Message.Header>
-          User Information
-          </Message.Header>
-          <Message.List>
-            <Message.Item><b>Username:</b> {user["http://www.skepsi.com/username"]}</Message.Item>
-            <Message.Item><b>Email:</b> {user.email}</Message.Item>
-            <Message.Item><b>Login Count:</b> {user["http://www.skepsi.com/loginCount"]}</Message.Item>
-            <Message.Item><b>User Id:</b> {user.sub}</Message.Item>
-            <Message.Item><b>Roles:</b> {user["http://www.skepsi.com/roles"].join(',')}</Message.Item>
-            <Message.Item style={{wordWrap: 'break-word'}}><b>Access Token:</b> {accessToken}</Message.Item>
-          </Message.List>
+      <div>
+          <Message info size='tiny'>
+            <Message.Content>
+              <Message.Header>
+              User Information
+              </Message.Header>
+              <Message.List>
+                <Message.Item><b>Username:</b> {user["http://www.skepsi.com/username"]}</Message.Item>
+                <Message.Item><b>Email:</b> {user.email}</Message.Item>
+                <Message.Item><b>Login Count:</b> {user["http://www.skepsi.com/loginCount"]}</Message.Item>
+                <Message.Item><b>User Id:</b> {user.sub}</Message.Item>
+                <Message.Item><b>Roles:</b> {user["http://www.skepsi.com/roles"].join(',')}</Message.Item>
+                <Message.Item style={{wordWrap: 'break-word'}}><b>Access Token:</b> {accessToken}</Message.Item>
+              </Message.List>
+              <Divider />
+              <DeleteUserButton />
+            </Message.Content>
+          </Message>
           <Divider />
-          <DeleteUserButton />
-        </Message.Content>
-      </Message>
+          <UserRolesTest />
+      </div>
     )
   )
 }

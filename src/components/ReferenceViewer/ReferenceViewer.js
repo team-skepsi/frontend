@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import {Card} from 'semantic-ui-react'
+import styles from './ReferenceViewer.module.css'
 
 function ReferenceViewer(props) {
 
@@ -12,10 +13,11 @@ function ReferenceViewer(props) {
     }
 
     return (
-        <Card.Group centered style={{maxHeight: '800px', overflowY: 'auto',}}>
+      <div className={styles.cardOverflowController}>
+        <Card.Group centered className={styles.cardContainer}>
             {Array.isArray(props.paperMetadata.references) && props.paperMetadata.references.map((reference, index) =>
                 <Card key={index}>
-                    <Card.Header style={{padding: '5px'}}>
+                    <Card.Header className={styles.cardHeader}>
                         [{reference.paperOrder}] {reference.title}
                     </Card.Header>
                     <Card.Meta>
@@ -27,6 +29,7 @@ function ReferenceViewer(props) {
                 </Card>
             )}
         </Card.Group>
+      </div>
     )
 }
 

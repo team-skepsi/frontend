@@ -1,0 +1,13 @@
+.cardContainer {
+  max-height: 400px;
+  overflow-y: auto;
+  margin: 3px;
+}
+
+.cardHeader {
+  padding: 5px;
+}
+
+.cardOverflowController {
+  padding: 5px;
+}

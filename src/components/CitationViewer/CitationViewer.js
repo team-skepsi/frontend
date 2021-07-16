@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Dropdown } from 'semantic-ui-react';
+import styles from './CitationViewer.module.css'
 
 const dropdownOptions = [
   {
@@ -22,13 +23,13 @@ const dropdownOptions = [
 function CitationViewer(props){
   const [activeCitation, setActiveCitation] = useState("APA")
 
-  useEffect(()=>{
-    console.log('CITATION VIEWER PROPS', props)
-  }, [props])
+  // DEBUG:
+  // useEffect(()=>{
+  //   console.log('CITATION VIEWER PROPS', props)
+  // }, [props])
 
 
   function handleChange(data){
-    console.log('HERE!', data.target.innerText)
     setActiveCitation(data.target.innerText)
   }
 
@@ -51,24 +52,14 @@ function CitationViewer(props){
   }, [activeCitation])
 
   return(
-  <div
-    style={{
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'column'
-    }}>
+  <div className={styles.citationWrapper}>
     <Dropdown
       options={dropdownOptions}
       selection
       defaultValue="APA"
       onChange={handleChange}
       />
-    <div style={{
-        height: '90%',
-        width: '90%',
-        margin: '20px',
-        border: '2px black solid'
-      }}>
+    <div className={styles.citationBox}>
       {switchCitation(activeCitation)}
     </div>
   </div>

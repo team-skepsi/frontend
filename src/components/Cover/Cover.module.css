@@ -10,12 +10,13 @@
 .parent {
   display: flex;
   flex: 1;
-  margin: 40px;
-  position: relative;
-  width: 110%;
+  /* margin: 20px; */
+  /* position: relative; */
+  width: 100%;
   border: rgb(129, 128, 128, 0.5) 10px double;
-  top: 15%;
-  left: 5%;
+  box-sizing: border-box;
+  /* top: 15%;
+  left: 5%; */
 }
 
 .titleMetadataContainer {

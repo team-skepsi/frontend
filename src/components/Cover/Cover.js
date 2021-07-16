@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './Cover.module.css'
+import ScoreMetadata from '../ScoreMetadata/ScoreMetadata.js'
 
 const Cover = (props) => {
     if (!props.paperMetadata){
@@ -39,7 +40,12 @@ const Cover = (props) => {
 
                 </div>
             </div>
-            <div className={styles.annotationWrapper}/>
+            <div className={styles.annotationWrapper}>
+              <ScoreMetadata
+                scores = { props.scores }
+                />
+            </div>
+
         </div>
     )
 }

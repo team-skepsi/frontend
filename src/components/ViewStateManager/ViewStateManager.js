@@ -46,7 +46,10 @@ const ViewStateManager = (props) => {
             <div className={styles.menuStandin}/>
 
             <div className={styles.coverContainer}>
-                <Cover paperMetadata={paperMetadata}/>
+                <Cover
+                  paperMetadata={paperMetadata}
+                  scores = { props.scores }
+                  />
             </div>
 
             <div className={styles.mainContainer}>

@@ -28,11 +28,11 @@
 }
 
 .figureTitle {
-  color: black;
+  color: #222222;
 }
 
 .figureCaption {
-  color: black
+  color: gray;
 }
 
 .exitButton {

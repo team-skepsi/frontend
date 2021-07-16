@@ -1,0 +1,14 @@
+.metadataWrapper {
+  height: 200px;
+  width: 200px;
+  border: 5px white solid;
+  position: relative;
+  left: 30%;
+  margin-top: 40px;
+
+}
+
+.metadataText {
+  color: black;
+  font-family: 'Roboto';
+}

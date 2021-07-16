@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import './App.css'
 import "semantic-ui-css/semantic.min.css";
 
@@ -20,18 +20,21 @@ import Router from './components/Router/Router.js'
 
 import {useAuth0} from "@auth0/auth0-react";
 
-
 import {ApolloClient, HttpLink, ApolloProvider, InMemoryCache} from "@apollo/client"
 import TexProvider from "./components/Tex/TexProvider";
 
 import UserRolesTest from './components/UserRolesTest/UserRolesTest.js'
-
+import { Divider } from 'semantic-ui-react'
 // STYLES
+
+
+export const RoleContext = React.createContext("No Role")
 
 function App() {
 
-    const {isAuthenticated, getAccessTokenSilently, isLoading} = useAuth0()
+    const {isAuthenticated, getAccessTokenSilently, isLoading, user} = useAuth0()
     const [token, setToken] = useState("")
+
 
     useEffect(() => {
       WebFont.load({
@@ -81,9 +84,12 @@ function App() {
     <ApolloProvider client={client}>
         <TexProvider>
             <div className="App">
+              <RoleContext.Provider value={user ? user["http://www.skepsi.com/roles"] : "User"}>
                 <HomepageNavbar loading={isLoading}/>
                 <Router />
+                <Divider />
                 <UserRolesTest />
+              </RoleContext.Provider>
             </div>
         </TexProvider>
     </ApolloProvider>

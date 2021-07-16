@@ -56,6 +56,10 @@ query GetPaperAndAnnotationData($paperId:ID!){
       paperOrder
       }
     }
+    scoresByPaperId(paperId:$paperId){
+      field
+      score
+    }
   }
 `
 
@@ -93,6 +97,7 @@ useEffect(()=>{
       <ViewStateManager
         document = { paperAndAnnotationData.papersById }
         annotations = { paperAndAnnotationData.annotationsByPaperId }
+        scores = { paperAndAnnotationData.scoresByPaperId }
         />
     )
   }

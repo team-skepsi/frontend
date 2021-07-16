@@ -1,7 +1,8 @@
 import React from "react";
-import AuthenticationNavbar from "./authentication-navbar.js"
-import SkepsiNavbarItem from "./skepsi-navbar-item.js"
+import AuthenticationNavbar from "../AuthenticationNavbar/AuthenticationNavbar.js"
 import { Menu } from "semantic-ui-react";
+import { Link } from 'react-router-dom';
+
 
 function HomepageNavbar(props){
 
@@ -23,7 +24,11 @@ function HomepageNavbar(props){
 
   return(
   <Menu style={menuStyle}>
-    <SkepsiNavbarItem />
+    <Link to="/">
+      <Menu.Item>
+        <h2>Skepsi</h2>
+      </Menu.Item>
+    </Link>
     <AuthenticationNavbar />
   </Menu>
   )

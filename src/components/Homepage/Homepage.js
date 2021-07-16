@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
 // NAVIGATION
-import TopicCards from '../navigation/topic-cards.js'
+import TopicCards from '../TopicCards/TopicCards.js'
 
 // USER PROFILES
-import WelcomeMessage from '../user_profiles/welcome-message.js'
-import ProfileInfo from '../user_profiles/profile-info.js'
+import WelcomeMessage from '../WelcomeMessage/WelcomeMessage.js'
+import ProfileInfo from '../ProfileInfo/ProfileInfo.js'
 
 // STYLES
 import { Divider } from 'semantic-ui-react'

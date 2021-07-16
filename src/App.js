@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import './App.css'
 import "semantic-ui-css/semantic.min.css";
 
@@ -10,26 +10,31 @@ import WebFont from 'webfontloader'
 // import PageManager from './components/PageManager/PageManager.js'
 
 // NAVIGATION
-import HomepageNavbar from './components/navigation/homepage-navbar.js'
+import HomepageNavbar from './components/HomepageNavbar/HomepageNavbar.js'
 
 // ROUTERS
 // import TopicsRouter from './components/routers/topics-router.js'
 // import SignupRouter from './components/routers/signup-router.js'
 // import SignupAndTopicsRouter from './components/routers/signup-and-topics-router.js'
-import AnnotationDotRouter from './components/routers/annotation-dot-router.js'
+import Router from './components/Router/Router.js'
 
 import {useAuth0} from "@auth0/auth0-react";
-
 
 import {ApolloClient, HttpLink, ApolloProvider, InMemoryCache} from "@apollo/client"
 import TexProvider from "./components/Tex/TexProvider";
 
+import UserRolesTest from './components/UserRolesTest/UserRolesTest.js'
+import { Divider } from 'semantic-ui-react'
 // STYLES
+
+
+export const RoleContext = React.createContext("No Role")
 
 function App() {
 
-    const {isAuthenticated, getAccessTokenSilently, isLoading} = useAuth0()
+    const {isAuthenticated, getAccessTokenSilently, isLoading, user} = useAuth0()
     const [token, setToken] = useState("")
+
 
     useEffect(() => {
       WebFont.load({
@@ -79,8 +84,12 @@ function App() {
     <ApolloProvider client={client}>
         <TexProvider>
             <div className="App">
+              <RoleContext.Provider value={user ? user["http://www.skepsi.com/roles"] : "User"}>
                 <HomepageNavbar loading={isLoading}/>
-                <AnnotationDotRouter />
+                <Router />
+                <Divider />
+                <UserRolesTest />
+              </RoleContext.Provider>
             </div>
         </TexProvider>
     </ApolloProvider>

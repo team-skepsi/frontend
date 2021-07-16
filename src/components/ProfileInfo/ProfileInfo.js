@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Message, Divider } from 'semantic-ui-react';
 
-import DeleteUserButton from '../authorization/delete-user-button.js'
+import DeleteUserButton from '../DeleteUserButton/DeleteUserButton.js'
 
 
 function ProfileInfo(){
@@ -34,7 +34,7 @@ function ProfileInfo(){
           User Information
           </Message.Header>
           <Message.List>
-            <Message.Item><b>Username:</b> {user["http://www.skepsi.com/username"]}</Message.Item>
+            <Message.Item><b>Username:</b > {user["http://www.skepsi.com/username"]}</Message.Item>
             <Message.Item><b>Email:</b> {user.email}</Message.Item>
             <Message.Item><b>Login Count:</b> {user["http://www.skepsi.com/loginCount"]}</Message.Item>
             <Message.Item><b>User Id:</b> {user.sub}</Message.Item>
@@ -48,11 +48,6 @@ function ProfileInfo(){
     )
   )
 }
-
-
-
-
-
 
 
 export default ProfileInfo;

@@ -32,7 +32,7 @@ function DeleteUserButton(){
   }
 
   return(
-    <Button basic color='blue' onClick={handleClick}>
+    <Button basic color='gray' onClick={handleClick}>
       Delete User
     </Button>
   )

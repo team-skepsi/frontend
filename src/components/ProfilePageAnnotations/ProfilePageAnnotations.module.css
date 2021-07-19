@@ -1,0 +1,21 @@
+.paperLink {
+  color: #63666A;
+}
+
+.paperLink:hover {
+  color: #0645AD;
+}
+
+.cardContent {
+  line-height: 20px;
+}
+
+.cardContentText {
+  font-family: "Roboto";
+  font-size: 12px;
+}
+
+.paperLinkText {
+  font-family: "Roboto";
+  font-size: 14px;
+}

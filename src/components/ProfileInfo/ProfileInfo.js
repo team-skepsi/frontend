@@ -1,52 +1,59 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Message, Divider } from 'semantic-ui-react';
-
+import styles from './ProfileInfo.module.css'
 import DeleteUserButton from '../DeleteUserButton/DeleteUserButton.js'
 
 
-function ProfileInfo(){
+function ProfileInfo(props){
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const [accessToken, setAccessToken] = useState("")
 
-  useEffect(()=>{
-    if(isAuthenticated){
-      try{
-        getAccessTokenSilently({
-        })
-        .then(token_data => setAccessToken(token_data))
-      }
-      catch{
-        console.error("Silent Token error") // TODO:
-      }
-    }
-  }, [])
+  if(props.user){
+  return (
+    <div>
+      <div>
+        <div as="div" className={styles.profileInfoBox}>
+          <div className={styles.headerWrapper}>
+            <h3 className={styles.infoSectionHeader}>Profile Information</h3>
+          </div>
+          <div className={styles.contentWrapper}>
+            <p className={styles.infoSectionContent}><b>Username:</b> {props.user["http://www.skepsi.com/username"]}</p>
+            <p className={styles.infoSectionContent}><b>Email:</b> {props.user.email}</p>
+        </div>
+      </div>
+      </div>
 
-  if (isLoading) {
-    return <div>Loading ...</div> // TODO:
+      <div className={styles.profileInfoBox}>
+        <div className={styles.headerWrapper}>
+          <h3 className={styles.infoSectionHeader}>Dev Information</h3>
+        </div>
+        <div className={styles.contentWrapper}>
+          <p className={styles.infoSectionContent}><b>Login Count:</b> {props.user["http://www.skepsi.com/loginCount"]}</p>
+          <p className={styles.infoSectionContent}><b>User Id:</b> {props.user.sub}</p>
+          <p className={styles.infoSectionContent}><b>Access Token:</b> <span className={styles.accessToken}>{props.accessToken}</span></p>
+        </div>
+      </div>
+
+      <div className={styles.profileInfoBox}>
+        <div className={styles.headerWrapper}>
+          <h3 className={styles.infoSectionHeader}>Profile Controls</h3>
+        </div>
+        <div className={styles.contentWrapper}>
+          <DeleteUserButton />
+        </div>
+      </div>
+      </div>
+    )
   }
 
-  return (
-    isAuthenticated && (
-      <Message info size='tiny'>
-        <Message.Content>
-          <Message.Header>
-          User Information
-          </Message.Header>
-          <Message.List>
-            <Message.Item><b>Username:</b > {user["http://www.skepsi.com/username"]}</Message.Item>
-            <Message.Item><b>Email:</b> {user.email}</Message.Item>
-            <Message.Item><b>Login Count:</b> {user["http://www.skepsi.com/loginCount"]}</Message.Item>
-            <Message.Item><b>User Id:</b> {user.sub}</Message.Item>
-            <Message.Item><b>Roles:</b> {user["http://www.skepsi.com/roles"].join(',')}</Message.Item>
-            <Message.Item style={{wordWrap: 'break-word'}}><b>Access Token:</b> {accessToken}</Message.Item>
-          </Message.List>
-          <Divider />
-          <DeleteUserButton />
-        </Message.Content>
-      </Message>
+  else{
+    return(
+      <div>
+
+      </div>
     )
-  )
+  }
 }
 
 

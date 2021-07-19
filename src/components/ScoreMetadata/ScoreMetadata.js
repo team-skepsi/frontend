@@ -47,10 +47,8 @@ function ScoreMetadata(props){
     <div>
       <div className={styles.metadataWrapper}>
         {calculateMetadata.map(({field, average, standard_deviation}, index)=>
-          <div key={index}>
-            <Card>
-                <p className={styles.metadataText}>{field}: {average} [std: {standard_deviation}]</p>
-            </Card>
+          <div className={styles.metadataTextWrapper} key={index}>
+              <p className={styles.metadataText}>{field}: {average} [std: {standard_deviation}]</p>
           </div>
         )}
       </div>

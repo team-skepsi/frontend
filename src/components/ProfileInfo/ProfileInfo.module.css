@@ -1,0 +1,36 @@
+.profileInfoBox {
+  border: rgb(222,222,223) 2px solid;
+  background-color: rgba(242, 242, 242, 0.2);
+
+  margin: 10px;
+  margin-bottom: 15px;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+.headerWrapper {
+  border-bottom: 2px solid lightgray;
+  padding-bottom: 5px;
+}
+
+.infoSectionHeader {
+  font-size: 20px;
+  font-family: "Roboto";
+  color: rgb(33, 33, 33);
+}
+
+.contentWrapper {
+  margin-top: 15px;
+}
+
+.infoSectionContent {
+  font-family: "Roboto";
+    color: rgb(33, 33, 33);
+}
+
+.accessToken {
+  word-wrap: break-word;
+  font-family: "Roboto";
+  font-size: 10px;
+  color: rgb(33, 33, 33);
+}

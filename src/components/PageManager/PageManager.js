@@ -3,6 +3,7 @@ import { useQuery, gql } from '@apollo/client'
 import { useLocation } from 'react-router-dom'
 import { Annotation } from '../types.ts'
 import ViewStateManager from '../ViewStateManager/ViewStateManager.js'
+import HomepageNavbar from '../HomepageNavbar/HomepageNavbar.js'
 
 const GET_PAPER_AND_ANNOTATION_DATA = gql`
 query GetPaperAndAnnotationData($paperId:ID!){
@@ -94,11 +95,13 @@ useEffect(()=>{
 
   if(paperAndAnnotationData){
     return(
+      <div>
       <ViewStateManager
         document = { paperAndAnnotationData.papersById }
         annotations = { paperAndAnnotationData.annotationsByPaperId }
         scores = { paperAndAnnotationData.scoresByPaperId }
         />
+      </div>
     )
   }
 

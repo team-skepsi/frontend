@@ -89,7 +89,6 @@ const topicSet = new Set(props.papers ? props.papers.map(paper => paper.topic.he
     <div className={styles.searchWrapper}>
         <Search
           id={styles.searchBar}
-          loading={loading}
           fluid
           onResultSelect={(e, data) =>
             dispatch({ type: 'UPDATE_SELECTION', selection: data.result.title })

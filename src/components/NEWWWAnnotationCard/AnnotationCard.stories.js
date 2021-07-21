@@ -1,0 +1,84 @@
+import React from "react"
+import AnnotationCard from "./AnnotationCard"
+
+export default {
+    title: "toy/NEWWWAnnotationCard",
+    component: AnnotationCard,
+}
+
+export const Example = () => {
+    const props = {
+        editable: false,
+        author: "Finn Macken",
+        date: "11/1/2019",
+        text: "hi im a good point",
+        scoreBlocks: [
+            {
+                category: "validity",
+                score: 9,
+                text: "100% agree!"
+            },
+            {
+                category: "importance",
+                score: 6,
+                text: "pretty obvious"
+            }
+        ],
+        onReply: () => alert("create reply")
+    }
+    return <AnnotationCard {...props} />
+}
+
+export const NestedExample = () => {
+    const props = {
+        beingEdited: false,
+        userCouldEdit: true,
+        author: "Leo Ware",
+        date: "11/1/2019",
+        text: "hi im a good point",
+        scoreBlocks: [
+            {
+                category: "validity",
+                score: 9,
+                text: "100% agree!"
+            },
+            {
+                category: "importance",
+                score: 6,
+                text: "pretty obvious"
+            }
+        ],
+        onReply: () => alert("create reply"),
+        replies: [
+            {
+                beingEdited: false,
+                userCouldEdit: true,
+                author: "Leo Ware",
+                date: "11/4/2019",
+                text: "oh actually I was wrong it's a bad point",
+                onReply: () => alert("create reply"),
+            },
+            {
+                beingEdited: false,
+                userCouldEdit: false,
+                author: "Andre Vacha",
+                date: "12/1/2019",
+                text: "i agree",
+                onReply: () => alert("create reply"),
+                scoreBlocks: [
+                    {
+                        category: "validity",
+                        score: 9,
+                        text: "100% agree!"
+                    },
+                    {
+                        category: "importance",
+                        score: 6,
+                        text: "pretty obvious"
+                    }
+                ],
+            }
+        ]
+    }
+    return <AnnotationCard {...props} />
+}

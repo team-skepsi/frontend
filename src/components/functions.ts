@@ -42,7 +42,7 @@ export const testStories = (stories: any) => {
 
     for (let name in stories) {
         if (name !== "default"){
-            toTest.push(sObject[name])
+            toTest.push(sObject[name]) // raises linter warning
         }
     }
 
@@ -66,3 +66,17 @@ export const spy = <T>(thing: T): T => {
 }
 
 export const spyWith = curry((fn: Function, thing: any) => spy(fn(thing)))
+
+export function formatDate(date: Date) {
+    let d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}

@@ -17,6 +17,7 @@ query AllTopicsAndPapers{
     authors
     topic{
       header
+      slug
     }
     annotationCount
   }

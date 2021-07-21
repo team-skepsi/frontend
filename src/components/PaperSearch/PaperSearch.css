@@ -1,0 +1,17 @@
+.ui.fluid.search {
+  width: 50%;
+  height: 100%;
+  font-family: "Roboto";
+  box-sizing: border-box;
+}
+
+.ui.icon.input {
+  width: 100%;
+  font-family: "Roboto";
+  position: static;
+}
+
+.results.transition.visible {
+  overflow-y: auto;
+  height: 25vw;
+}

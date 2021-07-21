@@ -2,6 +2,7 @@ import React from "react";
 import AuthenticationNavbar from "../AuthenticationNavbar/AuthenticationNavbar.js"
 import { Menu } from "semantic-ui-react";
 import { Link } from 'react-router-dom';
+import PaperSearch from '../PaperSearch/PaperSearch.js'
 
 
 function HomepageNavbar(props){
@@ -29,6 +30,7 @@ function HomepageNavbar(props){
         <h2>Skepsi</h2>
       </Menu.Item>
     </Link>
+  
     <AuthenticationNavbar />
   </Menu>
   )

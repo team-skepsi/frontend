@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 // NAVIGATION
+import PaperSearch from '../PaperSearch/PaperSearch.js'
 import TopicCards from '../TopicCards/TopicCards.js'
 import FeaturedPapers from '../FeaturedPapers/FeaturedPapers.js'
 
@@ -10,12 +11,21 @@ import ProfileInfo from '../ProfileInfo/ProfileInfo.js'
 
 // STYLES
 import { Divider } from 'semantic-ui-react'
+import styles from './Homepage.module.css'
 
 function Homepage(props) {
   return (
-    <div>
+    <div className={styles.main}>
+      <div className={styles.menuStandin} />
+      <div className={styles.searchBackground}>
+        <PaperSearch
+          papers={props.papers}
+          />
+      </div>
+    <div className={styles.homepageFeed}>
     <WelcomeMessage />
-    <ProfileInfo />
+    <Divider />
+
     <Divider />
     <h2 style={{fontFamily: "Roboto"}}>Topics</h2>
     <TopicCards
@@ -26,6 +36,7 @@ function Homepage(props) {
     <FeaturedPapers
       papers={props.papers}
       />
+    </div>
     </div>
   )
 }

@@ -54,6 +54,7 @@ function CitationViewer(props){
   return(
   <div className={styles.citationWrapper}>
     <Dropdown
+      item
       options={dropdownOptions}
       selection
       defaultValue="APA"

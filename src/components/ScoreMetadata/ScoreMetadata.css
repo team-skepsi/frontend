@@ -1,0 +1,33 @@
+.dropdownWrapper {
+  display: flex !important;
+}
+
+.dropdownWrapper .dropdown {
+  background-color: rgba(30, 30, 30) !important;
+  border: 1px solid darkgray !important;
+}
+
+.dropdownWrapper .icon {
+  color: white !important;
+  border: none !important;
+}
+
+.dropdownWrapper .text {
+  color: lightgray !important;
+  font-weight: bold !important;
+  font-family: "Roboto" !important;
+}
+
+.dropdownWrapper .visible {
+  border: 1px solid darkgray !important;
+  background-color: rgba(30, 30, 30) !important;
+
+}
+
+.dropdownWrapper .item {
+  background-color: rgba(75, 75, 75) !important;
+  border-color: 1px solid lightgray !important;
+  color: white !important;
+  font-weight: bold !important;
+  font-family: "Roboto" !important;
+}

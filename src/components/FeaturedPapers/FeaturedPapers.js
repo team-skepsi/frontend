@@ -5,6 +5,7 @@ import { useQuery, gql } from '@apollo/client'
 import { Card, Loader } from 'semantic-ui-react'
 import { Link, } from 'react-router-dom'
 import styles from './FeaturedPapers.module.css'
+import './FeaturedPapers.css'
 import Pluralize from 'react-pluralize'
 
 const GET_ALL_PAPERS = gql`
@@ -25,32 +26,29 @@ const colors = ['green', 'teal', 'blue', 'violet', 'purple', 'pink', 'brown',
 'gray', 'red', 'orange', 'yellow']
 
 
-function FeaturedPapers(){
-  const { data, error, loading } = useQuery(GET_ALL_PAPERS)
+function FeaturedPapers(props){
 
-  if(loading){
-    return(
-      <div></div>
-    )
-  }
 
-  if(data){
+  if(props.papers){
     return(
       <div className={styles.scrollComponent}>
           <div className={styles.flexWrapper}>
-            {data.allPapers.map((paper, index)=>
+            {props.papers.map((paper, index)=>
               <Link to= {`/${paper.id}`} key={paper.id}>
               <Card key={index}
-                    color= {data.allPapers.length > colors.length ? "" : colors[index]}
-                    style={{margin: '15px', flex: 1}}>
-                <Card.Content>
+                    color= {props.papers.length > colors.length ? "" : colors[index]}
+                    style={{margin: '15px', padding: "5px", flex: 1, height: '200px', width: "250px"}}>
+                <Card.Content >
                   <Card.Header>
-                    {paper.title}
+                    <div className={styles.titleWrapper}>
+                    <h3>{paper.title}</h3>
+                    </div>
                   </Card.Header>
                   <Card.Meta>
                     {paper.authors}
                   </Card.Meta>
-                </Card.Content>
+                  </Card.Content>
+
                 <Card.Content extra>
                   <Pluralize singular={'annotation'} plural={'annotations'} count={paper.annotationCount} />
                 </Card.Content>
@@ -61,6 +59,10 @@ function FeaturedPapers(){
       </div>
     )
   }
+
+  return(
+    <div></div>
+  )
 }
 
 export default FeaturedPapers

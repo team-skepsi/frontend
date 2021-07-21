@@ -7,53 +7,9 @@ import styles from './TopicCards.module.css'
 
 var slugify = require('slugify')
 
-const GET_ALL_TOPICS = gql`
-query AllTopics{
-  allTopics{
-    id
-    header
-    domain
-    paperCount
-    slug
-  }
-}
-`
-
 const colors = ['green', 'teal', 'blue', 'violet', 'purple', 'pink', 'brown',
 'gray', 'red', 'orange', 'yellow']
 
-function TopicCards(){
-  const {data, error, loading } = useQuery(GET_ALL_TOPICS)
-  if(loading){
-    return(
-      <Loader inverted>Loading</Loader>
-    )
-  }
-
-  if(data){
-    return(
-      <Card.Group>
-        {data.allTopics.map((card, index) =>
-          <Link to={card.slug} key={card.id}>
-          <Card color= {data.allTopics.length > colors.length ? "" : colors[index]}
-                style={{margin: '15px', backgroundColor: "rgba(220, 220, 220, 0.1)"}}>
-            <Card.Content>
-              <Card.Header>
-                {card.header}
-              </Card.Header>
-              <Card.Meta>
-                {card.domain}
-              </Card.Meta>
-            </Card.Content>
-            <Card.Content extra>
-              <Pluralize singular={'paper'} plural={'papers'} count={card.paperCount} />
-            </Card.Content>
-          </Card>
-          </Link>
-      )}
-      </Card.Group>
-    )
-  }
 
   const topicCards = [
     {
@@ -82,6 +38,34 @@ function TopicCards(){
     }
   ]
 
+function TopicCards(props){
+
+  if(props.topics){
+    return(
+      <Card.Group>
+        {props.topics.map((card, index) =>
+          <Link to={card.slug} key={card.id}>
+          <Card color= {props.topics.length > colors.length ? "" : colors[index]}
+                style={{margin: '15px', backgroundColor: "rgba(220, 220, 220, 0.1)"}}>
+            <Card.Content>
+              <Card.Header>
+                {card.header}
+              </Card.Header>
+              <Card.Meta>
+                {card.domain}
+              </Card.Meta>
+            </Card.Content>
+            <Card.Content extra>
+              <Pluralize singular={'paper'} plural={'papers'} count={card.paperCount} />
+            </Card.Content>
+          </Card>
+          </Link>
+      )}
+      </Card.Group>
+    )
+  }
+
+  else{
   return(
     <Card.Group>
       {topicCards.map((card) =>
@@ -103,6 +87,7 @@ function TopicCards(){
     )}
     </Card.Group>
   )
+}
 }
 
 export default TopicCards

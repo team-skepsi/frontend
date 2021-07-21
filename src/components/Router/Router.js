@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {Route, Switch} from 'react-router-dom'
 import {gql, useQuery} from "@apollo/client"
 
-import Homepage from '../Homepage/Homepage.js';
+import HomepageManager from '../HomepageManager/HomepageManager.js';
 import PaperCards from '../PaperCards/PaperCards.js'
 import RoleSelection from '../RoleSelection/RoleSelection.js'
 import SignupView from '../SignupView/SignupView.js'
@@ -62,7 +62,7 @@ function Router() {
                 <SignupView/>
             </Route>
             <Route path="/">
-                <Homepage/>
+                <HomepageManager />
             </Route>
         </Switch>
     )

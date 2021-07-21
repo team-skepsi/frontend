@@ -2,6 +2,7 @@ import React from "react";
 import LoginButton from "../LoginButton/LoginButton.js"
 import LogoutButton from "../LogoutButton/LogoutButton.js"
 import SignupButton from "../SignupButton/SignupButton.js"
+import styles from './AuthenticationNavbar.module.css'
 
 import { Menu, Button, Icon } from "semantic-ui-react";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -15,8 +16,8 @@ function AuthenticationNavbar(){
       <Menu.Menu position="right">
         <Menu.Item>
           <Link to="/user-info">
-            <Button>
-              <Icon name="user" />{user["http://www.skepsi.com/username"]}
+            <Button className={styles.userButton}>
+              <Icon name="user" inverted/>{user["http://www.skepsi.com/username"]}
             </Button>
           </Link>
         </Menu.Item>

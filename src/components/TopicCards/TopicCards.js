@@ -3,6 +3,7 @@ import { Card, Loader } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { useQuery, gql } from '@apollo/client'
 import Pluralize from 'react-pluralize'
+import styles from './TopicCards.module.css'
 
 var slugify = require('slugify')
 
@@ -35,7 +36,7 @@ function TopicCards(){
         {data.allTopics.map((card, index) =>
           <Link to={card.slug} key={card.id}>
           <Card color= {data.allTopics.length > colors.length ? "" : colors[index]}
-                style={{margin: '15px'}}>
+                style={{margin: '15px', backgroundColor: "rgba(220, 220, 220, 0.1)"}}>
             <Card.Content>
               <Card.Header>
                 {card.header}

@@ -26,6 +26,8 @@ import TexProvider from "./components/Tex/TexProvider";
 import { Divider } from 'semantic-ui-react'
 // STYLES
 
+import TopicCard from './components/TopicCard/TopicCard.js'
+
 export const RoleContext = React.createContext("No Role")
 
 function App() {
@@ -86,7 +88,6 @@ function App() {
                 <HomepageNavbar loading={isLoading}/>
                 <Router />
                 <Divider />
-
               </RoleContext.Provider>
             </div>
         </TexProvider>

@@ -33,7 +33,6 @@ function PaperCards(){
   }
 
   if(data){
-    console.log(data)
     return(
     <Card.Group>
       {data.papersByTopic.map((card, index) =>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 // NAVIGATION
 import TopicCards from '../TopicCards/TopicCards.js'
+import FeaturedPapers from '../FeaturedPapers/FeaturedPapers.js'
 
 // USER PROFILES
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage.js'
@@ -16,7 +17,11 @@ function Homepage() {
     <WelcomeMessage />
     <ProfileInfo />
     <Divider />
+    <h2 style={{fontFamily: "Roboto"}}>Topics</h2>
     <TopicCards />
+    <Divider />
+    <h2 style={{fontFamily: "Roboto"}}>Featured papers</h2>
+    <FeaturedPapers />
     </div>
   )
 }

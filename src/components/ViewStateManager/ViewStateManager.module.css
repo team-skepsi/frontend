@@ -9,13 +9,6 @@
     overflow: auto;
 }
 
-.menuStandin {
-    width: 100%;
-    top: 0;
-    left: 0;
-    height: 60px;
-}
-
 .coverContainer {
     width: 100%;
     height: 80%;

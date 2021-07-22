@@ -16,7 +16,7 @@ import styles from './Homepage.module.css'
 function Homepage(props) {
   return (
     <div className={styles.main}>
-      <div className={styles.menuStandin} />
+
       <div className={styles.searchBackground}>
         <PaperSearch
           papers={props.papers}
@@ -24,8 +24,6 @@ function Homepage(props) {
       </div>
     <div className={styles.homepageFeed}>
     <WelcomeMessage />
-    <Divider />
-
     <Divider />
     <h2 style={{fontFamily: "Roboto"}}>Topics</h2>
     <TopicCards

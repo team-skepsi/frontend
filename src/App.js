@@ -35,7 +35,6 @@ function App() {
     const {isAuthenticated, getAccessTokenSilently, isLoading, user} = useAuth0()
     const [token, setToken] = useState("")
 
-
     useEffect(() => {
       WebFont.load({
         google: {
@@ -85,9 +84,11 @@ function App() {
         <TexProvider>
             <div className="App">
               <RoleContext.Provider value={user ? user["http://www.skepsi.com/roles"] : "User"}>
-                <HomepageNavbar loading={isLoading}/>
+                <HomepageNavbar
+                  loading={isLoading}
+                  />
                 <Router />
-                <Divider />
+
               </RoleContext.Provider>
             </div>
         </TexProvider>

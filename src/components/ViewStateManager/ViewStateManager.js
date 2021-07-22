@@ -43,8 +43,6 @@ const ViewStateManager = (props) => {
     return (
         <div className={styles.main}>
 
-            <div className={styles.menuStandin}/>
-
             <div className={styles.coverContainer}>
                 <Cover
                   paperMetadata={paperMetadata}

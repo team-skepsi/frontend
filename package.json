@@ -60,6 +60,7 @@
     "react-text-selection-popover": "^2.0.1",
     "react-tooltip": "^4.2.21",
     "react-transition-group": "1.x",
+    "react-waypoint": "^10.1.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "shuffle-array": "^1.0.1",

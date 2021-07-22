@@ -13,10 +13,15 @@ import ProfileInfo from '../ProfileInfo/ProfileInfo.js'
 import { Divider } from 'semantic-ui-react'
 import styles from './Homepage.module.css'
 
+import Navbar from '../Navbar/Navbar.js'
+
 function Homepage(props) {
   return (
     <div className={styles.main}>
 
+      <div style={{height: 0}}>
+        <Navbar usesPageWrapper={true} />
+      </div>
       <div className={styles.searchBackground}>
         <PaperSearch
           papers={props.papers}

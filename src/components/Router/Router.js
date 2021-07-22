@@ -8,6 +8,7 @@ import RoleSelection from '../RoleSelection/RoleSelection.js'
 import SignupView from '../SignupView/SignupView.js'
 import PageManager from '../PageManager/PageManager.js'
 import ProfilePage from '../ProfilePage/ProfilePage.js'
+import Navbar from '../Navbar/Navbar.js'
 
 const GET_ALL_TOPIC_SLUGS = gql`
     query{
@@ -41,28 +42,42 @@ function Router() {
         <Switch>
             {data && data.allTopics.map((topic) =>
                 <Route key={topic.id} path={"/".concat(topic.slug)}>
-                    <PaperCards/>
+                    <React.Fragment>
+                      <Navbar />
+                      <PaperCards/>
+                    </React.Fragment>
                 </Route>
             )}
 
             {paperData &&
                 paperData.allPapers.map((paper) =>
                     <Route key={paper.id} path={"/".concat(paper.id)}>
-                      <PageManager />
+                        <PageManager />
                     </Route>
                 )
             }
             <Route path='/user-info'>
-              <ProfilePage />
+              <React.Fragment>
+                <Navbar />
+                <ProfilePage />
+              </React.Fragment>
             </Route>
             <Route path='/signup'>
+              <React.Fragment>
+                <Navbar />
                 <RoleSelection />
+              </React.Fragment>
             </Route>
             <Route path={['/scientist-signup', '/user-signup', '/expert-signup']}>
-                <SignupView/>
+                <React.Fragment>
+                  <Navbar />
+                  <SignupView/>
+                </React.Fragment>
             </Route>
             <Route path="/">
-                <HomepageManager />
+                <React.Fragment>
+                  <HomepageManager />
+                </React.Fragment>
             </Route>
         </Switch>
     )

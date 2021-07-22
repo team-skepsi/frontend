@@ -8,7 +8,7 @@ import ContentViewer from "../ContentViewer/ContentViewer"
 import Cover from "../Cover/Cover.js"
 import TooltipRefRelative from "../Tooltip/TooltipRefRelative"
 import AnnotationSidebar from "../AnnotationSidebar/AnnotationSidebar"
-
+import Navbar from '../Navbar/Navbar.js'
 import styles from './ViewStateManager.module.css'
 
 /*
@@ -43,56 +43,58 @@ const ViewStateManager = (props) => {
     return (
         <div className={styles.main}>
 
+          <div style={{height: 0}}>
+            <Navbar usesPageWrapper={true} />
+          </div>
+
             <div className={styles.coverContainer}>
                 <Cover
                   paperMetadata={paperMetadata}
                   scores = { props.scores }
                   />
             </div>
+              <div className={styles.mainContainer}>
 
-            <div className={styles.mainContainer}>
+                  <div className={styles.paperContainer} style={{position: 'relative'}}>
+                      <ContentViewer
+                          root={root}
+                          annotations={annotations}
+                          activeNode={activeNode}
+                          activeNodeRef={activeNodeRef}
+                          setActiveNode={setActiveNode}
+                          setActiveNodeRef={setActiveNodeRef}
+                          setUserSelection={setUserSelection}
+                      />
+                  </div>
 
-                <div className={styles.paperContainer}>
-                    <ContentViewer
-                        root={root}
-                        annotations={annotations}
-                        activeNode={activeNode}
-                        activeNodeRef={activeNodeRef}
-                        setActiveNode={setActiveNode}
-                        setActiveNodeRef={setActiveNodeRef}
-                        setUserSelection={setUserSelection}
-                    />
-                </div>
-
-                <DraggableCore
-                    axis={"x"}
-                    handle={".Knob-highlight-cursor"}
-                    // adjustment of half the width of the slider = 21px
-                    onDrag={e => setFeatureBarWidth(window.innerWidth - e.clientX + 21)}>
-                    <div
-                        className={styles.tooltipContainer}
-                        style={{flexBasis: featureBarWidth}}>
-                        <div className={styles.tooltipVertical}/>
-                        <TooltipRefRelative
-                            root={root}
-                            annotations={annotations}
-                            paperMetadata={paperMetadata}
-                            activeNode={activeNode}
-                            activeNodeRef={activeNodeRef}
-                            width={featureBarWidth}>
-                          </TooltipRefRelative>
-                          <div style={{
-                              width: '80%',
-                              position: 'relative',
-                              left: '50px'
-                            }}/>
-                    <div className={styles.annotationSidebarContainer}>
-                        <AnnotationSidebar annotations={annotations}/>
-                    </div>
-                    </div>
-                </DraggableCore>
-
-            </div>
+                  <DraggableCore
+                      axis={"x"}
+                      handle={".Knob-highlight-cursor"}
+                      // adjustment of half the width of the slider = 21px
+                      onDrag={e => setFeatureBarWidth(window.innerWidth - e.clientX + 21)}>
+                      <div
+                          className={styles.tooltipContainer}
+                          style={{flexBasis: featureBarWidth}}>
+                          <div className={styles.tooltipVertical}/>
+                          <TooltipRefRelative
+                              root={root}
+                              annotations={annotations}
+                              paperMetadata={paperMetadata}
+                              activeNode={activeNode}
+                              activeNodeRef={activeNodeRef}
+                              width={featureBarWidth}>
+                            </TooltipRefRelative>
+                            <div style={{
+                                width: '80%',
+                                position: 'relative',
+                                left: '50px'
+                              }}/>
+                      <div className={styles.annotationSidebarContainer}>
+                          <AnnotationSidebar annotations={annotations}/>
+                      </div>
+                      </div>
+                  </DraggableCore>
+              </div>
         </div>
     )
 }

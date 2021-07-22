@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react'
 import './App.css'
 import "semantic-ui-css/semantic.min.css";
+import styles from './App.module.css'
 
 // FONTS
 import WebFont from 'webfontloader'
@@ -10,7 +11,6 @@ import WebFont from 'webfontloader'
 // import PageManager from './components/PageManager/PageManager.js'
 
 // NAVIGATION
-import HomepageNavbar from './components/HomepageNavbar/HomepageNavbar.js'
 
 // ROUTERS
 // import TopicsRouter from './components/routers/topics-router.js'
@@ -23,7 +23,8 @@ import {useAuth0} from "@auth0/auth0-react";
 import {ApolloClient, HttpLink, ApolloProvider, InMemoryCache} from "@apollo/client"
 import TexProvider from "./components/Tex/TexProvider";
 
-import { Divider } from 'semantic-ui-react'
+import { Divider, Label } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 // STYLES
 
 import TopicCard from './components/TopicCard/TopicCard.js'
@@ -84,11 +85,7 @@ function App() {
         <TexProvider>
             <div className="App">
               <RoleContext.Provider value={user ? user["http://www.skepsi.com/roles"] : "User"}>
-                <HomepageNavbar
-                  loading={isLoading}
-                  />
                 <Router />
-
               </RoleContext.Provider>
             </div>
         </TexProvider>

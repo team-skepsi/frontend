@@ -15,6 +15,8 @@ import styles from './Homepage.module.css'
 
 import Navbar from '../Navbar/Navbar.js'
 
+import TopicCardUpdated from '../TopicCardUpdated/TopicCardUpdated.js'
+
 function Homepage(props) {
   return (
     <div className={styles.main}>
@@ -23,6 +25,7 @@ function Homepage(props) {
         <Navbar usesPageWrapper={true} />
       </div>
       <div className={styles.searchBackground}>
+
         <PaperSearch
           papers={props.papers}
           />
@@ -39,6 +42,8 @@ function Homepage(props) {
     <FeaturedPapers
       papers={props.papers}
       />
+    <Divider />
+    <TopicCardUpdated />
     </div>
     </div>
   )

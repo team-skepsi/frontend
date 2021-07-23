@@ -11,6 +11,9 @@ import styles from './Navbar.module.css'
 import './Navbar.css'
 import { useAuth0 } from "@auth0/auth0-react";
 
+import Fade from 'react-reveal/Fade';
+
+
 
 function Navbar(props){
   const [visible, setVisible] = useState(false)
@@ -58,25 +61,21 @@ function Navbar(props){
     <Menu style={menuStyle} borderless>
       <Link to="/" style={{pointerEvents: 'none'}}>
         <Menu.Item borderless style={{pointerEvents: "none"}}>
-          <Label id={styles.iconWrapper} style={{pointerEvents: 'none'}}>
-          <h1 className={styles.skepsi} style={{pointerEvents: 'all'}}>ξ</h1>
-          </Label>
+            <h1 className={styles.skepsi} style={{pointerEvents: 'all'}}>ξ</h1>
         </Menu.Item>
       </Link>
         <Menu.Item borderless position='right'>
-          <Label id={styles.iconWrapper} as={Button}>
             <Icon
               fitted
               name='bars'
               size='big'
-              inverted
               style={{
                 opacity: 1,
-                pointerEvents: 'all'
+                pointerEvents: 'all',
+                color: "#9E825E"
               }}
               onClick={() => setVisible(prevVisible => !prevVisible)}
               />
-           </Label>
           </Menu.Item>
           <Sidebar.Pushable id={styles.sidebarContainer}>
           <Sidebar
@@ -129,3 +128,6 @@ function Navbar(props){
 }
 
 export default Navbar;
+
+  // <Label id={styles.iconWrapper} style={{pointerEvents: 'none'}}>
+  // <Label id={styles.iconWrapper} as={Button} compact style={{marginTop: "4px"}}>

@@ -8,9 +8,9 @@ function PaperSearchCards(props){
   // const topicSet = new Set(props.data ? props.data.map(paper => paper.topic.header) : null)
   // const topicArray = Array.from(topicSet)
 
-  const colors = ['green', 'teal', 'blue', 'violet', 'purple', 'pink', 'brown',
-  'gray', 'red', 'orange', 'yellow']
+  const colors = ["#F0E0CD", "#D3C7BC", "#CCBA9C", "#9E825E", '#94694B', '#552A11', '#42230D']
 
+  // not robust beyond the length of colors
   const topicObject = Object.assign({}, ...props.topicArray.map((topic, index)=> ({[topic]: colors[index]})))
 
   useEffect(()=>{
@@ -24,7 +24,7 @@ function PaperSearchCards(props){
         <div className={styles.columnFlexWrapper}>
           <Link to={`/${props.data.topic.slug}`}>
             <div className={styles.resultsMetadata}>
-              <Label id={styles.topicLabel} color={topicObject[`${props.data.topic.header}`]}>{props.data.topic.header}</Label>
+              <Label id={styles.topicLabel} style={{backgroundColor: topicObject[`${props.data.topic.header}`] }}>{props.data.topic.header}</Label>
             </div>
           </Link>
           <Link to="/1">

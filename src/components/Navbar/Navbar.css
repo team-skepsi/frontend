@@ -1,3 +1,7 @@
 .sidebar.menu {
   z-index: 1000
 }
+
+.ui.menu {
+  border: 0px;
+}

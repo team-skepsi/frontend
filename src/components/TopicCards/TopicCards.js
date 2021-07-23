@@ -46,7 +46,8 @@ function TopicCards(props){
         {props.topics.map((card, index) =>
           <Link to={card.slug} key={card.id}>
           <Card color= {props.topics.length > colors.length ? "" : colors[index]}
-                style={{margin: '15px', backgroundColor: "rgba(220, 220, 220, 0.1)"}}>
+                style={{margin: '15px', backgroundColor: "rgba(220, 220, 220, 0.1)"}}
+                id={styles.topicCard}>
             <Card.Content>
               <Card.Header>
                 {card.header}

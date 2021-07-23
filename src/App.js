@@ -27,8 +27,6 @@ import { Divider, Label } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 // STYLES
 
-import TopicCard from './components/TopicCard/TopicCard.js'
-
 export const RoleContext = React.createContext("No Role")
 
 function App() {

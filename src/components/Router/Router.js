@@ -9,6 +9,7 @@ import SignupView from '../SignupView/SignupView.js'
 import PageManager from '../PageManager/PageManager.js'
 import ProfilePage from '../ProfilePage/ProfilePage.js'
 import Navbar from '../Navbar/Navbar.js'
+import TopicInfoPage from '../TopicInfoPage/TopicInfoPage.js'
 
 const GET_ALL_TOPIC_SLUGS = gql`
     query{
@@ -43,7 +44,6 @@ function Router() {
             {data && data.allTopics.map((topic) =>
                 <Route key={topic.id} path={"/".concat(topic.slug)}>
                     <React.Fragment>
-                      <Navbar />
                       <PaperCards/>
                     </React.Fragment>
                 </Route>
@@ -56,6 +56,14 @@ function Router() {
                     </Route>
                 )
             }
+            <Route path="/homepage-test">
+              <HomepageManager />
+            </Route>
+
+            <Route path="/topic-info">
+              <TopicInfoPage />
+            </Route>
+
             <Route path='/user-info'>
               <React.Fragment>
                 <Navbar />

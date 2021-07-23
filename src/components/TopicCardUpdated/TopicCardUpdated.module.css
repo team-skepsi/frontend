@@ -1,7 +1,11 @@
 .topicCardWrapper {
   height: 400px;
   width: 240px;
-  border: 2px black solid;
+  border: 10px rgb(30, 30, 30, 0.4) double;
+}
+
+.displayCardWrapper {
+  background-color: red;
 }
 
 .flexWrapper {
@@ -16,9 +20,23 @@
   padding-bottom: 30px;
 }
 
+.hiddenCardWrapper  {
+  height: 400px;
+  width: 240px;
+}
+
+
 .topicTitle {
   font-family: "Roboto";
   font-size: 36px;
   font-weight: 900;
   transform: scale(1.1, 1);
+}
+
+.hiddenTitleWrapper {
+
+}
+
+.hiddenTitle {
+  font-size: 30px;
 }

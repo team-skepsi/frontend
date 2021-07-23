@@ -1,4 +1,4 @@
-.animationWrapper {
+/* .animationWrapper {
   animation: blinkingBackground 2s infinite;
 }
 
@@ -8,4 +8,9 @@
 		50%		{ background-color: #ef0a1a;}
 		75%		{ background-color: #254878;}
 		100%	{ background-color: #04a1d5;}
+} */
+
+.ui.fade.reveal {
+  height: 400px,;
+  width: 240px;
 }

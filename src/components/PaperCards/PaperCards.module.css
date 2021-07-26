@@ -13,8 +13,7 @@
   right: 100px;
   bottom: 100px;
   padding: 20px;
-  background: url(http://127.0.0.1:8000/media/media/poverty.jpg) center center;
-  background-size: cover;
+
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -22,7 +21,8 @@
 }
 
 .topicHeader {
-  padding-left: 20px;}
+  padding-left: 20px;
+}
 
 .topicHeaderText {
   font-size: 80px;

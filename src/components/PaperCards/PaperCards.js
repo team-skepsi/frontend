@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Loader, Divider } from 'semantic-ui-react'
 import { Link, useLocation } from 'react-router-dom'
 import { useQuery, gql, Reveal } from '@apollo/client'
 import styles from './PaperCards.module.css'
 import Navbar from '../Navbar/Navbar.js'
+
 const GET_PAPERS_BY_TOPIC = gql`
 query getPapersByTopic($slug:String!){
   papersByTopic(slug:$slug){
@@ -13,6 +14,8 @@ query getPapersByTopic($slug:String!){
     citationMLA
     topic{
       header
+      description
+      image
     }
   }
 }
@@ -22,32 +25,47 @@ const colors = ['green', 'teal', 'blue', 'violet', 'purple', 'pink', 'brown',
 'gray', 'red', 'orange', 'yellow']
 
 function PaperCards(){
+  const [tokenCard, setTokenCard] = useState(undefined)
   const location = useLocation()
   const {data, error, loading} = useQuery(GET_PAPERS_BY_TOPIC, {variables:{
     slug: location.pathname.replace('/', '')
   }})
 
-  if(loading){
+
+  useEffect(()=>{
+    console.log('PAPERCARDS:', data)
+    console.log("TOKEN CARD", tokenCard)
+  }, [data, tokenCard])
+
+  useEffect(()=>{
+    if(data){
+      setTokenCard(data.papersByTopic[0])
+    }
+  }, [data])
+
+  if(loading || error || !tokenCard){
     return(
       <div></div>
     )
   }
 
-  if(data){
+  if(data && tokenCard){
     return(
       <React.Fragment>
         <div className={styles.navbarWrapper}>
           <Navbar usesPageWrapper={true} />
         </div>
-        <div className={styles.topicHeaderWrapper}>
+        <div className={styles.topicHeaderWrapper}
+             style={{background: `url(${process.env.REACT_APP_API_AUDIENCE}media/${tokenCard.topic.image}) center center`,
+                     backgroundSize: "cover",}}>
           <div className={styles.topicHeader}>
-            <h1 className={styles.topicHeaderText}>Poverty</h1>
+            <h1 className={styles.topicHeaderText}>{data.papersByTopic["0"].topic.header}</h1>
           </div>
         </div>
         <div className={styles.paperCardsWrapper}>
           <div className={styles.descriptionBox}>
             <p className={styles.topicDescription}>
-              Poverty entails more than the lack of income and productive resources to ensure sustainable livelihoods. Its manifestations include hunger and malnutrition, limited access to education and other basic services, social discrimination and exclusion, as well as the lack of participation in decision-making. In 2015, more than 736 million people lived below the international poverty line. Around 10 per cent of the world population (pre-pandemic) was living in extreme poverty and struggling to fulfil the most basic needs like health, education, and access to water and sanitation, to name a few. There were 122 women aged 25 to 34 living in poverty for every 100 men of the same age group, and more than 160 million children were at risk of continuing to live in extreme poverty by 2030.
+              {tokenCard.topic.description}
             </p>
           </div>
           <div className={styles.toolBar}>

@@ -17,7 +17,6 @@ import './Homepage.css'
 import Navbar from '../Navbar/Navbar.js'
 
 import TopicCardUpdated from '../TopicCardUpdated/TopicCardUpdated.js'
-
 import { Transition } from 'react-transition-group';
 import Fade from 'react-reveal/Fade';
 
@@ -48,7 +47,7 @@ function Homepage(props) {
         </div>
           <Fade duration={2400} up>
             <div className={styles.pitchTextWrapper}>
-              <p className={styles.pitchText}>Towards Better Science</p>
+              <p className={styles.pitchText}>Towards Better Annotation</p>
             </div>
           </Fade>
         </div>
@@ -56,51 +55,26 @@ function Homepage(props) {
     <div className={styles.homepageFeed}>
       <Divider />
       <div className={styles.topicsWrapper}>
-        <TopicCards
+        <TopicCardUpdated
           topics={props.topics}
           />
       </div>
-
-        <Divider />
-          <Divider />
-
-
-
-      <h2 style={{fontFamily: "Roboto"}}>Topics</h2>
-      <TopicCards
-        topics={props.topics}
-        />
       <Divider />
       <h2 style={{fontFamily: "Roboto"}}>Featured Papers</h2>
       <FeaturedPapers
         papers={props.papers}
         />
       <Divider />
-      <TopicCardUpdated />
+      <TopicCardUpdated
+        topics={props.topics}
+        />
     </div>
-
+    <PaperSearch
+      papers={props.papers}
+      />
+    <Divider />
     </div>
   )
 }
 
-
 export default Homepage;
-//
-
-// <WelcomeMessage />
-// <Divider />
-// <h2 style={{fontFamily: "Roboto"}}>Topics</h2>
-// <TopicCards
-//   topics={props.topics}
-//   />
-// <Divider />
-// <h2 style={{fontFamily: "Roboto"}}>Featured Papers</h2>
-// <FeaturedPapers
-//   papers={props.papers}
-//   />
-// <Divider />
-// // <TopicCardUpdated />
-// /<div className={styles.paperSearch}>
-// <PaperSearch
-//   papers={props.papers}
-//   />

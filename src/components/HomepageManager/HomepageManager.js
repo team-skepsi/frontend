@@ -10,6 +10,7 @@ query AllTopicsAndPapers{
     domain
     paperCount
     slug
+    image
   }
   allPapers{
     id
@@ -35,6 +36,13 @@ function HomepageManager(){
     return(
       <div>
       </div>
+    )
+  }
+
+  if(error){
+    console.log('Homepage Manager Error', error)
+    return(
+      <div></div>
     )
   }
 

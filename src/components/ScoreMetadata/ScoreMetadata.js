@@ -88,7 +88,7 @@ function ScoreMetadata(props){
             />
           </div>
           <div className={styles.horizontalFlex}/>
-          <div classname={styles.metaData}>
+          <div className={styles.metaData}>
             {calculateMetadata.map(function({field, average, standard_deviation}, index){
               if(field===chart){
                 return(

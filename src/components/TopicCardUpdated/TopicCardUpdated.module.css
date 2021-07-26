@@ -1,0 +1,239 @@
+.cardGroup {
+  display: flex;
+  margin: -.875em -.5em;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.topicCard {
+  /* border: 2px solid black; */
+  border-radius: 5px;
+  height: 471px;
+  width: 227px;
+  box-sizng: border-box;
+  overflow: hidden;
+  margin: 25px;
+}
+
+.imageWrapper {
+  height: 296px;
+  width: 100%;
+  background-repeat: no-repeat;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, blue 40%, rgba(0,0,0,0.6) 99%);
+  mask-image: radial-gradient(circle at 50% 50%, blue 40%, rgba(0,0,0,0.6) 99%);
+}
+
+.imageFlexWrapper {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.imageTopBorderLarge {
+  border-bottom: 3px #4F4F4F solid;
+  width: 100%;
+  position: relative;
+  top: 2px;
+}
+
+.imageTopBorderSmall {
+  border-bottom: 1px #4F4F4F solid;
+  width: 100%;
+  position: relative;
+  top: 5px;
+}
+
+.imageBottomBorderSmall {
+  border-bottom: 2px #4F4F4F solid;
+  width: 100%;
+  position: relative;
+  bottom: 8px;
+}
+.topicTitle {
+  font-size: 32px;
+  color: white;
+}
+
+.metadataWrapper {
+  height: 178px;
+  background-color: #222222;
+}
+
+
+.metricsWrapper {
+  height: 31px;
+  border-bottom: 1px solid #3E3E3E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.summaryWrapper {
+  height: 39px;
+  border-bottom: 1px solid #3E3E3E;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+}
+
+.summary {
+  font-size: 8px;
+  font-family: "Roboto";
+  font-weight: bold;
+  flex: 1;
+  color: #D8D9D5;
+}
+
+.buttonConnector {
+  border-bottom: 1px solid #B0B0B0;
+  width: 140px;
+  position: absolute;
+}
+
+.buttonFlex {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.infoButton {
+  height: 18px;
+  width: 62px;
+  margin: 4px;
+  position: relative;
+  z-index: 10000;
+  border-radius: 42px;
+  background-color: #3E3E3E;
+  border: 1px solid #B0B0B0;
+  color: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2px;
+}
+
+.infoButtonText {
+  font-size: 7px;
+  color: #B0B0B0;
+  font-family: "Roboto"
+}
+
+.labelWrapper {
+  height: 67px;
+  border-bottom: 1px solid #3E3E3E;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.labelIconWrapper {
+  height: 50px;
+  width: 70px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+}
+
+.labelIconContainer {
+  border: 1px solid #D1D1CE;
+  height: 17px;
+  width: 13px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+}
+
+.paperTitle {
+  font-size: 9px;
+  font-family: "Roboto";
+  font-weight: normal;
+  color: #DDDDDD;
+}
+
+
+.annotationProgressWrapper {
+  height: 35px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.plusButtonWrapper {
+  flex: 0.2;
+  padding: 5px;
+  padding-left: 10px;
+}
+
+.plusButton {
+  height: 16px;
+  width: 16px;
+  border-radius: 100%;
+  background-color: #DDDDDD;
+  border: 0px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plusIcon {
+  font-size: 10px;
+  padding-top: 3px;
+  padding-left: 1.5px;
+  font-weight: bold;
+}
+
+
+.progressBarWrapper {
+  flex: 1;
+  padding-right: 8px;
+  position: relative;
+  left: -10px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progressBar {
+  border-bottom: 4px black solid;
+}
+
+.beginningCircle {
+  border: 2px solid gray;
+  border-radius: 100%;
+  height: 8px;
+  width: 8px;
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-color: gray;
+}
+
+.progressCircle {
+  border: 2px solid gray;
+  border-radius: 100%;
+  height: 8px;
+  width: 8px;
+  position: absolute;
+  top: -2px;
+  left: 20%;
+  background-color: gray;
+}
+
+.endCircle {
+  border: 2px solid black;
+  border-radius: 100%;
+  height: 8px;
+  width: 8px;
+  position: absolute;
+  top: -2px;
+  left: 93%;
+  background-color: black;
+}

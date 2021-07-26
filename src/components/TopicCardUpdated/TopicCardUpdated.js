@@ -28,19 +28,19 @@ function TopicCardUpdated(props){
               <div className={styles.metricsWrapper}>
                 <div className={styles.buttonConnector}></div>
                 <div className={styles.buttonFlex}>
-                  <button className={styles.infoButton}>
-                    <p className={styles.infoButtonText}>
-                      <Pluralize singular={'paper'} plural={'papers'} count={topic.paperCount} />
+                  <button className={styles.infoButton} id={styles.notReviewed}>
+                    <p className={styles.infoButtonText} id={styles.notReviewedText}>
+                      Social Science
+                    </p>
+                  </button>
+                  <button className={styles.infoButton} id={styles.underReview}>
+                    <p className={styles.infoButtonText} id={styles.underReviewText}>
+                      Economics
                     </p>
                   </button>
                   <button className={styles.infoButton}>
                     <p className={styles.infoButtonText}>
-                      <Pluralize singular={'annotations'} plural={'annotations'} count={15} />
-                    </p>
-                  </button>
-                  <button className={styles.infoButton}>
-                    <p className={styles.infoButtonText}>
-                      <Pluralize singular={'scientist'} plural={'scientists'} count={5} />
+                      Political Science
                     </p>
                   </button>
                 </div>
@@ -50,14 +50,27 @@ function TopicCardUpdated(props){
               </div>
 
               <div className={styles.labelWrapper}>
+                <div className={styles.labelPlaceholderLeft} />
                 <div className={styles.labelIconWrapper}>
-                  <div className={styles.labelIconContainer} />
-                  <p className={styles.paperTitle}><b>Paper</b> Synthesis</p>
+                    <h2 className={styles.largeNumber}>{topic.paperCount}</h2>
+                  <p className={styles.metricText}><b>
+                    <Pluralize singular={'paper'} plural={'papers'} count={topic.paperCount} showCount={false} />
+                  </b></p>
                 </div>
                 <div className={styles.labelIconWrapper}>
-                  <div className={styles.labelIconContainer} />
-                  <p className={styles.paperTitle}><b>Paper</b> Synthesis</p>
-                </div>
+                  <h2 className={styles.largeNumber}>15</h2>
+                  <p className={styles.metricText}>
+                    <b>
+                    <Pluralize singular={'annotation'} plural={'annotations'} count={15} showCount={false} />
+                    </b></p>
+              </div>
+              <div className={styles.labelIconWrapper}>
+                  <h2 className={styles.largeNumber}>3</h2>
+                <p className={styles.metricText}><b>
+                  <Pluralize singular={'scientist'} plural={'scientists'} count={3} showCount={false} />
+                </b></p>
+              </div>
+              <div className={styles.labelPlaceholderRight} />
               </div>
 
             <div className={styles.annotationProgressWrapper}>
@@ -80,6 +93,8 @@ function TopicCardUpdated(props){
 }
 
 export default TopicCardUpdated
+
+// <div className={styles.labelIconContainer}>
 
 // <div className={styles.progressBar}></div>
 // <div className={styles.progressCompletedBar}></div>

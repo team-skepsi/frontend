@@ -75,7 +75,7 @@
   display: flex;
   align-items: center;
   text-align: center;
-  padding: 5px;
+  padding: 14px;
 }
 
 .summary {
@@ -102,7 +102,7 @@
 
 .infoButton {
   height: 18px;
-  width: 62px;
+  width: 64px;
   margin: 4px;
   position: relative;
   z-index: 10000;
@@ -116,10 +116,28 @@
   padding-top: 2px;
 }
 
+
 .infoButtonText {
-  font-size: 7px;
+  font-size: 6px;
   color: #B0B0B0;
   font-family: "Roboto"
+}
+
+#notReviewed {
+  background-color: #DDDDDD;
+
+}
+
+#notReviewedText {
+  color: #222222;
+}
+
+#underReview {
+  background-color: #DDDDDD;
+}
+
+#underReviewText {
+  color: #222222;
 }
 
 .labelWrapper {
@@ -131,9 +149,10 @@
 }
 
 .labelIconWrapper {
+  flex: 1;
   height: 50px;
   width: 70px;
-  margin: 10px;
+  margin: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -141,16 +160,37 @@
   padding: 0px;
 }
 
+.labelPlaceholderLeft {
+  flex: 0.4;
+  height: 100%;
+  width: 90px;
+  border-right: 1px solid #3E3E3E;
+}
+
+
+.labelPlaceholderRight {
+  flex: 0.4;
+  height: 100%;
+  width: 90px;
+  border-left: 1px solid  #3E3E3E;
+}
+
+.largeNumber{
+  font-size: 24px;
+  margin: 1px;
+  color: #DDDDDD;
+}
+
 .labelIconContainer {
-  border: 1px solid #D1D1CE;
+  /* border: 1px solid #D1D1CE; */
   height: 17px;
   width: 13px;
   margin-bottom: 5px;
   border-radius: 3px;
 }
 
-.paperTitle {
-  font-size: 9px;
+.metricText {
+  font-size: 10px;
   font-family: "Roboto";
   font-weight: normal;
   color: #DDDDDD;

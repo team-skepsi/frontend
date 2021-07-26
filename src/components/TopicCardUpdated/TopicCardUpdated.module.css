@@ -15,6 +15,10 @@
   margin: 25px;
 }
 
+.topicCard:hover {
+  border: 1px gray double;
+}
+
 .imageWrapper {
   height: 296px;
   width: 100%;

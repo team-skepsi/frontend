@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react'
 import { useQuery, gql } from '@apollo/client'
 import { useLocation } from 'react-router-dom'
-import { Annotation } from '../types.ts'
 import ViewStateManager from '../ViewStateManager/ViewStateManager.js'
 
 const GET_PAPER_AND_ANNOTATION_DATA = gql`
@@ -79,17 +78,17 @@ function PageManager(){
     variables: { "paperId": 1}
   })
 
-//DEBUGGING LOGS
-if(networkRequestError){
-  console.log(
-    `NETWORK LOGIC ERROR
-    There was a network request error. To debug, make sure the backend is running, and double check the useQuery() hook, the GET_PAPER_AND_ANNOTATION_DATA constant, and the document router logic. Here\'s the network error: \n`
-    , networkRequestError)
-}
+// //DEBUGGING LOGS
+// if(networkRequestError){
+//   console.log(
+//     `NETWORK LOGIC ERROR
+//     There was a network request error. To debug, make sure the backend is running, and double check the useQuery() hook, the GET_PAPER_AND_ANNOTATION_DATA constant, and the document router logic. Here\'s the network error: \n`
+//     , networkRequestError)
+// }
 
-useEffect(()=>{
-  console.log("NETWORK DATA [PAGE MANAGER]:", paperAndAnnotationData)
-}, [paperAndAnnotationData])
+// useEffect(()=>{
+//   console.log("NETWORK DATA [PAGE MANAGER]:", paperAndAnnotationData)
+// }, [paperAndAnnotationData])
 
 
   if(paperAndAnnotationData){

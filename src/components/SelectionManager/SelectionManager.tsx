@@ -46,7 +46,7 @@ const getSelectionRelativePosition = (referenceNode: HTMLDivElement) => {
 
 
         if (selectionLen !== 0){
-            return Annotation({start: offset, stop: offset + selectionLen, _user: true})
+            return Annotation({_id: 0, start: offset, stop: offset + selectionLen, _user: true})
         }
     }
 

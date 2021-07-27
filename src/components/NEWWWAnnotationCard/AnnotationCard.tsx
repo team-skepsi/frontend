@@ -4,10 +4,21 @@ import ContentBlock from "../ContentBlock/ContentBlock"
 import {mdToNode} from "../processing"
 import styles from "./AnnotationCard.module.css"
 
-const SometimesEditable: React.FC<{text: string, editable: boolean, callback: (md: string | null) => void, defaultText?: string}> = ({text, editable, callback, defaultText}) => (
-    editable
-        ? <MDEditor value={text} onMDChange={callback} />
-        : <ContentBlock node={mdToNode(text || defaultText || "")} />
+type SometimesEditableType = {
+    text: string
+    editable: boolean
+    callback: (md: string | null) => void
+    defaultText?: string
+
+    // props handed to children
+    editorProps?: React.ComponentProps<typeof MDEditor>
+    contentBlockProps?: React.ComponentProps<typeof ContentBlock>
+}
+
+const SometimesEditable: React.FC<SometimesEditableType> = (props) => (
+    props.editable
+        ? <MDEditor {...props.editorProps} value={props.text} onMDChange={props.callback} />
+        : <ContentBlock node={mdToNode(props.text || props.defaultText || "")} />
 )
 
 type ScoreBlockType = {
@@ -18,6 +29,7 @@ type ScoreBlockType = {
 
 export type AnnotationCardType = {
     id?: number
+    activeAnnotation?: boolean
     author?: string
     date?: string
     text?: string
@@ -27,11 +39,21 @@ export type AnnotationCardType = {
     replies?: AnnotationCardType[]
     onReply?: () => void
     _depth?: number
+    activeReply?: boolean
 }
 
 const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
 
+    const categoryOptions = [
+        '*no category*',
+        'validity',
+        'transparency',
+        'stuff',
+        'mumble',
+    ]
+
     const [state, setState] = useState({
+        id: props.id || NaN,
         author: props.author || "",
         date: props.date || "",
         text: props.text || "",
@@ -105,17 +127,31 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
                 editable={state.beingEdited}
                 text={state.text}
                 callback={md => setState({...state, text: md || ""})}
-                defaultText={"...add details"}/>
+                defaultText={"...add details"}
+                editorProps={{rows: 5, cols: 20}}/>
 
             <ul className={styles.scoreBlockList}>
                 {Array.isArray(state.scoreBlocks) && state.scoreBlocks.map((sb, sbIndex) => (
                     <li key={sbIndex} className={styles.scoreBlockContainerEach}>
                         <div
                             className={styles.scoreBlockHeader}
-                            onClick={() => toggleOpen(sbIndex)}>
-                            <div className={styles.scoreBlockCategory}>{sb.category}</div>
+                            onClick={() => state.beingEdited || toggleOpen(sbIndex)}>
+                            <div className={styles.scoreBlockCategory}>
+                                <select
+                                    disabled={!state.beingEdited}
+                                    value={sb.category}
+                                    onChange={(e) =>
+                                        editScoreBlock(sbIndex, {category: e.target.value})}>
+                                    {categoryOptions.map((s, i) => <option key={i} value={s}>{s}</option>)}
+                                </select>
+                            </div>
                             <div className={styles.headerSpacer}/>
-                            <div className={styles.scoreBlockScore}>{sb.score === undefined || isNaN(sb.score)? "?": sb.score}</div>
+                            <SometimesEditable
+                                editable={state.beingEdited}
+                                callback={(s) => editScoreBlock(sbIndex, {score: parseInt(s || "")})}
+                                text={sb.score === undefined || isNaN(sb.score)? "?": sb.score.toString()}
+                                editorProps={{rows: 1, cols: 2}}>
+                            </SometimesEditable>
                             {state.beingEdited &&
                             <button onClick={() => removeScoreBlock(sbIndex)}>delete</button>}
                         </div>
@@ -148,7 +184,12 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
                     </>
                     : <>
                         {props.userCouldEdit &&
-                            <button className={styles.editButton} onClick={() => setState({...state, beingEdited: true})}>
+                            <button
+                                className={styles.editButton}
+                                onClick={() => {
+                                    setState({...state, beingEdited: true})
+                                    setOpenScoreBlocks(x => x.map(() => true))
+                                }}>
                                 Edit
                             </button>
                         }
@@ -164,7 +205,7 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
                 </div>
             }
 
-            {props.replies &&
+            {Boolean(props.replies && props.replies.length) &&
                 (repliesOpen
                         ? <div className={styles.linkish} onClick={() => setRepliesOpen(false)}>hide replies</div>
                         : <div className={styles.linkish} onClick={() => setRepliesOpen(true)}>show replies</div>

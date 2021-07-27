@@ -15,7 +15,7 @@ export const Example = () => (
             Annotation({
                 _id: 0,
                 data: {
-                    author: "Leo Ware",
+                    author: {username: "Leo Ware"},
                     date: "1971-27-10",
                     content: "hello",
                     children: [],
@@ -24,7 +24,7 @@ export const Example = () => (
             Annotation({
                 _id: 1,
                 data: {
-                    author: "Finn Macken",
+                    author: {username: "Finn Macken"},
                     date: "1971-11-1",
                     content: "world",
                     children: [],
@@ -33,7 +33,7 @@ export const Example = () => (
             Annotation({
                 _id: 2,
                 data: {
-                    author: "Declan Ware",
+                    author: {username: "Declan Ware"},
                     date: "1971-12-11",
                     content: "foo",
                     children: [0, 1],

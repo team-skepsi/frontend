@@ -8,7 +8,10 @@ type _AnnotationType = {
     stop: number
     data: {
         sectionProps?: object
-        author?: string
+        children?: number[]
+        author?: {
+            username?: string
+        }
         date?: string
         content?: string
         [key: string]: any

@@ -23,8 +23,8 @@
   height: 296px;
   width: 100%;
   background-repeat: no-repeat;
-  -webkit-mask-image: radial-gradient(circle at 50% 50%, blue 40%, rgba(0,0,0,0.6) 99%);
-  mask-image: radial-gradient(circle at 50% 50%, blue 40%, rgba(0,0,0,0.6) 99%);
+  /* -webkit-mask-image: radial-gradient(circle at 50% 50%, blue 40%, rgba(0,0,0,0.6) 99%);
+  mask-image: radial-gradient(circle at 50% 50%, blue 40%, rgba(0,0,0,0.6) 99%); */
 }
 
 .imageFlexWrapper {

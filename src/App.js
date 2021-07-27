@@ -1,7 +1,6 @@
-import React, {useEffect, useState, useContext} from 'react'
+import React, {useEffect, useState} from 'react'
 import './App.css'
 import "semantic-ui-css/semantic.min.css";
-import styles from './App.module.css'
 
 // FONTS
 import WebFont from 'webfontloader'
@@ -20,11 +19,9 @@ import Router from './components/Router/Router.js'
 
 import {useAuth0} from "@auth0/auth0-react";
 
-import {ApolloClient, HttpLink, ApolloProvider, InMemoryCache} from "@apollo/client"
+import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client"
 import TexProvider from "./components/Tex/TexProvider";
 
-import { Divider, Label } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
 // STYLES
 
 export const RoleContext = React.createContext("No Role")
@@ -54,16 +51,6 @@ function App() {
                 })
         }
     }, [isAuthenticated, getAccessTokenSilently])
-
-    const URI_VARIABLE = process.env.REACT_APP_API_AUDIENCE
-
-    const link = new HttpLink({
-      uri: URI_VARIABLE
-    })
-
-    useEffect(() =>{
-      console.log('HERE!',process.env.REACT_APP_API_AUDIENCE)
-    }, [process.env.REACT_APP_API_AUDIENCE])
 
     const client = new ApolloClient({
         uri: process.env.REACT_APP_API_AUDIENCE,

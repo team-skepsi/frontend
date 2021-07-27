@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { useQuery, gql } from '@apollo/client'
-import AnnotationCard from '../AnnotationCard/AnnotationCard.tsx'
 import { Loader, Card } from 'semantic-ui-react'
-import {Annotation} from "../types"
 import { Link } from 'react-router-dom'
 import styles from './ProfilePageAnnotations.module.css'
 
@@ -36,6 +34,14 @@ function ProfilePageAnnotations(props){
   if(loading){
     return(
       <Loader />
+    )
+  }
+
+  if(error){
+    console.log(error)
+    return(
+      <div>
+      </div>
     )
   }
 

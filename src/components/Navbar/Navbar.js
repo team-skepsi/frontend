@@ -1,17 +1,13 @@
 import React, { useState } from "react";
-import AuthenticationNavbar from "../AuthenticationNavbar/AuthenticationNavbar.js"
 import LoginButton from "../LoginButton/LoginButton.js"
 import LogoutButton from "../LogoutButton/LogoutButton.js"
 import SignupButton from "../SignupButton/SignupButton.js"
 
-import { Menu, Icon, Dropdown, Sidebar, Label, Button } from "semantic-ui-react";
+import { Menu, Icon, Sidebar, Button } from "semantic-ui-react";
 import { Link } from 'react-router-dom';
-import PaperSearch from '../PaperSearch/PaperSearch.js'
 import styles from './Navbar.module.css'
 import './Navbar.css'
 import { useAuth0 } from "@auth0/auth0-react";
-import Fade from 'react-reveal/Fade';
-
 
 
 function Navbar(props){

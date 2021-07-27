@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Loader, Divider } from 'semantic-ui-react'
 import { Link, useLocation } from 'react-router-dom'
-import { useQuery, gql, Reveal } from '@apollo/client'
+import { useQuery, gql } from '@apollo/client'
 import styles from './PaperCards.module.css'
 import Navbar from '../Navbar/Navbar.js'
 import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
@@ -16,6 +15,7 @@ query getPapersByTopic($slug:String!){
     abstract
     annotationCount
     createdDate
+    readingTime
     topic{
       header
       description

@@ -1,17 +1,10 @@
 import _ from 'lodash'
-import faker from 'faker'
 import React, { useEffect } from 'react'
-import { Search, Grid, Header, Segment, Label } from 'semantic-ui-react'
+import { Search } from 'semantic-ui-react'
 import PaperSearchCards from './PaperSearchCards.js'
 import styles from './PaperSearch.module.css'
 import './PaperSearch.css'
 
-const source = _.times(5, () => ({
-  title: faker.company.companyName(),
-  description: faker.company.catchPhrase(),
-  image: faker.internet.avatar(),
-  price: faker.finance.amount(0, 100, 2, '$'),
-}))
 
 const initialState = {
   loading: false,
@@ -73,7 +66,7 @@ const topicSet = new Set(props.papers ? props.papers.map(paper => paper.topic.he
         results: _.filter(props.papers, isMatch),
       })
     }, 0)
-  }, [])
+  }, [props.papers])
 
   React.useEffect(() => {
     return () => {

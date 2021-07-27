@@ -1,17 +1,13 @@
 import React, { useState, useRef } from 'react'
 import styles from './Cover.module.css'
 import ScoreMetadata from '../ScoreMetadata/ScoreMetadata.js'
-import { Label, Modal, Icon, Divider } from 'semantic-ui-react'
+import { Modal, Icon, Divider } from 'semantic-ui-react'
 
 const Cover = (props) => {
     const [open, setOpen] = useState(false)
     const abstractTextRef = useRef()
     if (!props.paperMetadata){
         return <div />
-    }
-
-    function handleTextCopy(event){
-      console.log('Copy Event', abstractTextRef.current.innerText)
     }
 
     return (

@@ -1,32 +1,8 @@
 import React from 'react';
-import HorizontalScroll from 'react-scroll-horizontal'
-import TopicCards from '../TopicCards/TopicCards.js'
-import { useQuery, gql } from '@apollo/client'
-import { Card, Loader } from 'semantic-ui-react'
 import { Link, } from 'react-router-dom'
 import styles from './FeaturedPapers.module.css'
 import './FeaturedPapers.css'
-import Pluralize from 'react-pluralize'
 import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
-
-const GET_ALL_PAPERS = gql`
-query GetAllPapers{
-  allPapers{
-    id
-    title
-    authors
-    citationMLA
-    abstract
-    annotationCount
-    createdDate
-    topic{
-      header
-      description
-      image
-    }
-  }
-}
-`
 
 function FeaturedPapers(props){
 

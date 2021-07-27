@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Message, Divider, Tab } from 'semantic-ui-react';
+import { Divider, Tab } from 'semantic-ui-react';
 
-import DeleteUserButton from '../DeleteUserButton/DeleteUserButton.js'
-import UserRolesTest from '../UserRolesTest/UserRolesTest.js'
 import styles from './ProfilePage.module.css'
 import ProfilePageAnnotations from '../ProfilePageAnnotations/ProfilePageAnnotations.js'
 import ProfileInfo from "../ProfileInfo/ProfileInfo.js"
@@ -24,7 +22,7 @@ function ProfilePage(){
         console.error("Silent Token error") // TODO:
       }
     }
-  }, [])
+  }, [getAccessTokenSilently, isAuthenticated])
 
   const panes = [
     {menuItem: "Annotations", render: ()=> <Tab.Pane>

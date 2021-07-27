@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom'
 import UserSignupForm from './UserSignupForm.js'
 import ScientistSignupForm from './ScientistSignupForm.js'

@@ -47,7 +47,10 @@ const ViewStateManager = (props) => {
             <Navbar usesPageWrapper={true} />
           </div>
 
-            <div className={styles.coverContainer}>
+            <div className={styles.coverContainer} style={{
+                background:`url(${process.env.REACT_APP_API_AUDIENCE}media/media/Roma.jpg) center center`,
+                backgroundSize: "cover"
+              }}>
                 <Cover
                   paperMetadata={paperMetadata}
                   scores = { props.scores }

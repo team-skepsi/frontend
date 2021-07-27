@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 // NAVIGATION
 import PaperSearch from '../PaperSearch/PaperSearch.js'
-import TopicCards from '../TopicCards/TopicCards.js'
 import FeaturedPapers from '../FeaturedPapers/FeaturedPapers.js'
 
 // USER PROFILES
-import WelcomeMessage from '../WelcomeMessage/WelcomeMessage.js'
-import ProfileInfo from '../ProfileInfo/ProfileInfo.js'
 
 // STYLES
 import { Divider } from 'semantic-ui-react'
@@ -17,8 +14,8 @@ import './Homepage.css'
 import Navbar from '../Navbar/Navbar.js'
 
 import TopicCardUpdated from '../TopicCardUpdated/TopicCardUpdated.js'
-import { Transition } from 'react-transition-group';
-import Fade from 'react-reveal/Fade';
+
+import { Fade } from "react-awesome-reveal";
 
 import logoGif from '../../media/final-xi.gif'
 var GifPlayer = require('react-gif-player');
@@ -45,7 +42,7 @@ function Homepage(props) {
             }}
             />
         </div>
-          <Fade duration={2400} up>
+          <Fade duration={2400} direction="up" triggerOnce={true}>
             <div className={styles.pitchTextWrapper}>
               <p className={styles.pitchText}>Towards Better Annotation</p>
             </div>

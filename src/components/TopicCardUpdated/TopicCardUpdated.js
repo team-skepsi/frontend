@@ -1,12 +1,10 @@
 import React from 'react';
 import styles from './TopicCardUpdated.module.css'
 import "./TopicCardUpdated.css"
-import { Reveal, Divider } from 'semantic-ui-react'
 import ProgressBar from './ProgressBar.js'
 import { VscAdd } from 'react-icons/vsc'
 import Pluralize from 'react-pluralize'
 import { Link } from 'react-router-dom'
-import Fade from 'react-reveal/Fade'
 
 function TopicCardUpdated(props){
   return(
@@ -60,10 +58,10 @@ function TopicCardUpdated(props){
                     </b></p>
                   </div>
                   <div className={styles.labelIconWrapper}>
-                    <h2 className={styles.largeNumber}>15</h2>
+                    <h2 className={styles.largeNumber}>{topic.annotationCount}</h2>
                     <p className={styles.metricText}>
                       <b>
-                      <Pluralize singular={'annotation'} plural={'annotations'} count={15} showCount={false} />
+                      <Pluralize singular={'annotation'} plural={'annotations'} count={topic.annotationCount} showCount={false} />
                       </b></p>
                 </div>
                 <div className={styles.labelIconWrapper}>

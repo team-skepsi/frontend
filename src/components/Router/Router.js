@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {Route, Switch} from 'react-router-dom'
 import {gql, useQuery} from "@apollo/client"
 
@@ -9,7 +9,6 @@ import SignupView from '../SignupView/SignupView.js'
 import PageManager from '../PageManager/PageManager.js'
 import ProfilePage from '../ProfilePage/ProfilePage.js'
 import Navbar from '../Navbar/Navbar.js'
-import TopicInfoPage from '../TopicInfoPage/TopicInfoPage.js'
 import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
 
 const GET_ALL_TOPIC_SLUGS = gql`
@@ -40,12 +39,21 @@ function Router() {
     )
   }
 
+  if(error || paperError){
+    console.log(error)
+    console.log(paperError)
+    return(
+      <div>
+      </div>
+    )
+  }
+
   return (
         <Switch>
             {data && data.allTopics.map((topic) =>
                 <Route key={topic.id} path={"/".concat(topic.slug)}>
                     <React.Fragment>
-                      <PaperCards/>
+                      <PaperCards />
                     </React.Fragment>
                 </Route>
             )}
@@ -59,10 +67,6 @@ function Router() {
             }
             <Route path="/homepage-test">
               <HomepageManager />
-            </Route>
-
-            <Route path="/topic-info">
-              <TopicInfoPage />
             </Route>
 
             <Route path="/playground">

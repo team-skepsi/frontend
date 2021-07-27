@@ -11,6 +11,7 @@ query AllTopicsAndPapers{
     paperCount
     slug
     image
+    annotationCount
   }
   allPapers{
     id

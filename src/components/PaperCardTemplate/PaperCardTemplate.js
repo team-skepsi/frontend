@@ -1,6 +1,8 @@
 import React from 'react';
 import './PaperCardTemplate.css'
 import styles from './PaperCardTemplate.module.css';
+import Pluralize from 'react-pluralize'
+
 
 function PaperCardTemplate(props){
   return(
@@ -26,11 +28,14 @@ function PaperCardTemplate(props){
       <div className={styles.cardExtraWrapper}>
         <p className={styles.paperStatistics}>
           <span className={styles.dot}>•</span>
-          <span className={styles.stat}>55</span> mins
+          <span className={styles.stat}>{props.paperData ? props.paperData.readingTime : 0} </span>
+            <Pluralize singular={'min'} plural={'mins'} count={props.paperData ? props.paperData.readingTime : 0} showCount={false} />
           <span className={styles.dot}>•</span>
-          <span className={styles.stat}>1500</span> views
+          <span className={styles.stat}>1500 </span>
+            <Pluralize singular={'view'} plural={'views'} count={1500} showCount={false} />
           <span className={styles.dot}>•</span>
-          <span className={styles.stat}>{props.paperData ? props.paperData.annotationCount : 0}</span> annotations
+          <span className={styles.stat}>{props.paperData ? props.paperData.annotationCount : 0} </span>
+            <Pluralize singular={'annotation'} plural={'annotations'} count={props.paperData ? props.paperData.annotationCount : 0} showCount={false} />
           <span className={styles.dot}>•</span>
         </p>
       </div>

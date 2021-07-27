@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from "./ScoreMetadata.module.css"
-import { Card, Dropdown, Divider } from 'semantic-ui-react'
+import { Dropdown, Divider } from 'semantic-ui-react'
 import { titleize } from '../../utility/StringManipulation.js'
 import { std } from 'mathjs'
 // import ReactBarChart from './ReactBarChart.tsx'
@@ -53,7 +53,7 @@ function ScoreMetadata(props){
       }
     }
     setXAxisData(scoreDistribution)
-  }, [chart])
+  }, [chart, props.scores])
 
 
 

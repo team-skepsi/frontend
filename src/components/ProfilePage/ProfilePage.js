@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Message, Divider } from 'semantic-ui-react';
+import { Divider, Tab } from 'semantic-ui-react';
 
-import DeleteUserButton from '../DeleteUserButton/DeleteUserButton.js'
-import UserRolesTest from '../UserRolesTest/UserRolesTest.js'
+import styles from './ProfilePage.module.css'
+import ProfilePageAnnotations from '../ProfilePageAnnotations/ProfilePageAnnotations.js'
+import ProfileInfo from "../ProfileInfo/ProfileInfo.js"
 
 
 function ProfilePage(){
@@ -21,7 +22,22 @@ function ProfilePage(){
         console.error("Silent Token error") // TODO:
       }
     }
-  }, [])
+  }, [getAccessTokenSilently, isAuthenticated])
+
+  const panes = [
+    {menuItem: "Annotations", render: ()=> <Tab.Pane>
+      <ProfilePageAnnotations
+        username={user["http://www.skepsi.com/username"]}
+        />
+    </Tab.Pane>},
+    {menuItem: "User Profile", render: ()=> <Tab.Pane>
+      <ProfileInfo
+        isLoading={isLoading}
+        user={user}
+        accessToken={accessToken}
+        />
+    </Tab.Pane>}
+  ]
 
   if (isLoading) {
     return <div>Loading ...</div> // TODO:
@@ -29,26 +45,17 @@ function ProfilePage(){
 
   return (
     isAuthenticated && (
-      <div>
-          <Message info size='tiny'>
-            <Message.Content>
-              <Message.Header>
-              User Information
-              </Message.Header>
-              <Message.List>
-                <Message.Item><b>Username:</b> {user["http://www.skepsi.com/username"]}</Message.Item>
-                <Message.Item><b>Email:</b> {user.email}</Message.Item>
-                <Message.Item><b>Login Count:</b> {user["http://www.skepsi.com/loginCount"]}</Message.Item>
-                <Message.Item><b>User Id:</b> {user.sub}</Message.Item>
-                <Message.Item><b>Roles:</b> {user["http://www.skepsi.com/roles"].join(',')}</Message.Item>
-                <Message.Item style={{wordWrap: 'break-word'}}><b>Access Token:</b> {accessToken}</Message.Item>
-              </Message.List>
-              <Divider />
-              <DeleteUserButton />
-            </Message.Content>
-          </Message>
-          <Divider />
-          <UserRolesTest />
+      <div className={styles.profilePageWrapper}>
+        <div className={styles.mainInfoFlexbox}>
+          <div className={styles.usernameWrapper}>
+            <h1 id={styles.username}>{user["http://www.skepsi.com/username"]}</h1>
+            <h5 id={styles.roles}><em>{user["http://www.skepsi.com/roles"].join(',')}</em></h5>
+          </div>
+          <div className={styles.flexComponent}></div>
+
+        </div>
+        <Divider/>
+      <Tab className={styles.tabs} menu={{fluid:true, vertical: true, tabular: false}} panes={panes}/>
       </div>
     )
   )

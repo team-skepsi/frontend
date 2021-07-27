@@ -4,7 +4,7 @@ export function titleize(str) {
     for (let i = 0, l = str.length; i < l; i++) {
         // Note that you can also check for all kinds of spaces  with
         // str[i].match(/\s/)
-        if (str[i] == " ") {
+        if (str[i] === " ") {
             upper = true
             newStr += str[i]
             continue

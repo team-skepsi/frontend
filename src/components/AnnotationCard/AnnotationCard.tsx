@@ -13,22 +13,22 @@ type AnnotationCardType = {
 const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
     const [open, setOpen] = useState(!props.closed)
     const {data} = props.annotation
-    const [openSections, setOpenSections] = useState(Array.isArray(data.scores)? data.scores.map(() => false): [])
+    const [openSections, setOpenSections] = useState(Array.isArray(data?.scores)? data.scores.map(() => false): [])
     const toggleSectionOpen = (index: number) => setOpenSections(current => current.map((val, i) => val === (i !== index)))
 
     return (
         <div className={`${styles.main} ${props.gray? styles.gray : null}`}>
             <div className={styles.header} onClick={() => setOpen(current => !current)}>
-                <div className={styles.author}>{props.annotation.data.author ? props.annotation.data.author.username : ""}</div>
-                <div className={styles.date}>{props.annotation.data.date ? props.annotation.data.date : "No Date Provided"}</div>
+                <div className={styles.author}>{props.annotation.data ? props.annotation.data.author ? props.annotation.data.author.username : "" : ""}</div>
+                <div className={styles.date}>{props.annotation.data ? props.annotation.data.date : "No Date Provided"}</div>
             </div>
 
             {open &&
                 <>
-                    <div className={styles.content}>{data.content}</div>
+                    <div className={styles.content}>{data?.content}</div>
 
                     <div className={styles.scoreBlockContainer}>
-                        {Array.isArray(props.annotation.data.scores) &&
+                        {Array.isArray(props.annotation.data?.scores) &&
                             props.annotation.data.scores.map((score, sectionIndex) => (
                                 <div key={sectionIndex} className={`${styles.scoreBlock}`}>
                                     <div

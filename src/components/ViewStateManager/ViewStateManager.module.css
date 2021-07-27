@@ -1,4 +1,3 @@
-
 .main {
     position: fixed;
     top: 0;
@@ -9,18 +8,15 @@
     overflow: auto;
 }
 
-.menuStandin {
-    width: 100%;
-    top: 0;
-    left: 0;
-    height: 60px;
+.main::-webkit-scrollbar {
+  display: none;
 }
 
 .coverContainer {
     width: 100%;
     height: 80%;
-    border: black solid 2px;
-    background-image: url("https://skepsi-api.herokuapp.com/static/bluetest.jpeg");
+    border-bottom: rgb(129, 128, 128, 0.5) 5px solid;
+    background-image: url("http://127.0.0.1:8000/static/covers/Roma.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
     background-color: white;
@@ -31,11 +27,14 @@
 .mainContainer {
     display: flex;
     align-items: stretch;
+    border: rgb(129, 128, 128, 0.5) 5px solid;
+    border-top: none;
 }
 
 .paperContainer {
     flex: 1 0;
     padding: 0 20px;
+    padding-right: 20px;
     line-height: 1.5;
     font-family: "Computer Modern";
 }
@@ -68,4 +67,6 @@
 
 .annotationSidebarContainer{
     padding-left: 50px;
+    padding-right: 10px;
+    padding-bottom: 20px;
 }

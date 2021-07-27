@@ -1,0 +1,103 @@
+
+
+.navbarWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+}
+
+.topicHeaderWrapper {
+  width: 100vw;
+  height: 300px;
+  position: relative;
+  right: 100px;
+  bottom: 100px;
+  padding: 20px;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  box-shadow: 0px 3px 0px 0px rgba(0, 0, 0, 0.1)
+}
+
+.topicHeader {
+  padding-left: 20px;
+}
+
+.topicHeaderText {
+  font-size: 80px;
+  font-family: "Roboto";
+  font-weight: 800px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.cardGroupPositionManager {
+  position: absolute;
+  left: 0px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.cardGroupWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100vw;
+  align-items: center;
+  margin-bottom: 100px;
+}
+
+.cardGroup {
+  display: flex;
+  margin: -.875em;
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: center;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.paperCardsWrapper {
+  position: relative;
+  bottom: 70px;
+}
+
+.descriptionBox {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  height: fit-content;
+  max-height: 240px;
+  overflow: auto;
+  padding: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin: 0px;
+}
+
+.topicDescription {
+  font-family: 'Roboto';
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.descriptionBoxUnderline {
+  border-bottom: 3px solid rgba(0,0,0,0.3);
+  width: 30%;
+}
+
+.underlineWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.toolBar {
+  display: flex;
+  margin-bottom: 20px;
+  /* margin-top: 30px; */
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.toolBarFlexFill {
+  flex: 1
+}

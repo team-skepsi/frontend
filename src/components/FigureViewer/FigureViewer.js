@@ -1,12 +1,11 @@
-import React, { useEffect, useState, Suspense } from 'react';
-import { Image, Card, Modal, Button, Label, Icon, Loader } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Image, Card, Modal, Label, Icon, Loader } from 'semantic-ui-react';
 import styles from './FigureViewer.module.css'
 import { Img } from 'react-image'
 
 function FigureViewer(props){
   const [open, setOpen] = useState(false)
   const [activeImage, setActiveImage] = useState("")
-  const [loaded, setLoaded] = useState(false)
 
   function handleExpandClick(data){
     setActiveImage(data.target.nextSibling.id)

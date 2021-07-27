@@ -1,0 +1,35 @@
+.profilePageWrapper {
+  width: 100%;
+  height: 400%;
+  position: relative;
+}
+
+.mainInfoFlexbox {
+  display: flex;
+}
+
+.tabs{
+  width: 100%;
+  font-family: "Roboto";
+}
+
+.tabName {
+  font-family: "Roboto";
+  font-weight: bold;
+}
+
+#username {
+  font-family: "Roboto";
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+#roles {
+  margin-top: 0px;
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.flexComponent {
+  flex: 1
+}

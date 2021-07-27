@@ -1,0 +1,59 @@
+.resultsWrapper {
+  width: 100%;
+  height: fit-content;
+}
+
+.columnFlexWrapper {
+  display: flex;
+}
+
+.resultsMetadata {
+  flex-shrink: 0;
+  align-self: center;
+  justify-content: center;
+  margin-right: 20px;
+  word-wrap: break-word;
+  font-size: 12px;
+  width: 90px;
+}
+
+#topicLabel {
+  border: 1px solid lightgray !important;
+}
+
+.resultsMainBody {
+  marginLeft: 10px;
+  overflow: visible;
+  word-wrap: break-word;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "Roboto" !important;
+  margin-bottom: 1px;
+  color: #222222;
+}
+
+.authors {
+  font-size: 10px;
+  font-style: italic;
+  font-family: "Roboto";
+  margin-top: 1px;
+  color: gray;
+
+}
+
+.topic {
+  font-size: 10px;
+  font-style: italic;
+  font-family: "Roboto"
+}
+
+.flexWrapper {
+  display: flex;
+}
+
+.flexComponent {
+  flex: 1
+}

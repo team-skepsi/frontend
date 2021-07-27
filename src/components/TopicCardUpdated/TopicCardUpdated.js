@@ -13,7 +13,6 @@ function TopicCardUpdated(props){
     <div className={styles.cardGroup}>
 
       {props.topics.map((topic, index)=>
-        <Fade up delay={2000+(index*100)} duration={1000} fraction={0.0}>
           <Link to={topic.slug} key={topic.id}>
             <div className={styles.topicCard}>
               <div className={styles.imageWrapper} style={{
@@ -90,7 +89,6 @@ function TopicCardUpdated(props){
               </div>
 
             </Link>
-          </Fade>
 
       )}
       </div>

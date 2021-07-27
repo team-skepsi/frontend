@@ -10,6 +10,7 @@ import PageManager from '../PageManager/PageManager.js'
 import ProfilePage from '../ProfilePage/ProfilePage.js'
 import Navbar from '../Navbar/Navbar.js'
 import TopicInfoPage from '../TopicInfoPage/TopicInfoPage.js'
+import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
 
 const GET_ALL_TOPIC_SLUGS = gql`
     query{
@@ -62,6 +63,10 @@ function Router() {
 
             <Route path="/topic-info">
               <TopicInfoPage />
+            </Route>
+
+            <Route path="/playground">
+              <PaperCardTemplate />
             </Route>
 
             <Route path='/user-info'>

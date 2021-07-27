@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useQuery, gql, Reveal } from '@apollo/client'
 import styles from './PaperCards.module.css'
 import Navbar from '../Navbar/Navbar.js'
+import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
 
 const GET_PAPERS_BY_TOPIC = gql`
 query getPapersByTopic($slug:String!){
@@ -12,6 +13,9 @@ query getPapersByTopic($slug:String!){
     title
     authors
     citationMLA
+    abstract
+    annotationCount
+    createdDate
     topic{
       header
       description
@@ -20,9 +24,6 @@ query getPapersByTopic($slug:String!){
   }
 }
 `
-
-const colors = ['green', 'teal', 'blue', 'violet', 'purple', 'pink', 'brown',
-'gray', 'red', 'orange', 'yellow']
 
 function PaperCards(){
   const [tokenCard, setTokenCard] = useState(undefined)
@@ -51,7 +52,7 @@ function PaperCards(){
 
   if(data && tokenCard){
     return(
-      <React.Fragment>
+      <div style={{margin: 0, height: 0}}>
         <div className={styles.navbarWrapper}>
           <Navbar usesPageWrapper={true} />
         </div>
@@ -68,39 +69,28 @@ function PaperCards(){
               {tokenCard.topic.description}
             </p>
           </div>
+        </div>
           <div className={styles.toolBar}>
             <div className={styles.toolBarFlexFill} />
             <div className={styles.toolbarIconsWrapper}>
             </div>
           </div>
-          <div>
+          <div className={styles.cardGroupPositionManager}>
             <div className={styles.cardGroupWrapper}>
               <div className={styles.cardGroup}>
                 {data.papersByTopic.map((card, index) =>
                   <Link to= {`/${card.id}`} key={card.id}>
-                  <Card key={index}
-                        color= {data.papersByTopic.length > colors.length ? "" : colors[index]}
-                        style={{margin: '15px'}}
-                        style={{margin: '15px', padding: "7px", flex: 1, height: '200px', width: "250px"}}
-                        >
-                    <Card.Content>
-                      <Card.Header>
-                        {card.title}
-                      </Card.Header>
-                      <Card.Meta>
-                        {card.authors}
-                      </Card.Meta>
-                    </Card.Content>
-                    <Card.Content extra style={{fontSize: '10px'}}>
-                    </Card.Content>
-                  </Card>
+                    <PaperCardTemplate
+                      paperData={card}
+                      />
                   </Link>
                 )}
               </div>
             </div>
           </div>
-      </div>
-    </React.Fragment>
+
+
+    </div>
     )
   }
 }
@@ -111,3 +101,22 @@ export default PaperCards
 // <div className={styles.underlineWrapper}>
 //   <div className={styles.descriptionBoxUnderline}/>
 // </div>
+
+//
+// <Card key={index}
+//       color= {data.papersByTopic.length > colors.length ? "" : colors[index]}
+//       style={{margin: '15px'}}
+//       style={{margin: '15px', padding: "7px", flex: 1, height: '200px', width: "250px"}}
+//       >
+//   <Card.Content>
+//     <Card.Header>
+//       {card.title}
+//     </Card.Header>
+//     <Card.Meta>
+//       {card.authors}
+//     </Card.Meta>
+//   </Card.Content>
+//   <Card.Content extra style={{fontSize: '10px'}}>
+//   </Card.Content>
+// </Card>
+//

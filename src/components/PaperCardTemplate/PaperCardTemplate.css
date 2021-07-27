@@ -1,0 +1,8 @@
+body ::-webkit-scrollbar {
+  width: 2px;
+  height:
+}
+
+body ::-webkit-scrollbar-thumb {
+  background: rgba(219, 219, 218, 0.8)
+}

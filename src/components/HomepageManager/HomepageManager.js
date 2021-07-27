@@ -16,11 +16,15 @@ query AllTopicsAndPapers{
     id
     title
     authors
+    citationMLA
+    abstract
+    annotationCount
+    createdDate
     topic{
       header
-      slug
+      description
+      image
     }
-    annotationCount
   }
 }
 `

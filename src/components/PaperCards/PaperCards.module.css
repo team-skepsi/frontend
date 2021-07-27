@@ -1,9 +1,10 @@
+
+
 .navbarWrapper {
-  height: 0;
-  position: relative;
-  right: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100vw;
-  bottom: 100px;
 }
 
 .topicHeaderWrapper {
@@ -31,31 +32,47 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
-.paperCardsWrapper {
-  position: relative;
-  bottom: 70px;
+.cardGroupPositionManager {
+  position: absolute;
+  left: 0px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
 }
 
 .cardGroupWrapper {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  box-sizing: inherit;
+  justify-content: center;
+  width: 100vw;
+  align-items: center;
+  margin-bottom: 100px;
 }
 
 .cardGroup {
   display: flex;
   margin: -.875em;
   flex-wrap: wrap;
-  width: 90%;
+  width: 100%;
+  align-items: center;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.paperCardsWrapper {
+  position: relative;
+  bottom: 70px;
 }
 
 .descriptionBox {
-  /* border: 1px solid rgba(0, 0, 0, 0.2); */
+  border: 1px solid rgba(0, 0, 0, 0.2);
   height: fit-content;
+  max-height: 240px;
+  overflow: auto;
   padding: 20px;
   padding-top: 30px;
   padding-bottom: 30px;
+  margin: 0px;
 }
 
 .topicDescription {
@@ -77,7 +94,7 @@
 .toolBar {
   display: flex;
   margin-bottom: 20px;
-  margin-top: 30px;
+  /* margin-top: 30px; */
   border-bottom: 2px solid rgba(0, 0, 0, 0.2);
 }
 

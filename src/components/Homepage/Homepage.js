@@ -65,14 +65,10 @@ function Homepage(props) {
         papers={props.papers}
         />
       <Divider />
-      <TopicCardUpdated
-        topics={props.topics}
-        />
     </div>
     <PaperSearch
       papers={props.papers}
       />
-    <Divider />
     </div>
     </div>
   )

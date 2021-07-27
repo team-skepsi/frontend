@@ -53,13 +53,13 @@ function Homepage(props) {
         </div>
       </div>
     <div className={styles.homepageFeed}>
-      <Divider />
       <div className={styles.topicsWrapper}>
         <TopicCardUpdated
           topics={props.topics}
           />
       </div>
       <Divider />
+      <div className={styles.marginFeed}>
       <h2 style={{fontFamily: "Roboto"}}>Featured Papers</h2>
       <FeaturedPapers
         papers={props.papers}
@@ -73,6 +73,7 @@ function Homepage(props) {
       papers={props.papers}
       />
     <Divider />
+    </div>
     </div>
   )
 }

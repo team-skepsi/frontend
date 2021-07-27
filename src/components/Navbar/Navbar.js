@@ -10,7 +10,6 @@ import PaperSearch from '../PaperSearch/PaperSearch.js'
 import styles from './Navbar.module.css'
 import './Navbar.css'
 import { useAuth0 } from "@auth0/auth0-react";
-
 import Fade from 'react-reveal/Fade';
 
 

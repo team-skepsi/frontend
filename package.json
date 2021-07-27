@@ -115,7 +115,13 @@
     "@storybook/preset-create-react-app": "^3.1.7",
     "@storybook/react": "^6.3.1",
     "@types/react-test-renderer": "^17.0.1",
+    "identity-obj-proxy": "^3.0.0",
     "react-test-renderer": "^17.0.2",
     "ts-jest": "^27.0.3"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    }
   }
 }

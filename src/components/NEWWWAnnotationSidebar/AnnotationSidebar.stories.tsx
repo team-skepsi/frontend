@@ -13,32 +13,33 @@ export const Example = () => (
     <AnnotationSidebar annotations={
         Set([
             Annotation({
-                _id: 0,
+                _id: 1,
                 data: {
-                    author: "Leo Ware",
+                    author: {username: "Leo Ware"},
                     date: "1971-27-10",
                     content: "hello",
                     children: [],
                 }
             }),
             Annotation({
-                _id: 1,
+                _id: 2,
                 data: {
-                    author: "Finn Macken",
+                    author: {username: "Finn Macken"},
                     date: "1971-11-1",
                     content: "world",
                     children: [],
                 }
             }),
             Annotation({
-                _id: 2,
+                _id: 3,
                 data: {
-                    author: "Declan Ware",
+                    author: {username: "Declan Ware"},
                     date: "1971-12-11",
                     content: "foo",
-                    children: [0, 1],
+                    children: [1, 2],
                 }
             }),
+            Annotation({_id: 0, _user: true})
         ])
     } />
 )

@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useRef, useState} from "react"
 import {DraggableCore} from "react-draggable"
 import {Set} from "immutable"
 import {Annotation} from "../types"
@@ -7,7 +7,7 @@ import {weaveMDAnnotations} from "../processing"
 import ContentViewer from "../ContentViewer/ContentViewer"
 import Cover from "../Cover/Cover.js"
 import TooltipRefRelative from "../Tooltip/TooltipRefRelative"
-import AnnotationSidebar from "../AnnotationSidebar/AnnotationSidebar"
+import AnnotationSidebar from "../NEWWWAnnotationSidebar/AnnotationSidebar"
 
 import styles from './ViewStateManager.module.css'
 
@@ -40,17 +40,19 @@ const ViewStateManager = (props) => {
     const [root, annotationsWovenRelated] = weaveMDAnnotations(md, userSelection? relatedToText.add(userSelection): relatedToText)
     const annotations = annotationsWovenRelated.concat(notRelatedToText)
 
+    const draggableRef = useRef(null)
+
     return (
         <div className={styles.main}>
 
             <div className={styles.menuStandin}/>
 
-            <div className={styles.coverContainer}>
-                <Cover
-                  paperMetadata={paperMetadata}
-                  scores = { props.scores }
-                  />
-            </div>
+            {/*<div className={styles.coverContainer}>*/}
+            {/*    <Cover*/}
+            {/*      paperMetadata={paperMetadata}*/}
+            {/*      scores = { props.scores }*/}
+            {/*      />*/}
+            {/*</div>*/}
 
             <div className={styles.mainContainer}>
 
@@ -70,8 +72,10 @@ const ViewStateManager = (props) => {
                     axis={"x"}
                     handle={".Knob-highlight-cursor"}
                     // adjustment of half the width of the slider = 21px
-                    onDrag={e => setFeatureBarWidth(window.innerWidth - e.clientX + 21)}>
+                    onDrag={e => setFeatureBarWidth(window.innerWidth - e.clientX + 21)}
+                    nodeRef={draggableRef}>
                     <div
+                        ref={draggableRef}
                         className={styles.tooltipContainer}
                         style={{flexBasis: featureBarWidth}}>
                         <div className={styles.tooltipVertical}/>

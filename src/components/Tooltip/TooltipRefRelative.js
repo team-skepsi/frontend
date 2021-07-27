@@ -6,15 +6,22 @@ const TooltipRefRelative = (props) => {
     const ref = useRef(null)
 
     return (
-        <div className={"TooltipRefRelative"} id={"TooltipRefRelative"} ref={ref}>
+        <div id={"TooltipRefRelative"} ref={ref}>
             <Tooltip
                 top={() => {
-                    const thisOne = document.getElementById("TooltipRefRelative")
-                    const top = (
-                        (props.activeNodeRef? props.activeNodeRef.current.getBoundingClientRect().top: NaN) -
-                        (thisOne? thisOne.getBoundingClientRect().top : NaN)
-                    )
-                    return Math.max(top || 0, 45)
+                    // const thisOne = document.getElementById("TooltipRefRelative")
+                    try {
+                        const top = (
+                            (props.activeNodeRef? props.activeNodeRef.current.getBoundingClientRect().top: NaN) -
+                            // (thisOne? thisOne.getBoundingClientRect().top : NaN)
+                            (ref.current? ref.current.getBoundingClientRect().top: NaN)
+                        )
+                        return Math.max(top || 0, 45)
+                    } catch (e) {
+                        console.log(e)
+                        return 45
+                    }
+
                 }}
                 {...props}
             />

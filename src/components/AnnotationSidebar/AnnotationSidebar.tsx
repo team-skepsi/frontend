@@ -34,7 +34,7 @@ export const annotationsToTreesOfAnnotationCards = (annotations: Set<AnnotationT
 
     // takes a top level `AnnotationCard` and recursively assembles the tree of replies beneath (returning a new card)
     const attachReplies = (a: AnnotationCardType): AnnotationCardType => {
-        const childrenIds = a.id === undefined? undefined: idToAnnotation.get(a.id)?.data.children
+        const childrenIds = a.id === undefined ? undefined: idToAnnotation.get(a.id)?.data.children
         return {
             ...a,
             replies: Array.isArray(childrenIds)

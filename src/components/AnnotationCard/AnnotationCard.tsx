@@ -3,6 +3,36 @@ import MDEditor from "../MDEditor/MDEditor"
 import ContentBlock from "../ContentBlock/ContentBlock"
 import {mdToNode} from "../processing"
 import styles from "./AnnotationCard.module.css"
+import { gql, useMutation } from '@apollo/client'
+
+const UPDATE_ANNOTATION = gql`
+  mutation UpdateAnnotation($author: String, $quote: String, $content:String, $id: ID){
+    updateAnnotation(annotationData:{author:$author, quote:$quote, content:$content, id:$id}){
+    	annotation{
+      	id
+        author{
+          username
+        }
+        quote
+        content
+      }
+    }
+  }
+`
+const CREATE_ANNOTATION = gql`
+  mutation CreateAnnotation($author: String, $quote: String, $content:String, $id: ID){
+    createAnnotation(annotationData:{author:$author, quote:$quote, content:$content, id:$id}){
+    	annotation{
+      	id
+        author{
+          username
+        }
+        quote
+        content
+      }
+    }
+  }
+`
 
 type SometimesEditableType = {
     text: string
@@ -43,6 +73,17 @@ export type AnnotationCardType = {
 }
 
 const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
+    const [updateAnnotation,
+      {data: updateAnnotationData,
+       error: updateAnnotationError,
+       loading: updateAnnotationLoading
+      }] = useMutation(UPDATE_ANNOTATION)
+
+    const [createAnnotation,
+      { data: createAnnotationData,
+        loading: createAnnotationLoading,
+        error: createAnnotationError
+      }] = useMutation(CREATE_ANNOTATION)
 
     const categoryOptions = [
         '*no category*',
@@ -107,6 +148,18 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
         setState({...state, beingEdited: false})
         if (isEdited()){
             console.log("saving to backend: " + JSON.stringify(state))
+            console.log("FINN TEST", state.id === NaN)
+            if(state.id === NaN){
+              console.log("This is a new annotation")
+            }
+            else{
+              console.log("Updating an existing annotation")
+              updateAnnotation({variables : {
+                id: state.id,
+                quote: "",
+                content: state.text
+              }})
+            }
         } else {
             console.log("nothing to save")
         }

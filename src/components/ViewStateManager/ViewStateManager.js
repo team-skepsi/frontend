@@ -9,7 +9,7 @@ import * as styles from "./ViewStateManager.module.css"
 const ViewStateManager = (props) => {
     const {md, ...paperMetadata} = props.document
     return (
-        <div>
+        <div className={styles.main}>
             <div style={{height: 0}}>
                 <Navbar usesPageWrapper={true}/>
             </div>

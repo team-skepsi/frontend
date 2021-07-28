@@ -1,54 +1,36 @@
 
 .main {
-    padding: 5px 0 5px 5px;
-    min-width: 225px;
-    background-color: white;
     border: 1px solid black;
-}
-
-.gray {
-    background-color: grey;
+    min-width: 250px;
+    position: relative;
+    z-index: 5;
 }
 
 .header {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin: 3px 0;
-}
-
-.author {
     font-weight: bold;
 }
 
-.date {}
-
-.content {
-    margin: 2px 0;
+.headerSpacer {
+    flex: 1;
 }
 
-.scoreBlockContainer {
+.scoreBlockHeader {
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: start;
+    flex-direction: row;
+    font-style: italic;
 }
 
-.scoreBlock {
-    border-top: 1px solid black;
-    margin: 1px 0;
+.scoreBlockList {
+    margin: 0;
 }
 
-.scoreBlockHeaderOpen {
-    background-color: lightgray;
-}
-
-.scoreBlockContent {
-    margin-left: 10px;
+.linkish {
+    color: blue;
+    text-decoration: underline;
 }
 
 .childrenContainer {
-    margin-top: 5px;
-    margin-left: 10px;
+    margin-left: 20px;
 }

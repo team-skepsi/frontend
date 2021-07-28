@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import MDEditor from "../MDEditor/MDEditor"
 import ContentBlock from "../ContentBlock/ContentBlock"
 import {mdToNode} from "../processing"
@@ -36,7 +36,7 @@ const CREATE_ANNOTATION = gql`
 
 const UPDATE_SCORE = gql`
   mutation UpdateScore($scoreId: ID!, $explanation: String, $field:String, $score: String){
-    updateScore(scoreId:$scoreId, explanation:$explanation, field: $field, score:$score){
+    updateScore(scoreId:$scoreId, explanation: $explanation, field: $field, score:$score){
       score{
         id
       }
@@ -98,7 +98,7 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
     const [updateScore, {
       data: updateScoreData,
       loading: updateScoreLoading,
-      error: UpdateScoreError
+      error: updateScoreError
     }] = useMutation(UPDATE_SCORE)
 
     const categoryOptions = [
@@ -108,6 +108,10 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
         'stuff',
         'mumble',
     ]
+
+    useEffect(()=>{
+      console.log('ERROR!', updateScoreError)
+    }, [updateScoreError])
 
     const [state, setState] = useState({
         id: props.id || NaN,
@@ -164,8 +168,8 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
         setState({...state, beingEdited: false})
         if (isEdited()){
             console.log("saving to backend:", state)
-            console.log("FINN TEST", state.id === NaN)
-            if(state.id === NaN){
+            console.log("FINN TEST", typeof state.id)
+            if(Number.isNaN(state.id)){
               console.log("This is a new annotation")
             }
             else{
@@ -178,12 +182,13 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
             }
             for(let score of state.scoreBlocks){
               if(score.id){
-                updateScore({variables: {
-                  scoreId: score.id,
-                  explanation: score.text,
-                  field: score.category,
-                  score: score.score,
-                }})
+                // updateScore({variables: {
+                //   scoreId: score.id,
+                //   explanation: score.text,
+                //   field: score.category,
+                //   score: score.score,
+                // }})
+                console.log("SCORE STUFF")
               }
               else{
                 console.log("New score")

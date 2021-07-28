@@ -9,7 +9,7 @@ import './ScoreMetadata.css'
 
 function ScoreMetadata(props){
 
-  const fieldSet = new Set(props.scores.map(score => score.field))
+  const fieldSet = new Set(props.scores ? props.scores.map(score => score.field) : {})
   const fieldArray = Array.from(fieldSet)
   const [chart, setChart] = useState(titleize(fieldArray[0]))
   const [xAxisData, setXAxisData] = useState()
@@ -21,6 +21,7 @@ function ScoreMetadata(props){
 
   // this is an immediately invoked function expression (IIFE)
   const calculateMetadata = (function(){
+    if(props.scores){
       for(let fieldName of fieldArray){
         console.log(typeof fieldName)
         name = fieldName
@@ -42,7 +43,12 @@ function ScoreMetadata(props){
     }
 
     return scoreArray
-  })()
+  }
+  else{
+    return null
+  }
+}
+)()
 
   // CREATING HISTOGRAM DATA
   useEffect(()=>{

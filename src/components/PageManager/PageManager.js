@@ -75,7 +75,7 @@ function PageManager(){
   const { data: paperAndAnnotationData,
           error: networkRequestError,
           loading } = useQuery(GET_PAPER_AND_ANNOTATION_DATA, {
-    variables: { "paperId": 1}
+    variables: { "paperId": location.pathname.replace('/', '')}
   })
 
 //DEBUGGING LOGS

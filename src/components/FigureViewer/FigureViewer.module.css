@@ -1,7 +1,7 @@
 .figureWrapper {
   max-height: 450px;
   overflow-y: auto;
-  width: 300px;
+  width: 25vw;
 }
 
 .figureCard {

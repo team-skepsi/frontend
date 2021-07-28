@@ -1,12 +1,12 @@
 import React from "react"
-import ViewStateManager from "./ViewStateManager"
+import PaperViewer from "./PaperViewer"
 import TexProvider from "../Tex/TexProvider"
 
 import "../../App.css"
 
 export default {
-    title: "Page/ViewStateManager",
-    component: ViewStateManager,
+    title: "Page/PaperViewer",
+    component: PaperViewer,
 }
 
 const md = `
@@ -32,7 +32,7 @@ The manner in which the logic component is used to solve problems constitutes th
 
 export const Example = () => (
     <TexProvider>
-        <ViewStateManager
+        <PaperViewer
             document={{
                 md: md,
                 title: "Algorithm = Logic + Control",

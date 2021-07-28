@@ -34,6 +34,16 @@ const CREATE_ANNOTATION = gql`
   }
 `
 
+const UPDATE_SCORE = gql`
+  mutation UpdateScore($scoreId: ID!, $explanation: String, $field:String, $score: String){
+    updateScore(scoreId:$scoreId, explanation:$explanation, field: $field, score:$score){
+      score{
+        id
+      }
+    }
+  }
+`
+
 type SometimesEditableType = {
     text: string
     editable: boolean
@@ -84,6 +94,12 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
         loading: createAnnotationLoading,
         error: createAnnotationError
       }] = useMutation(CREATE_ANNOTATION)
+
+    const [updateScore, {
+      data: updateScoreData,
+      loading: updateScoreLoading,
+      error: UpdateScoreError
+    }] = useMutation(UPDATE_SCORE)
 
     const categoryOptions = [
         '*no category*',
@@ -147,7 +163,7 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
     const onSave = () => {
         setState({...state, beingEdited: false})
         if (isEdited()){
-            console.log("saving to backend: " + JSON.stringify(state))
+            console.log("saving to backend:", state)
             console.log("FINN TEST", state.id === NaN)
             if(state.id === NaN){
               console.log("This is a new annotation")
@@ -159,6 +175,19 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
                 quote: "",
                 content: state.text
               }})
+            }
+            for(let score of state.scoreBlocks){
+              if(score.id){
+                updateScore({variables: {
+                  scoreId: score.id,
+                  explanation: score.text,
+                  field: score.category,
+                  score: score.score,
+                }})
+              }
+              else{
+                console.log("New score")
+              }
             }
         } else {
             console.log("nothing to save")

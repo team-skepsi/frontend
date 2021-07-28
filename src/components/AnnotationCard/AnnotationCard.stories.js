@@ -1,16 +1,18 @@
 import React from "react"
 import AnnotationCard from "./AnnotationCard"
+import {formatDate} from "../functions"
 
 export default {
-    title: "toy/NEWWWAnnotationCard",
+    title: "Annotations/AnnotationCard",
     component: AnnotationCard,
 }
 
 export const Example = () => {
     const props = {
-        editable: false,
+        userCouldEdit: true,
+        beingEdited: false,
         author: "Finn Macken",
-        date: "11/1/2019",
+        date: formatDate(new Date(Date.now())),
         text: "hi im a good point",
         scoreBlocks: [
             {
@@ -19,7 +21,7 @@ export const Example = () => {
                 text: "100% agree!"
             },
             {
-                category: "importance",
+                category: "stuff",
                 score: 6,
                 text: "pretty obvious"
             }

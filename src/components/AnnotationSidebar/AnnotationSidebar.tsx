@@ -1,19 +1,88 @@
-import React from "react"
-import {Set, Map, List, RecordOf, Record} from "immutable"
-import {Annotation, AnnotationType} from "../types"
-import AnnotationGroup from "../AnnotationGroup/AnnotationGroup"
+import React, {useState} from "react"
+import {List, Set, Map} from "immutable"
+import AnnotationCard, {AnnotationCardType} from "../AnnotationCard/AnnotationCard"
+import {AnnotationType} from "../types"
+import {formatDate} from "../functions"
 
-export type AnnotationTreeType = {
-    depth: number,
-    annotation: AnnotationType,
-    children: Set<RecordOf<AnnotationTreeType>>,
+const annotationToAnnotationCard = (a: AnnotationType): AnnotationCardType => ({
+    id: a._id,
+    activeAnnotation: a._user,
+    author: a.data.author?.username || a._user? "me": "???",
+    date: a.data.date || formatDate(new Date(Date.now())),
+    text: a.data.content || "",
+    scoreBlocks: a.data.scores
+        ? a.data.scores.map(({score, explanation, category}: {score: number, explanation: string, category: string}) =>
+            ({score, category, text: explanation}))
+        : [],
+    userCouldEdit: true,
+    beingEdited: a._user,
+})
+
+// takes a `Set` of `Annotation`s and constructs a `List` of `AnnotationCard` trees
+export const annotationsToTreesOfAnnotationCards = (annotations: Set<AnnotationType>) => {
+
+    const annotationsList = List(annotations)
+        // .filter(a => a._user)
+        .sort((a, b) => (a.start - b.start) || (a._id - b._id))
+
+    const idToAnnotation = Map(annotationsList.map(a => a._id).zip(annotationsList))
+    const idsOfAnnotationsWhichAreChildren = annotationsList.reduce((current, next) =>
+        current.concat(next.data.children || Set()), Set())
+    const annotationCardsNotChildren = annotationsList
+        .filter(a => !idsOfAnnotationsWhichAreChildren.has(a._id))
+        .map(annotationToAnnotationCard)
+
+    // takes a top level `AnnotationCard` and recursively assembles the tree of replies beneath (returning a new card)
+    const attachReplies = (a: AnnotationCardType): AnnotationCardType => {
+        const childrenIds = a.id === undefined? undefined: idToAnnotation.get(a.id)?.data.children
+        return {
+            ...a,
+            replies: Array.isArray(childrenIds)
+                ? (childrenIds
+                    .map(i => idToAnnotation.get(i), undefined)
+                    .filter((a: AnnotationType | undefined) => a !== undefined) as AnnotationType[])
+                    .map(annotationToAnnotationCard)
+                    .map(attachReplies) // recursive construction of subtrees
+                : []
+        }
+    }
+
+    return annotationCardsNotChildren.map(attachReplies)
 }
 
-export const AnnotationTree = Record({
-    depth: 0,
-    annotation: Annotation(),
-    children: Set(),
-} as AnnotationTreeType)
+type ReplyType = {
+    parent: number
+    card: AnnotationCardType
+}
+
+// takes a `List` of replies and a tree of `AnnotationCard`s and attaches the replies to the relevant cards
+const overlayReplies = (tree: AnnotationCardType, replies: List<ReplyType>): AnnotationCardType => {
+
+    const parentIdToCards = replies.reduce((current, next) => (
+        current.set(next.parent, current.get(next.parent, List<AnnotationCardType>()).push(next.card))
+    ), Map<number, List<AnnotationCardType>>())
+
+    const _overlay = (tree: AnnotationCardType): AnnotationCardType => ({
+        ...tree,
+        replies: [
+            ...(tree.replies || []).map(_overlay),
+            ...(tree.id === undefined || isNaN(tree.id)? []:
+                Array.from(parentIdToCards.get(tree.id, [])))
+        ]
+    })
+    return _overlay(tree)
+}
+
+// recursively & immutably sets the `onReply` value of an AnnotationCard tree using the provided `createReply` callback
+const overlayReplyCreationCallbacks = (createReply: (id: number) => void, a: AnnotationCardType): AnnotationCardType => ({
+    ...a,
+    onReply: () => (
+        typeof a.id === "number" &&
+        !isNaN(a.id) &&
+        createReply(a.id)
+    ),
+    replies: a.replies && a.replies.map(a => overlayReplyCreationCallbacks(createReply, a)),
+})
 
 type AnnotationSidebarType = {
     annotations: Set<AnnotationType>
@@ -21,36 +90,28 @@ type AnnotationSidebarType = {
 
 const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
 
-    const annotationsList = List(props.annotations).sort((a, b) => (
-        (a.start - b.start) || (a._id - b._id)
-    ))
+    const [replies, setReplies] = useState(List<ReplyType>())
 
-    const idToAnnotation = Map(annotationsList.map(a => a._id).zip(annotationsList))
-
-    const idToChildren = Map(
-        annotationsList.map(a => a._id).zip(
-            annotationsList
-                .map(a => a.data.children)
-                .map(children => Array.isArray(children)? Set(children): Set())
-                .map(children => children.map(childId => idToAnnotation.get(childId)).filter(x => x))
-        )
-    ) as Map<number, Set<AnnotationType>>
-
-    const idsOfAnnotationsWhichAreChildren = annotationsList
-        .reduce((current, next) => current.concat(next.data.children || []), Set())
-
-    const makeAnnotationTree = (annotation: AnnotationType, depth?: number): RecordOf<AnnotationTreeType> => AnnotationTree({
-        depth: depth || 0,
-        annotation: annotation,
-        children: idToChildren.get(annotation._id, Set<AnnotationType>()).map((annotation: AnnotationType) => makeAnnotationTree(annotation, (depth || 0) + 1)),
-    })
+    const createReply = (parentId: number) => {
+        setReplies(replies => replies.push({
+            parent: parentId,
+            card: {
+                author: "me",
+                date: formatDate(new Date(Date.now())),
+                beingEdited: true,
+                userCouldEdit: true,
+                activeReply: true,
+            }
+        }))
+    }
 
     return (
         <div className={"AnnotationSidebar"}>
-            {annotationsList
-                .filter(a => !idsOfAnnotationsWhichAreChildren.has(a._id))
-                .map(a => makeAnnotationTree(a))
-                .map(tree => <AnnotationGroup key={tree.annotation._id} annotationTree={tree} />)}
+            {annotationsToTreesOfAnnotationCards(props.annotations)
+                .map(tree => overlayReplies(tree, replies))
+                .map(tree => overlayReplyCreationCallbacks(createReply, tree))
+                .map(tree => <AnnotationCard key={tree.id} {...tree} />)
+            }
         </div>
     )
 }

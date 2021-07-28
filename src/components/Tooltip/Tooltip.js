@@ -16,6 +16,8 @@ const options = [
     [<VscBook/>, ReferenceViewer],
 ]
 
+export const KNOB_DRAG_HANDLE_CLASS = "KNOB_DRAG_HANDLE"
+
 const Tooltip = (props) => {
 
     const thumbnails = options.map(x => x[0])
@@ -45,7 +47,7 @@ const Tooltip = (props) => {
                         </div>
 
                         <div className={styles.knobMain}>
-                            <div className={styles.knobHighlightCursor}>
+                            <div className={KNOB_DRAG_HANDLE_CLASS + " " + styles.knobHighlightCursor}>
                                 <div className={styles.knobHighlightCursorInner}/>
                             </div>
 

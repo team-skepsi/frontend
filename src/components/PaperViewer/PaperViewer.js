@@ -4,6 +4,7 @@ import {Set} from "immutable"
 
 import {Annotation} from "../types"
 import {weaveMDAnnotations} from "../processing"
+import {KNOB_DRAG_HANDLE_CLASS} from "../Tooltip/Tooltip"
 
 import ContentViewer from "../ContentViewer/ContentViewer"
 import TooltipRefRelative from "../Tooltip/TooltipRefRelative"
@@ -59,7 +60,7 @@ const PaperViewer = (props) => {
 
                 <DraggableCore
                     axis={"x"}
-                    handle={".Knob-highlight-cursor"}
+                    handle={"." + KNOB_DRAG_HANDLE_CLASS}
                     // adjustment of half the width of the slider = 21px
                     onDrag={e => setFeatureBarWidth(window.innerWidth - e.clientX + 21)}>
                     <div

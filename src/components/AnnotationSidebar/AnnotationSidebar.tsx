@@ -86,6 +86,8 @@ const overlayReplyCreationCallbacks = (createReply: (id: number) => void, a: Ann
 
 type AnnotationSidebarType = {
     annotations: Set<AnnotationType>
+    activeAnnotationId: number
+    setActiveAnnotationId: (id: number) => void
 }
 
 const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
@@ -105,12 +107,22 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
         }))
     }
 
+    const trees = annotationsToTreesOfAnnotationCards(props.annotations)
+    const treeRefs: List<React.Ref<HTMLDivElement>> = trees.map(() => React.createRef())
+
     return (
         <div className={"AnnotationSidebar"}>
-            {annotationsToTreesOfAnnotationCards(props.annotations)
+            {trees
                 .map(tree => overlayReplies(tree, replies))
                 .map(tree => overlayReplyCreationCallbacks(createReply, tree))
-                .map(tree => <AnnotationCard key={tree.id} {...tree} />)
+                .map((tree, i) =>
+                    <AnnotationCard
+                        nodeRef={treeRefs.get(i)}
+                        key={tree.id}
+                        active={tree.id === props.activeAnnotationId}
+                        onClick={() => props.setActiveAnnotationId(tree.id === undefined? NaN: tree.id)}
+                        {...tree} />
+                    )
             }
         </div>
     )

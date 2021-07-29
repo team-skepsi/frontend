@@ -3,46 +3,46 @@ import MDEditor from "../MDEditor/MDEditor"
 import ContentBlock from "../ContentBlock/ContentBlock"
 import {mdToNode} from "../processing"
 import styles from "./AnnotationCard.module.css"
-import { gql, useMutation } from '@apollo/client'
+// import { gql, useMutation } from '@apollo/client'
 
-const UPDATE_ANNOTATION = gql`
-  mutation UpdateAnnotation($author: String, $quote: String, $content:String, $id: ID){
-    updateAnnotation(annotationData:{author:$author, quote:$quote, content:$content, id:$id}){
-    	annotation{
-      	id
-        author{
-          username
-        }
-        quote
-        content
-      }
-    }
-  }
-`
-const CREATE_ANNOTATION = gql`
-  mutation CreateAnnotation($author: String, $quote: String, $content:String, $id: ID){
-    createAnnotation(annotationData:{author:$author, quote:$quote, content:$content, id:$id}){
-    	annotation{
-      	id
-        author{
-          username
-        }
-        quote
-        content
-      }
-    }
-  }
-`
-
-const UPDATE_SCORE = gql`
-  mutation UpdateScore($scoreId: ID!, $explanation: String, $field:String, $score: String){
-    updateScore(scoreId:$scoreId, explanation: $explanation, field: $field, score:$score){
-      score{
-        id
-      }
-    }
-  }
-`
+// const UPDATE_ANNOTATION = gql`
+//   mutation UpdateAnnotation($author: String, $quote: String, $content:String, $id: ID){
+//     updateAnnotation(annotationData:{author:$author, quote:$quote, content:$content, id:$id}){
+//     	annotation{
+//       	id
+//         author{
+//           username
+//         }
+//         quote
+//         content
+//       }
+//     }
+//   }
+// `
+// const CREATE_ANNOTATION = gql`
+//   mutation CreateAnnotation($author: String, $quote: String, $content:String, $id: ID){
+//     createAnnotation(annotationData:{author:$author, quote:$quote, content:$content, id:$id}){
+//     	annotation{
+//       	id
+//         author{
+//           username
+//         }
+//         quote
+//         content
+//       }
+//     }
+//   }
+// `
+//
+// const UPDATE_SCORE = gql`
+//   mutation UpdateScore($scoreId: ID!, $explanation: String, $field:String, $score: String){
+//     updateScore(scoreId:$scoreId, explanation: $explanation, field: $field, score:$score){
+//       score{
+//         id
+//       }
+//     }
+//   }
+// `
 
 type SometimesEditableType = {
     text: string
@@ -82,24 +82,30 @@ export type AnnotationCardType = {
     activeReply?: boolean
 }
 
-const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
-    const [updateAnnotation,
-      {data: updateAnnotationData,
-       error: updateAnnotationError,
-       loading: updateAnnotationLoading
-      }] = useMutation(UPDATE_ANNOTATION)
+type SecretRealAnnotationCardType = AnnotationCardType & {
+    nodeRef?: React.Ref<HTMLDivElement>
+    onClick?: () => void
+    active?: boolean
+}
 
-    const [createAnnotation,
-      { data: createAnnotationData,
-        loading: createAnnotationLoading,
-        error: createAnnotationError
-      }] = useMutation(CREATE_ANNOTATION)
-
-    const [updateScore, {
-      data: updateScoreData,
-      loading: updateScoreLoading,
-      error: updateScoreError
-    }] = useMutation(UPDATE_SCORE)
+const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
+    // const [updateAnnotation,
+    //   {data: updateAnnotationData,
+    //    error: updateAnnotationError,
+    //    loading: updateAnnotationLoading
+    //   }] = useMutation(UPDATE_ANNOTATION)
+    //
+    // const [createAnnotation,
+    //   { data: createAnnotationData,
+    //     loading: createAnnotationLoading,
+    //     error: createAnnotationError
+    //   }] = useMutation(CREATE_ANNOTATION)
+    //
+    // const [updateScore, {
+    //   data: updateScoreData,
+    //   loading: updateScoreLoading,
+    //   error: updateScoreError
+    // }] = useMutation(UPDATE_SCORE)
 
     const categoryOptions = [
         '*no category*',
@@ -109,9 +115,9 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
         'mumble',
     ]
 
-    useEffect(()=>{
-      console.log('ERROR!', updateScoreError)
-    }, [updateScoreError])
+    // useEffect(()=>{
+    //   console.log('ERROR!', updateScoreError)
+    // }, [updateScoreError])
 
     const [state, setState] = useState({
         id: props.id || NaN,
@@ -135,6 +141,7 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
     )
     const toggleOpen = (sbIndex: number) => setOpenScoreBlocks(open => open.map((each, i) => i === sbIndex? !each: each))
 
+    // TODO: fix this dumb function
     const isEdited = () => JSON.stringify(props) !== JSON.stringify(state)
 
     const addScoreBlock = () => {
@@ -166,41 +173,48 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
 
     const onSave = () => {
         setState({...state, beingEdited: false})
-        if (isEdited()){
-            console.log("saving to backend:", state)
-            console.log("FINN TEST", typeof state.id)
-            if(Number.isNaN(state.id)){
-              console.log("This is a new annotation")
-            }
-            else{
-              console.log("Updating an existing annotation")
-              updateAnnotation({variables : {
-                id: state.id,
-                quote: "",
-                content: state.text
-              }})
-            }
-            for(let score of state.scoreBlocks){
-              if(score.id){
-                // updateScore({variables: {
-                //   scoreId: score.id,
-                //   explanation: score.text,
-                //   field: score.category,
-                //   score: score.score,
-                // }})
-                console.log("SCORE STUFF")
-              }
-              else{
-                console.log("New score")
-              }
-            }
-        } else {
-            console.log("nothing to save")
-        }
+        // if (isEdited()){
+        //     console.log("saving to backend:", state)
+        //     console.log("FINN TEST", typeof state.id)
+        //     if(Number.isNaN(state.id)){
+        //       console.log("This is a new annotation")
+        //     }
+        //     else{
+        //       console.log("Updating an existing annotation")
+        //       updateAnnotation({variables : {
+        //         id: state.id,
+        //         quote: "",
+        //         content: state.text
+        //       }})
+        //     }
+        //     for(let score of state.scoreBlocks){
+        //       if(score.id){
+        //         // updateScore({variables: {
+        //         //   scoreId: score.id,
+        //         //   explanation: score.text,
+        //         //   field: score.category,
+        //         //   score: score.score,
+        //         // }})
+        //         console.log("SCORE STUFF")
+        //       }
+        //       else{
+        //         console.log("New score")
+        //       }
+        //     }
+        // } else {
+        //     console.log("nothing to save")
+        // }
     }
 
     return (
-        <div className={styles.main} style={depth%2===1? {backgroundColor: "lightgray"}: {}}>
+        <div
+            className={styles.main}
+            style={{
+                backgroundColor: depth%2===1? "lightgray": "",
+                borderWidth: props.active? 3: 1,
+            }}
+            onClick={props.onClick}
+            ref={props.nodeRef}>
 
             <div className={styles.header}>
                 <div className={styles.author}>{state.author}</div>
@@ -288,13 +302,13 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
             </div>
 
             {repliesOpen &&
-            <div className={styles.childrenContainer}>
-                {Array.isArray(props.replies) &&
-                    props.replies.map(each =>
-                        <AnnotationCard key={each.id} {...each} _depth={depth + 1}/>
-                    )
-                }
-            </div>
+                <div className={styles.childrenContainer}>
+                    {Array.isArray(props.replies) &&
+                        props.replies.map(each =>
+                            <AnnotationCard key={each.id} {...each} _depth={depth + 1}/>
+                        )
+                    }
+                </div>
             }
 
             {Boolean(props.replies && props.replies.length) &&

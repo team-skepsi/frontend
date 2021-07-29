@@ -41,6 +41,8 @@ const PaperViewer = (props) => {
     const [root, annotationsWovenRelated] = weaveMDAnnotations(md, userSelection ? relatedToText.add(userSelection) : relatedToText)
     const annotations = annotationsWovenRelated.concat(notRelatedToText)
 
+    const [activeAnnotationId, setActiveAnnotationId] = useState(NaN)
+
     return (
         <div className={styles.main}>
 
@@ -55,6 +57,7 @@ const PaperViewer = (props) => {
                         setActiveNode={setActiveNode}
                         setActiveNodeRef={setActiveNodeRef}
                         setUserSelection={setUserSelection}
+                        setActiveAnnotationId={setActiveAnnotationId}
                     />
                 </div>
 
@@ -85,7 +88,10 @@ const PaperViewer = (props) => {
                         }}/>
 
                         <div className={styles.annotationSidebarContainer}>
-                            <AnnotationSidebar annotations={annotations}/>
+                            <AnnotationSidebar
+                                annotations={annotations}
+                                activeAnnotationId={activeAnnotationId}
+                                setActiveAnnotationId={setActiveAnnotationId}/>
                         </div>
                     </div>
                 </DraggableCore>

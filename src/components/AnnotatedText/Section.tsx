@@ -1,5 +1,5 @@
 import React from "react"
-import {Set} from "immutable"
+import {List, Set, Map} from "immutable"
 import {AnnotationType} from "../types"
 
 const highlightStyle = (annotations: Set<AnnotationType>): object => {
@@ -11,6 +11,7 @@ const highlightStyle = (annotations: Set<AnnotationType>): object => {
 type SectionType = {
     annotations: Set<AnnotationType>
     children: string
+    setActiveAnnotationId?: (val: number | ((id: number) => number)) => void
 }
 
 const Section: React.FC<SectionType> = (props) => {
@@ -24,9 +25,19 @@ const Section: React.FC<SectionType> = (props) => {
         })
         .reduce((a, b) => ({...a, ...b}), {style: {}})
 
+    const ids = List(props.annotations.map(a => a._id)).sort()
+    const idMap = Map(ids.zip(ids.shift().push(ids.first())))
+
+    const onClick = () => {
+        if (props.setActiveAnnotationId){
+            props.setActiveAnnotationId((id: number) => idMap.get(id, ids.get(0, NaN)))
+        }
+    }
+
     return (
         <span
             {...annotationProps}
+            onClick={onClick}
             style={{
                 ...annotationProps.style,
                 ...highlightStyle(props.annotations),

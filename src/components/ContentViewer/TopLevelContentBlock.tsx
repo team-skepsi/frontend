@@ -11,6 +11,7 @@ type TopLevelContentBlockType = {
     node: ContentNodeType
     active: boolean
     setActiveNodeRef: (r: React.Ref<null>) => void
+    setActiveAnnotationId: (val: number | ((id: number) => number)) => void
 }
 
 const excludedContentTypes = Set([
@@ -36,7 +37,7 @@ const TopLevelContentBlock: React.FC<TopLevelContentBlockType> = (props) => {
             onMouseUp={selectMe}
         >
             {/*<div className={styles.numberLabel}/>*/}
-            <ContentBlock node={props.node} />
+            <ContentBlock node={props.node} setActiveAnnotationId={props.setActiveAnnotationId} />
             <div onClick={selectMe} className={styles.dotTarget}>
                 {
                     numAnnotationsInKids === 0? <></> :

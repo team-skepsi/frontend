@@ -10,6 +10,7 @@ type ContentViewerType = {
     setActiveNode: (activeNode: ContentNodeType | null) => void
     setActiveNodeRef: (activeNodeRef: React.Ref<null> | null) => void
     setUserSelection: (selection: AnnotationType | null) => void
+    setActiveAnnotationId: (val: number | ((id: number) => number)) => void
 }
 
 /*
@@ -46,6 +47,7 @@ const ContentViewer: React.FC<ContentViewerType> = (props) => {
                             key={i}
                             active={activeIndex === i}
                             setActiveNodeRef={(r: React.Ref<null>) => setActiveNode(i, r)}
+                            setActiveAnnotationId={props.setActiveAnnotationId}
                             node={c} />
                     ))}
                 </TexProvider>

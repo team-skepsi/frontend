@@ -1,5 +1,5 @@
 import React from "react"
-import {Collection, List, RecordOf} from "immutable"
+import {Collection, List, RecordOf, Set} from "immutable"
 import renderer from "react-test-renderer"
 import {ContentNodeType} from "./types"
 import curry from "just-curry-it"
@@ -67,7 +67,7 @@ export const spy = <T>(thing: T): T => {
 
 export const spyWith = curry((fn: Function, thing: any) => spy(fn(thing)))
 
-export function formatDate(date: Date) {
+export const formatDate = (date: Date) => {
     let d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
@@ -79,4 +79,18 @@ export function formatDate(date: Date) {
         day = '0' + day;
 
     return [year, month, day].join('-');
+}
+
+export const maxOfIterable = <T>(lst: List<T> | Set<T> | Array<T>, val: (x: T) => number): T | undefined => {
+    let best: T | undefined = undefined
+    let bestVal = -Infinity
+
+    lst.forEach(item => {
+        const v = val(item)
+        if (v > bestVal) {
+            bestVal = v
+            best = item
+        }
+    })
+    return best
 }

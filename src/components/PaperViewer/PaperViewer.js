@@ -23,6 +23,7 @@ const PaperViewer = (props) => {
     const [activeNodeRef, setActiveNodeRef] = useState(null)
     const [activeAnnotationId, setActiveAnnotationId] = useState(NaN)
 
+    const [activeResize, setActiveResize] = useState(false)
     const [featureBarWidth, setFeatureBarWidth] = useState("35%")
 
     const {md, ...paperMetadata} = props.document
@@ -76,7 +77,9 @@ const PaperViewer = (props) => {
                     axis={"x"}
                     handle={"." + KNOB_DRAG_HANDLE_CLASS}
                     // adjustment of half the width of the slider = 21px
-                    onDrag={e => setFeatureBarWidth(window.innerWidth - e.clientX + 21)}>
+                    onDrag={e => setFeatureBarWidth(window.innerWidth - e.clientX + 21)}
+                    onStart={() => setActiveResize(true)}
+                    onStop={() => setActiveResize(false)}>
                     <div
                         className={styles.tooltipContainer}
                         style={{flexBasis: featureBarWidth}}>
@@ -89,7 +92,8 @@ const PaperViewer = (props) => {
                             paperMetadata={paperMetadata}
                             activeNode={activeNode}
                             activeNodeRef={activeNodeRef}
-                            width={featureBarWidth}>
+                            width={featureBarWidth}
+                            freeze={activeResize}>
                         </TooltipRefRelative>
 
                         <div style={{

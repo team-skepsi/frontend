@@ -11,8 +11,8 @@ const annotationToAnnotationCard = (a: AnnotationType): AnnotationCardType => ({
     date: a.data.date || formatDate(new Date(Date.now())),
     text: a.data.content || "",
     scoreBlocks: a.data.scores
-        ? a.data.scores.map(({score, explanation, category, id}: {score: number, id: number, explanation: string, category: string}) =>
-            ({score, category, id, text: explanation}))
+        ? a.data.scores.map(({scoreNumber, explanation, category, id}: {scoreNumber: number, id: number, explanation: string, category: string}) =>
+            ({scoreNumber, category, id, text: explanation}))
         : [],
     userCouldEdit: true,
     beingEdited: a._user,

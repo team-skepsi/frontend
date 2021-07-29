@@ -35,10 +35,13 @@ const CREATE_ANNOTATION = gql`
 `
 
 const UPDATE_SCORE = gql`
-  mutation UpdateScore($scoreId: ID!, $explanation: String, $field:String, $score: String){
-    updateScore(scoreId:$scoreId, explanation: $explanation, field: $field, score:$score){
+  mutation UpdateScore($scoreId:ID!, $explanation: String, $scoreNumber: Int, $field: String){
+    updateScore(scoreId:$scoreId, explanation: $explanation, scoreNumber: $scoreNumber, field: $field){
       score{
         id
+        explanation
+        scoreNumber
+        field
       }
     }
   }
@@ -63,7 +66,7 @@ const SometimesEditable: React.FC<SometimesEditableType> = (props) => (
 
 type ScoreBlockType = {
     category?: string
-    score?: number
+    scoreNumber?: number
     text?: string
 }
 
@@ -103,10 +106,9 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
 
     const categoryOptions = [
         '*no category*',
-        'validity',
-        'transparency',
-        'stuff',
-        'mumble',
+        'Validity',
+        'Novelty',
+        'Domain Importance',
     ]
 
     useEffect(()=>{
@@ -142,7 +144,7 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
             ...state,
             scoreBlocks: [
                 ...state.scoreBlocks,
-                {category: "select", score: NaN, text: ""}
+                {category: "select", scoreNumber: NaN, text: ""}
             ]
         }))
         setOpenScoreBlocks(open => [...open, true])
@@ -181,14 +183,15 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
               }})
             }
             for(let score of state.scoreBlocks){
-              if(score.id){
-                // updateScore({variables: {
-                //   scoreId: score.id,
-                //   explanation: score.text,
-                //   field: score.category,
-                //   score: score.score,
-                // }})
-                console.log("SCORE STUFF")
+              if(score.id && score.scoreNumber){
+                console.log("SCORE STUFF", score.id, score.text, score.category, score.scoreNumber)
+                updateScore({variables: {
+                  scoreId: score.id,
+                  explanation: score.text,
+                  field: "Validity",
+                  scoreNumber: score.scoreNumber,
+                }})
+                .then(response => console.log(response))
               }
               else{
                 console.log("New score")
@@ -236,8 +239,8 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
 
                             <SometimesEditable
                                 editable={state.beingEdited}
-                                callback={(s) => editScoreBlock(sbIndex, {score: parseInt(s || "")})}
-                                text={sb.score === undefined || isNaN(sb.score)? "?": sb.score.toString()}
+                                callback={(s) => editScoreBlock(sbIndex, {scoreNumber: parseInt(s || "")})}
+                                text={sb.scoreNumber === undefined || isNaN(sb.scoreNumber)? "?": sb.scoreNumber.toString()}
                                 editorProps={{rows: 1, cols: 2}}>
                             </SometimesEditable>
 

@@ -18,7 +18,7 @@ query GetPaperAndAnnotationData($paperId:ID!){
     }
     scores{
       id
-      score
+      scoreNumber
       field
       explanation
     }
@@ -58,7 +58,7 @@ query GetPaperAndAnnotationData($paperId:ID!){
     }
     scoresByPaperId(paperId:$paperId){
       field
-      score
+      scoreNumber
     }
   }
 `

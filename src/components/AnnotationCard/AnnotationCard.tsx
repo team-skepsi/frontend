@@ -74,6 +74,16 @@ const CREATE_SCORE = gql`
   }
 `
 
+const DELETE_SCORE = gql`
+  mutation DeleteScore($scoreId:ID!){
+    deleteScore(scoreId: $scoreId){
+      score{
+        explanation
+      }
+    }
+  }
+`
+
 type SometimesEditableType = {
     text: string
     editable: boolean
@@ -162,6 +172,17 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
       ]
     })
 
+    const [deleteScore, {
+      data: deleteScoreData,
+      loading: deleteScoreLoading,
+      error: deleteScoreError
+    }] = useMutation(DELETE_SCORE, {
+      refetchQueries: [
+        {query: GET_PAPER_AND_ANNOTATION_DATA,
+        variables: {paperId: location.pathname.replace('/', '')}}
+      ]
+    })
+
     const [deleteAnnotation, {
       data: deleteAnnotationData,
       loading: deleteAnnotationLoading,
@@ -236,6 +257,9 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
             scoreBlocks: state.scoreBlocks.slice(0, sbIndex).concat(state.scoreBlocks.slice(sbIndex + 1))
         })
         setOpenScoreBlocks(openScoreBlocks.slice(0, sbIndex).concat(openScoreBlocks.slice(sbIndex + 1)))
+        deleteScore({ variables: {
+          scoreId: state.scoreBlocks[`${sbIndex}`].id
+        }})
     }
 
     const editScoreBlock = (sbIndex: number, newVals: ScoreBlockType) => {

@@ -8,11 +8,16 @@ import VerticalBarChart from './VerticalBarChart.js'
 import './ScoreMetadata.css'
 
 function ScoreMetadata(props){
-
   const fieldSet = new Set(props.scores ? props.scores.map(score => score.field) : {})
   const fieldArray = Array.from(fieldSet)
   const [chart, setChart] = useState(titleize(fieldArray[0]))
   const [xAxisData, setXAxisData] = useState()
+
+  useEffect(()=>{
+    console.log("PROPS.SCORES", props.scores)
+    console.log("FIELD SET", fieldSet)
+    console.log("FIELD ARRAY", fieldArray)
+  }, [props.scores, fieldSet, fieldArray])
 
   // CALCULATING METADATA
   let scoreArray = []
@@ -64,7 +69,6 @@ function ScoreMetadata(props){
 
 
   const dropdownOptions = []
-
     fieldArray.map(field =>
       dropdownOptions.push(
       {key: `${field}`,

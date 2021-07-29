@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, useContext } from "react"
 import {DraggableCore} from "react-draggable"
 import {Set} from "immutable"
 
@@ -9,6 +9,8 @@ import {KNOB_DRAG_HANDLE_CLASS} from "../Tooltip/Tooltip"
 import ContentViewer from "../ContentViewer/ContentViewer"
 import TooltipRefRelative from "../Tooltip/TooltipRefRelative"
 import AnnotationSidebar from "../AnnotationSidebar/AnnotationSidebar"
+import { UserContext } from '../../App.js'
+
 
 import styles from './PaperViewer.module.css'
 
@@ -17,6 +19,7 @@ takes document, an object with a md property carrying a string, and annotations,
 and id, which are all integers or strings
  */
 const PaperViewer = (props) => {
+    const user = useContext(UserContext)
     const [userSelection, setUserSelection] = useState(null)
 
     const [activeNode, setActiveNode] = useState(null)
@@ -31,13 +34,9 @@ const PaperViewer = (props) => {
             start: parseInt(start),
             stop: parseInt(stop),
             _id: parseInt(annotation.id),
-            data: Object.freeze(rest)
+            data: Object.freeze(rest),
         })
     }))
-
-    useEffect(() => {
-      console.log('LOOK AT ME!', parsedAnnotations.toJS())
-    }, [parsedAnnotations])
 
     const relatedToText = parsedAnnotations.filter(a => !isNaN(a.start) && !isNaN(a.stop))
     const notRelatedToText = parsedAnnotations.filter(a => isNaN(a.start) || isNaN(a.stop))

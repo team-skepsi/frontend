@@ -25,10 +25,11 @@ import TexProvider from "./components/Tex/TexProvider";
 // STYLES
 
 export const UserContext = React.createContext()
+export const AuthenticationContext = React.createContext()
 
 function App() {
 
-    const {isAuthenticated, getAccessTokenSilently, isLoading, user} = useAuth0()
+    const {isAuthenticated, getAccessTokenSilently, isLoading, user } = useAuth0()
     const [token, setToken] = useState("")
 
     useEffect(() => {
@@ -70,7 +71,9 @@ function App() {
         <TexProvider>
             <div className="App">
               <UserContext.Provider value={user ? user : {}}>
+                <AuthenticationContext.Provider value={isAuthenticated ? isAuthenticated : ""}>
                 <Router />
+                </AuthenticationContext.Provider>
               </UserContext.Provider>
             </div>
         </TexProvider>

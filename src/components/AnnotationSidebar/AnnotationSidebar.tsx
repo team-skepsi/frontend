@@ -1,18 +1,19 @@
-import React, {useState, useEffect } from "react"
+import React, {useState, useEffect, useContext } from "react"
 import {List, Set, Map} from "immutable"
 import AnnotationCard, {AnnotationCardType} from "../AnnotationCard/AnnotationCard"
 import {AnnotationType} from "../types"
 import {formatDate} from "../functions"
+import { userName } from '../../App.js'
 
 const annotationToAnnotationCard = (a: AnnotationType): AnnotationCardType => ({
     id: a._id,
     activeAnnotation: a._user,
-    author: a.data.author ? a.data.author.username: '???', 
+    author: a.data.author ? a.data.author.username: "???",
     date: a.data.date || formatDate(new Date(Date.now())),
     text: a.data.content || "",
     scoreBlocks: a.data.scores
-        ? a.data.scores.map(({scoreNumber, explanation, category, id}: {scoreNumber: number, id: number, explanation: string, category: string}) =>
-            ({scoreNumber, category, id, text: explanation}))
+        ? a.data.scores.map(({scoreNumber, explanation, field, id}: {scoreNumber: number, id: number, explanation: string, field: string}) =>
+            ({scoreNumber, category: field, id, text: explanation}))
         : [],
     userCouldEdit: true,
     beingEdited: a._user,

@@ -49,6 +49,16 @@ const UPDATE_SCORE = gql`
   }
 `
 
+const CREATE_SCORE = gql`
+  mutation CreateScore($annotationId: ID!, $scoreNumber: Int!, $explanation: String, $field: String){
+    createScore(annotationId: $annotationId, scoreNumber: $scoreNumber, explanation: $explanation, field: $field){
+      score{
+        id
+      }
+    }
+  }
+`
+
 type SometimesEditableType = {
     text: string
     editable: boolean
@@ -108,6 +118,12 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
       loading: updateScoreLoading,
       error: updateScoreError
     }] = useMutation(UPDATE_SCORE)
+
+    const [createScore, {
+      data: createScoreData,
+      loading: createScoreLoading,
+      error: createScoreError
+    }] = useMutation(CREATE_SCORE)
 
     const categoryOptions = [
         '*no category*',
@@ -174,43 +190,114 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
     const onSave = () => {
         setState({...state, beingEdited: false})
         if (isEdited()){
-            console.log("saving to backend:", state)
-            console.log("FINN TEST", typeof state.id)
-            if(Number.isNaN(state.id)){
-              console.log("This is a new annotation")
-              console.log('STATE!', state)
-              console.log("STUFF!", user['http://www.skepsi.com/username'], state.text, location.pathname.replace('/', ''))
-              createAnnotation({variables: {
-                author: user['http://www.skepsi.com/username'],
-                quote: "",
-                content: state.text,
-                paperId: location.pathname.replace('/', '')
-              }})
-            }
-            else{
-              console.log("Updating an existing annotation")
-              updateAnnotation({variables: {
-                id: state.id,
-                quote: "",
-                content: state.text
-              }})
-            }
-            for(let score of state.scoreBlocks){
-              if(score.id && score.scoreNumber){
-                console.log("SCORE STUFF", score.id, score.text, score.category, score.scoreNumber)
-                updateScore({variables: {
-                  scoreId: score.id,
-                  explanation: score.text,
-                  field: "Validity",
+          if(Number.isNaN(state.id)){
+            console.log("This is a new annotation")
+            createAnnotation({variables: {
+              author: user['http://www.skepsi.com/username'],
+              quote: "",
+              content: state.text,
+              paperId: location.pathname.replace('/', '')
+            }})
+            .then(response => {
+              console.log('CREATEANNOTATIONDATA', response.data.createAnnotation.annotation.id)
+              for(let score of state.scoreBlocks ){
+                createScore({variables: {
+                  author: user['http://www.skepsi.com/username'],
                   scoreNumber: score.scoreNumber,
+                  field: "Validity",
+                  explanation: score.text,
+                  annotationId: response.data ? response.data.createAnnotation.annotation.id : undefined
                 }})
-                .then(response => console.log(response))
               }
-              else{
-                console.log("New score")
+            })
+          }
+          else{
+            console.log("Updating an existing annotation")
+            updateAnnotation({ variables: {
+              id: state.id,
+              quote: "",
+              content: state.text
+            }})
+            .then(response => {
+              for(let score of state.scoreBlocks){
+                if(score.id){
+                  // OLD SCORE UPDATE
+                  updateScore({ variables: {
+                    scoreId: score.id,
+                    explanation: score.text,
+                    field: "Validity",
+                    scoreNumber: score.scoreNumber,
+                  }})
+                }
+                else {
+                  createScore({ variables: {
+                    author: user['http://www.skepsi.com/username'],
+                    scoreNumber: score.scoreNumber,
+                    field: "Validity",
+                    explanation: score.text,
+                    annotationId: state.id
+                  }})
+                }
               }
-            }
-        } else {
+            })
+          }
+
+
+            // console.log("saving to backend:", state)
+            // console.log("FINN TEST", typeof state.id)
+            // if(Number.isNaN(state.id)){
+            //   console.log("This is a new annotation")
+            //   console.log('STATE!', state)
+            //   console.log("STUFF!", user['http://www.skepsi.com/username'], state.text, location.pathname.replace('/', ''))
+              // createAnnotation({variables: {
+              //   author: user['http://www.skepsi.com/username'],
+              //   quote: "",
+              //   content: state.text,
+              //   paperId: location.pathname.replace('/', '')
+              // }})
+            // }
+            // else{
+            //   console.log("Updating an existing annotation")
+            //   console.log('OLD ANNOTATION STATE!', state)
+              // updateAnnotation({variables: {
+              //   id: state.id,
+              //   quote: "",
+              //   content: state.text
+              // }})
+            // }
+            // for(let score of state.scoreBlocks){
+            //   if(score.id && score.scoreNumber){
+            // //     console.log("SCORE STUFF", score.id, score.text, score.category, score.scoreNumber)
+            //     updateScore({variables: {
+            //       scoreId: score.id,
+            //       explanation: score.text,
+            //       field: "Validity",
+            //       scoreNumber: score.scoreNumber,
+            //     }})
+            //     .then(response => console.log(response))
+            //   }
+            //   else{
+            //     console.log("New score")
+            //
+            //     if(state.id){
+                // createScore({variables: {
+                //   author: user['http://www.skepsi.com/username'],
+                //   scoreNumber: score.scoreNumber,
+                //   field: "Validity",
+                //   explanation: score.text,
+                //   annotationId: state.id
+                // }})
+            //     }
+            //     else{
+            //       console.log('THIS IS ANNOTATION DATA!', createAnnotationData)
+            //     }
+            //   }
+            // }
+
+        }
+
+
+        else {
             console.log("nothing to save")
         }
     }

@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useMemo, useState} from "react"
 import {DraggableCore} from "react-draggable"
 import {Set} from "immutable"
 
@@ -21,27 +21,33 @@ const PaperViewer = (props) => {
 
     const [activeNode, setActiveNode] = useState(null)
     const [activeNodeRef, setActiveNodeRef] = useState(null)
+    const [activeAnnotationId, setActiveAnnotationId] = useState(NaN)
+
     const [featureBarWidth, setFeatureBarWidth] = useState("35%")
 
     const {md, ...paperMetadata} = props.document
 
-    const parsedAnnotations = Set(props.annotations.map((annotation) => {
-        const {start, stop, id, ...rest} = annotation
-        return Annotation({
-            start: parseInt(start),
-            stop: parseInt(stop),
-            _id: parseInt(annotation.id),
-            data: Object.freeze(rest)
-        })
-    }))
+    // memoize so it doesn't run on resize
+    const [root, annotations] = useMemo(() => {
+        const parsedAnnotations = Set(props.annotations.map((annotation) => {
+            const {start, stop, id, ...rest} = annotation
+            return Annotation({
+                start: parseInt(start),
+                stop: parseInt(stop),
+                _id: parseInt(annotation.id),
+                data: Object.freeze(rest)
+            })
+        }))
 
-    const relatedToText = parsedAnnotations.filter(a => !isNaN(a.start) && !isNaN(a.stop))
-    const notRelatedToText = parsedAnnotations.filter(a => isNaN(a.start) || isNaN(a.stop))
+        const relatedToText = parsedAnnotations.filter(a => !isNaN(a.start) && !isNaN(a.stop))
+        const notRelatedToText = parsedAnnotations.filter(a => isNaN(a.start) || isNaN(a.stop))
 
-    const [root, annotationsWovenRelated] = weaveMDAnnotations(md, userSelection ? relatedToText.add(userSelection) : relatedToText)
-    const annotations = annotationsWovenRelated.concat(notRelatedToText)
+        const [root, annotationsWovenRelated] = weaveMDAnnotations(md,
+            userSelection ? relatedToText.add(userSelection) : relatedToText)
+        const annotations = annotationsWovenRelated.concat(notRelatedToText)
 
-    const [activeAnnotationId, setActiveAnnotationId] = useState(NaN)
+        return [root, annotations]
+    }, [props.annotations, md, userSelection])
 
     return (
         <div className={styles.main}>
@@ -49,16 +55,21 @@ const PaperViewer = (props) => {
             <div className={styles.mainContainer}>
 
                 <div className={styles.paperContainer} style={{position: 'relative'}}>
-                    <ContentViewer
-                        root={root}
-                        annotations={annotations}
-                        activeNode={activeNode}
-                        activeNodeRef={activeNodeRef}
-                        setActiveNode={setActiveNode}
-                        setActiveNodeRef={setActiveNodeRef}
-                        setUserSelection={setUserSelection}
-                        setActiveAnnotationId={setActiveAnnotationId}
-                    />
+                    {
+                        // again, avoid rendering on resize
+                        useMemo(() => (
+                            <ContentViewer
+                                root={root}
+                                annotations={annotations}
+                                activeNode={activeNode}
+                                activeNodeRef={activeNodeRef}
+                                setActiveNode={setActiveNode}
+                                setActiveNodeRef={setActiveNodeRef}
+                                setUserSelection={setUserSelection}
+                                setActiveAnnotationId={setActiveAnnotationId}
+                            />
+                        ), [root, annotations, activeNode, activeNodeRef, setActiveNode, setActiveNodeRef, setUserSelection, setActiveAnnotationId])
+                    }
                 </div>
 
                 <DraggableCore

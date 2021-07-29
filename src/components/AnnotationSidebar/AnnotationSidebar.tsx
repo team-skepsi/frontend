@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect } from "react"
 import {List, Set, Map} from "immutable"
 import AnnotationCard, {AnnotationCardType} from "../AnnotationCard/AnnotationCard"
 import {AnnotationType} from "../types"
@@ -7,7 +7,7 @@ import {formatDate} from "../functions"
 const annotationToAnnotationCard = (a: AnnotationType): AnnotationCardType => ({
     id: a._id,
     activeAnnotation: a._user,
-    author: a.data.author?.username || a._user? "me": "???",
+    author: a.data.author ? a.data.author.username: '???', 
     date: a.data.date || formatDate(new Date(Date.now())),
     text: a.data.content || "",
     scoreBlocks: a.data.scores

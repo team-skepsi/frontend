@@ -1,9 +1,11 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, useContext} from "react"
 import MDEditor from "../MDEditor/MDEditor"
 import ContentBlock from "../ContentBlock/ContentBlock"
 import {mdToNode} from "../processing"
 import styles from "./AnnotationCard.module.css"
 import { gql, useMutation } from '@apollo/client'
+import { UserContext } from '../../App.js'
+import { useLocation } from 'react-router-dom'
 
 const UPDATE_ANNOTATION = gql`
   mutation UpdateAnnotation($author: String, $quote: String, $content:String, $id: ID){
@@ -20,11 +22,11 @@ const UPDATE_ANNOTATION = gql`
   }
 `
 const CREATE_ANNOTATION = gql`
-  mutation CreateAnnotation($author: String, $quote: String, $content:String, $id: ID){
-    createAnnotation(annotationData:{author:$author, quote:$quote, content:$content, id:$id}){
-    	annotation{
-      	id
-        author{
+  mutation CreateAnnotation($author: String!, $quote: String, $content: String!, $paperId: ID!) {
+    createAnnotation(author: $author, quote: $quote, content: $content, paperId: $paperId){
+      annotation {
+        id
+        author {
           username
         }
         quote
@@ -86,6 +88,9 @@ export type AnnotationCardType = {
 }
 
 const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
+    const user = useContext(UserContext)
+    const location = useLocation()
+
     const [updateAnnotation,
       {data: updateAnnotationData,
        error: updateAnnotationError,
@@ -173,10 +178,18 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
             console.log("FINN TEST", typeof state.id)
             if(Number.isNaN(state.id)){
               console.log("This is a new annotation")
+              console.log('STATE!', state)
+              console.log("STUFF!", user['http://www.skepsi.com/username'], state.text, location.pathname.replace('/', ''))
+              createAnnotation({variables: {
+                author: user['http://www.skepsi.com/username'],
+                quote: "",
+                content: state.text,
+                paperId: location.pathname.replace('/', '')
+              }})
             }
             else{
               console.log("Updating an existing annotation")
-              updateAnnotation({variables : {
+              updateAnnotation({variables: {
                 id: state.id,
                 quote: "",
                 content: state.text

@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import {DraggableCore} from "react-draggable"
 import {Set} from "immutable"
 
@@ -34,6 +34,10 @@ const PaperViewer = (props) => {
             data: Object.freeze(rest)
         })
     }))
+
+    useEffect(() => {
+      console.log('LOOK AT ME!', parsedAnnotations.toJS())
+    }, [parsedAnnotations])
 
     const relatedToText = parsedAnnotations.filter(a => !isNaN(a.start) && !isNaN(a.stop))
     const notRelatedToText = parsedAnnotations.filter(a => isNaN(a.start) || isNaN(a.stop))

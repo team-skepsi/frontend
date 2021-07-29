@@ -22,7 +22,7 @@ query GetPaperAndAnnotationData($paperId:ID!){
       field
       explanation
     }
-    author{
+    author {
       username
     }
     parent{

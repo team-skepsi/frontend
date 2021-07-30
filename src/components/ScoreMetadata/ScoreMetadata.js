@@ -8,11 +8,16 @@ import VerticalBarChart from './VerticalBarChart.js'
 import './ScoreMetadata.css'
 
 function ScoreMetadata(props){
-
   const fieldSet = new Set(props.scores ? props.scores.map(score => score.field) : {})
   const fieldArray = Array.from(fieldSet)
   const [chart, setChart] = useState(titleize(fieldArray[0]))
   const [xAxisData, setXAxisData] = useState()
+
+  useEffect(()=>{
+    console.log("PROPS.SCORES", props.scores)
+    console.log("FIELD SET", fieldSet)
+    console.log("FIELD ARRAY", fieldArray)
+  }, [props.scores, fieldSet, fieldArray])
 
   // CALCULATING METADATA
   let scoreArray = []
@@ -29,9 +34,9 @@ function ScoreMetadata(props){
         let counter = 0
         for(let score of props.scores){
           if(fieldName===score.field){
-            sum += score.score
+            sum += score.scoreNumber
             counter += 1
-            tempArray.push(score.score)
+            tempArray.push(score.scoreNumber)
         }
       }
       // add other metadata calculations to this section
@@ -55,7 +60,7 @@ function ScoreMetadata(props){
     let scoreDistribution = [0,0,0,0,0,0,0,0,0,0]
     for(let score of props.scores){
       if(titleize(score.field)===chart){
-        scoreDistribution[`${score.score - 1}`] += 1
+        scoreDistribution[`${score.scoreNumber - 1}`] += 1
       }
     }
     setXAxisData(scoreDistribution)
@@ -64,7 +69,6 @@ function ScoreMetadata(props){
 
 
   const dropdownOptions = []
-
     fieldArray.map(field =>
       dropdownOptions.push(
       {key: `${field}`,
@@ -98,7 +102,7 @@ function ScoreMetadata(props){
             {calculateMetadata.map(function({field, average, standard_deviation}, index){
               if(field===chart){
                 return(
-                  <div>
+                  <div key={index}>
                   <p className={styles.metadataText}><b>Mean:</b> {average}</p>
                   <p className={styles.metadataText}><b>STD:</b> {standard_deviation}</p>
                   </div>)

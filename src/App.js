@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext } from 'react'
 import './App.css'
 import "semantic-ui-css/semantic.min.css";
 
@@ -24,11 +24,12 @@ import TexProvider from "./components/Tex/TexProvider";
 
 // STYLES
 
-export const RoleContext = React.createContext("No Role")
+export const UserContext = React.createContext()
+export const AuthenticationContext = React.createContext()
 
 function App() {
 
-    const {isAuthenticated, getAccessTokenSilently, isLoading, user} = useAuth0()
+    const {isAuthenticated, getAccessTokenSilently, isLoading, user } = useAuth0()
     const [token, setToken] = useState("")
 
     useEffect(() => {
@@ -69,9 +70,11 @@ function App() {
     <ApolloProvider client={client}>
         <TexProvider>
             <div className="App">
-              <RoleContext.Provider value={user ? user["http://www.skepsi.com/roles"] : "User"}>
+              <UserContext.Provider value={user ? user : {}}>
+                <AuthenticationContext.Provider value={isAuthenticated ? isAuthenticated : ""}>
                 <Router />
-              </RoleContext.Provider>
+                </AuthenticationContext.Provider>
+              </UserContext.Provider>
             </div>
         </TexProvider>
     </ApolloProvider>

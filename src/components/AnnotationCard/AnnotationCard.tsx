@@ -1,48 +1,88 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, useContext} from "react"
 import MDEditor from "../MDEditor/MDEditor"
 import ContentBlock from "../ContentBlock/ContentBlock"
 import {mdToNode} from "../processing"
 import styles from "./AnnotationCard.module.css"
-// import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
+import { UserContext, AuthenticationContext } from '../../App.js'
+import { useLocation } from 'react-router-dom'
+import { Dropdown, Modal } from 'semantic-ui-react'
+import { GET_PAPER_AND_ANNOTATION_DATA } from '../PageManager/PageManager.js'
 
-// const UPDATE_ANNOTATION = gql`
-//   mutation UpdateAnnotation($author: String, $quote: String, $content:String, $id: ID){
-//     updateAnnotation(annotationData:{author:$author, quote:$quote, content:$content, id:$id}){
-//     	annotation{
-//       	id
-//         author{
-//           username
-//         }
-//         quote
-//         content
-//       }
-//     }
-//   }
-// `
-// const CREATE_ANNOTATION = gql`
-//   mutation CreateAnnotation($author: String, $quote: String, $content:String, $id: ID){
-//     createAnnotation(annotationData:{author:$author, quote:$quote, content:$content, id:$id}){
-//     	annotation{
-//       	id
-//         author{
-//           username
-//         }
-//         quote
-//         content
-//       }
-//     }
-//   }
-// `
-//
-// const UPDATE_SCORE = gql`
-//   mutation UpdateScore($scoreId: ID!, $explanation: String, $field:String, $score: String){
-//     updateScore(scoreId:$scoreId, explanation: $explanation, field: $field, score:$score){
-//       score{
-//         id
-//       }
-//     }
-//   }
-// `
+const UPDATE_ANNOTATION = gql`
+  mutation UpdateAnnotation($author: String, $quote: String, $content:String, $id: ID){
+    updateAnnotation(annotationData:{author:$author, quote:$quote, content:$content, id:$id}){
+    	annotation{
+      	id
+        author{
+          username
+        }
+        quote
+        content
+      }
+    }
+  }
+`
+const CREATE_ANNOTATION = gql`
+  mutation CreateAnnotation($author: String!, $quote: String, $content: String!, $paperId: ID!) {
+    createAnnotation(author: $author, quote: $quote, content: $content, paperId: $paperId){
+      annotation {
+        id
+        author {
+          username
+        }
+        quote
+        content
+      }
+    }
+  }
+`
+
+const DELETE_ANNOTATION = gql`
+  mutation DeleteAnnotation($annotationId: ID!){
+    deleteAnnotation(annotationId: $annotationId){
+      annotation{
+        content
+      }
+    }
+  }
+`
+
+const UPDATE_SCORE = gql`
+  mutation UpdateScore($scoreId:ID!, $explanation: String, $scoreNumber: Int, $field: String){
+    updateScore(scoreId:$scoreId, explanation: $explanation, scoreNumber: $scoreNumber, field: $field){
+      score{
+        id
+        explanation
+        scoreNumber
+        field
+      }
+    }
+  }
+`
+
+const CREATE_SCORE = gql`
+  mutation CreateScore($annotationId: ID!, $scoreNumber: Int!, $explanation: String, $field: String){
+    createScore(annotationId: $annotationId, scoreNumber: $scoreNumber, explanation: $explanation, field: $field){
+      score{
+        id
+        explanation
+        scoreNumber
+        field
+      }
+    }
+  }
+`
+
+const DELETE_SCORE = gql`
+  mutation DeleteScore($scoreId:ID!){
+    deleteScore(scoreId: $scoreId){
+      score{
+        explanation
+      }
+    }
+  }
+`
 
 type SometimesEditableType = {
     text: string
@@ -63,7 +103,7 @@ const SometimesEditable: React.FC<SometimesEditableType> = (props) => (
 
 type ScoreBlockType = {
     category?: string
-    score?: number
+    scoreNumber?: number
     text?: string
 }
 
@@ -82,42 +122,96 @@ export type AnnotationCardType = {
     activeReply?: boolean
 }
 
-type SecretRealAnnotationCardType = AnnotationCardType & {
-    nodeRef?: React.Ref<HTMLDivElement>
-    onClick?: () => void
-    active?: boolean
-}
+const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
+    const user = useContext(UserContext)
+    const isAuthenticated = useContext(AuthenticationContext)
+    const location = useLocation()
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false)
 
-const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
-    // const [updateAnnotation,
-    //   {data: updateAnnotationData,
-    //    error: updateAnnotationError,
-    //    loading: updateAnnotationLoading
-    //   }] = useMutation(UPDATE_ANNOTATION)
-    //
-    // const [createAnnotation,
-    //   { data: createAnnotationData,
-    //     loading: createAnnotationLoading,
-    //     error: createAnnotationError
-    //   }] = useMutation(CREATE_ANNOTATION)
-    //
-    // const [updateScore, {
-    //   data: updateScoreData,
-    //   loading: updateScoreLoading,
-    //   error: updateScoreError
-    // }] = useMutation(UPDATE_SCORE)
+    const [updateAnnotation,
+      {data: updateAnnotationData,
+       error: updateAnnotationError,
+       loading: updateAnnotationLoading
+     }] = useMutation(UPDATE_ANNOTATION, {
+       refetchQueries: [
+         {query: GET_PAPER_AND_ANNOTATION_DATA,
+         variables: {paperId: location.pathname.replace('/', '')}},
+       ]
+     })
+
+    const [createAnnotation,
+      { data: createAnnotationData,
+        loading: createAnnotationLoading,
+        error: createAnnotationError
+      }] = useMutation(CREATE_ANNOTATION, {
+        refetchQueries: [
+          {query: GET_PAPER_AND_ANNOTATION_DATA,
+          variables: {paperId: location.pathname.replace('/', '')}},
+        ]
+      })
+
+    const [updateScore, {
+      data: updateScoreData,
+      loading: updateScoreLoading,
+      error: updateScoreError
+    }] = useMutation(UPDATE_SCORE, {
+      refetchQueries: [
+        {query: GET_PAPER_AND_ANNOTATION_DATA,
+        variables: {paperId: location.pathname.replace('/', '')}},
+      ]
+    })
+
+    const [createScore, {
+      data: createScoreData,
+      loading: createScoreLoading,
+      error: createScoreError
+    }] = useMutation(CREATE_SCORE, {
+      refetchQueries: [
+        {query: GET_PAPER_AND_ANNOTATION_DATA,
+        variables: {paperId: location.pathname.replace('/', '')}},
+      ]
+    })
+
+    const [deleteScore, {
+      data: deleteScoreData,
+      loading: deleteScoreLoading,
+      error: deleteScoreError
+    }] = useMutation(DELETE_SCORE, {
+      refetchQueries: [
+        {query: GET_PAPER_AND_ANNOTATION_DATA,
+        variables: {paperId: location.pathname.replace('/', '')}}
+      ]
+    })
+
+    const [deleteAnnotation, {
+      data: deleteAnnotationData,
+      loading: deleteAnnotationLoading,
+      error: deleteAnnotationError
+    }] = useMutation(DELETE_ANNOTATION, {
+      refetchQueries: [
+        {query: GET_PAPER_AND_ANNOTATION_DATA,
+        variables: {paperId: location.pathname.replace('/', '')}},
+      ]
+    })
 
     const categoryOptions = [
-        '*no category*',
-        'validity',
-        'transparency',
-        'stuff',
-        'mumble',
-    ]
+      {
+        value: "Validity",
+        text: "Validity",
+        key: "Validity",
 
-    // useEffect(()=>{
-    //   console.log('ERROR!', updateScoreError)
-    // }, [updateScoreError])
+      },
+      {
+        value: "Novelty",
+        text: "Novelty",
+        key: "Novelty"
+      },
+      {
+        value: "Domain Importance",
+        text: "Domain Importance",
+        key: "Domain Importance"
+      },
+    ]
 
     const [state, setState] = useState({
         id: props.id || NaN,
@@ -127,6 +221,10 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         scoreBlocks: props.scoreBlocks || [],
         beingEdited: props.beingEdited || false,
     })
+
+    useEffect(()=>{
+      console.log('STATE!', state)
+    }, [state])
 
     // depth is used in a number of styling decisions
     const depth = props._depth || 0
@@ -140,8 +238,6 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         : []
     )
     const toggleOpen = (sbIndex: number) => setOpenScoreBlocks(open => open.map((each, i) => i === sbIndex? !each: each))
-
-    // TODO: fix this dumb function
     const isEdited = () => JSON.stringify(props) !== JSON.stringify(state)
 
     const addScoreBlock = () => {
@@ -149,7 +245,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
             ...state,
             scoreBlocks: [
                 ...state.scoreBlocks,
-                {category: "select", score: NaN, text: ""}
+                {category: "", scoreNumber: NaN, text: ""}
             ]
         }))
         setOpenScoreBlocks(open => [...open, true])
@@ -161,63 +257,102 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
             scoreBlocks: state.scoreBlocks.slice(0, sbIndex).concat(state.scoreBlocks.slice(sbIndex + 1))
         })
         setOpenScoreBlocks(openScoreBlocks.slice(0, sbIndex).concat(openScoreBlocks.slice(sbIndex + 1)))
+        deleteScore({ variables: {
+          scoreId: state.scoreBlocks[`${sbIndex}`].id
+        }})
     }
 
     const editScoreBlock = (sbIndex: number, newVals: ScoreBlockType) => {
-        setState(state => {
-            const newScoreBlocks = [...state.scoreBlocks]
+        console.log('NEWVALS', newVals)
+        setState(prevState => {
+            const newScoreBlocks = [...prevState.scoreBlocks]
             newScoreBlocks[sbIndex] = {...newScoreBlocks[sbIndex], ...newVals}
-            return {...state, scoreBlocks: newScoreBlocks}
+            let state = Object.assign({}, prevState)
+            state.scoreBlocks = newScoreBlocks
+            console.log('HII!!', newScoreBlocks)
+            return { ...state }
         })
     }
 
-    const onSave = () => {
+    const onSave = (sbIndex) => {
+      console.log('SCORE INDEX!', sbIndex)
         setState({...state, beingEdited: false})
-        // if (isEdited()){
-        //     console.log("saving to backend:", state)
-        //     console.log("FINN TEST", typeof state.id)
-        //     if(Number.isNaN(state.id)){
-        //       console.log("This is a new annotation")
-        //     }
-        //     else{
-        //       console.log("Updating an existing annotation")
-        //       updateAnnotation({variables : {
-        //         id: state.id,
-        //         quote: "",
-        //         content: state.text
-        //       }})
-        //     }
-        //     for(let score of state.scoreBlocks){
-        //       if(score.id){
-        //         // updateScore({variables: {
-        //         //   scoreId: score.id,
-        //         //   explanation: score.text,
-        //         //   field: score.category,
-        //         //   score: score.score,
-        //         // }})
-        //         console.log("SCORE STUFF")
-        //       }
-        //       else{
-        //         console.log("New score")
-        //       }
-        //     }
-        // } else {
-        //     console.log("nothing to save")
-        // }
+        if (isEdited()){
+          console.log('STATE!', state)
+          if(Number.isNaN(state.id)){
+            console.log("This is a new annotation")
+            createAnnotation({variables: {
+              author: user['http://www.skepsi.com/username'],
+              quote: "",
+              content: state.text,
+              paperId: location.pathname.replace('/', '')
+            }})
+            .then(response => {
+              for(let score of state.scoreBlocks ){
+                if(score.category && scoreNumber){
+                  console.log("Creating a new score")
+                  createScore({variables: {
+                    author: user['http://www.skepsi.com/username'],
+                    scoreNumber: score.scoreNumber,
+                    field: score.category,
+                    explanation: score.text,
+                    annotationId: response.data ? response.data.createAnnotation.annotation.id : undefined
+                  }})
+                }
+              }
+            })
+          }
+          else{
+            console.log("Updating an existing annotation")
+            updateAnnotation({ variables: {
+              id: state.id,
+              quote: "",
+              content: state.text
+            }})
+            .then(response => {
+              for(let score of state.scoreBlocks){
+                if(score.id){
+                  // OLD SCORE UPDATE
+                  console.log("Updating an existing score")
+                  updateScore({ variables: {
+                    scoreId: score.id,
+                    explanation: score.text,
+                    field: score.category,
+                    scoreNumber: score.scoreNumber,
+                  }})
+                }
+                else {
+                  createScore({ variables: {
+                    author: user['http://www.skepsi.com/username'],
+                    scoreNumber: score.scoreNumber,
+                    field: score.category,
+                    explanation: score.text,
+                    annotationId: state.id
+                  }})
+                }
+              }
+            })
+          }
+        }
+        else {
+            console.log("nothing to save")
+        }
+    }
+
+    function onDelete(){
+      setDeleteModalOpen(false)
+      deleteAnnotation({variables: {
+        annotationId: state.id
+      }})
     }
 
     return (
-        <div
-            className={styles.main}
-            style={{
-                backgroundColor: depth%2===1? "lightgray": "",
-                borderWidth: props.active? 3: 1,
-            }}
-            onClick={props.onClick}
-            ref={props.nodeRef}>
+        <div className={styles.main} style={depth%2===1? {backgroundColor: "lightgray"}: {}}>
 
             <div className={styles.header}>
-                <div className={styles.author}>{state.author}</div>
+                <div className={styles.author}>
+                  {state.author === user['http://www.skepsi.com/username'] || state.author === "???" ? "me" : state.author}
+                </div>
                 <div className={styles.headerSpacer}/>
                 <div className={styles.date}>{state.date}</div>
             </div>
@@ -237,21 +372,21 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                             onClick={() => state.beingEdited || toggleOpen(sbIndex)}>
 
                             <div className={styles.scoreBlockCategory}>
-                                <select
+                                <Dropdown
+                                    placeholder={state.scoreBlocks.field ? state.scoreBlocks.field : "Please select a field"}
+                                    selection
                                     disabled={!state.beingEdited}
-                                    value={sb.category}
+                                    options={categoryOptions}
                                     onChange={(e) =>
-                                        editScoreBlock(sbIndex, {category: e.target.value})}>
-                                    {categoryOptions.map((s, i) => <option key={i} value={s}>{s}</option>)}
-                                </select>
+                                         editScoreBlock(sbIndex, {category: e.target.innerText})} />
                             </div>
 
                             <div className={styles.headerSpacer}/>
 
                             <SometimesEditable
                                 editable={state.beingEdited}
-                                callback={(s) => editScoreBlock(sbIndex, {score: parseInt(s || "")})}
-                                text={sb.score === undefined || isNaN(sb.score)? "?": sb.score.toString()}
+                                callback={(s) => editScoreBlock(sbIndex, {scoreNumber: parseInt(s || "")})}
+                                text={sb.scoreNumber === undefined || isNaN(sb.scoreNumber)? "?": sb.scoreNumber.toString()}
                                 editorProps={{rows: 1, cols: 2}}>
                             </SometimesEditable>
 
@@ -282,33 +417,69 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
             <div className={styles.buttonRow}>
                 {state.beingEdited
                     ? <>
+                    {isAuthenticated &&
+                      <>
                         <button className={styles.addScoreBlockButton} onClick={addScoreBlock}>Add Score</button>
                         <button className={styles.saveButton} onClick={onSave}>Save</button>
+                      </>
+                    }
+                    {!isAuthenticated &&
+                      <>
+                      <button className={styles.addScoreBlockButton} onClick={()=>alert("You must sign in to add scores")}>Add Score</button>
+                      <button className={styles.saveButton} onClick={()=>alert("You must sign in to save annotations")}>Save</button>
+                      </>
+                    }
                     </>
                     : <>
-                        {props.userCouldEdit &&
+                        {state.author === user['http://www.skepsi.com/username'] &&
                             <button
                                 className={styles.editButton}
-                                onClick={() => {
+                                onClick={()  => {
                                     setState({...state, beingEdited: true})
                                     setOpenScoreBlocks(x => x.map(() => true))
                                 }}>
                                 Edit
                             </button>
                         }
-                        <button className={styles.replyButton} onClick={props.onReply}>Reply</button>
+
+                        {state.author === user['http://www.skepsi.com/username'] &&
+                          <button
+                            className={styles.editButton}
+                            onClick={()=>{setDeleteModalOpen(true)}}
+                            >Delete
+                          </button>
+                        }
+                        <Modal
+                          onClose={()=>setDeleteModalOpen(false)}
+                          onOpen={()=>setDeleteModalOpen(true)}
+                          open={deleteModalOpen}
+                          >
+                          <Modal.Content>
+                            Are you sure you want to delete this annotation?
+                          </Modal.Content>
+                          <Modal.Actions>
+                            <button onClick={onDelete}>Yes</button>
+                            <button onClick={()=>setDeleteModalOpen(false)}>No</button>
+                          </Modal.Actions>
+                        </Modal>
+                        {isAuthenticated &&
+                          <button className={styles.replyButton} onClick={props.onReply}>Reply</button>
+                        }
+                        {!isAuthenticated &&
+                          <button className={styles.replyButton} onClick={()=>alert('Please log in or sign up to comment')}>Reply</button>
+                        }
                     </>
                 }
             </div>
 
             {repliesOpen &&
-                <div className={styles.childrenContainer}>
-                    {Array.isArray(props.replies) &&
-                        props.replies.map(each =>
-                            <AnnotationCard key={each.id} {...each} _depth={depth + 1}/>
-                        )
-                    }
-                </div>
+            <div className={styles.childrenContainer}>
+                {Array.isArray(props.replies) &&
+                    props.replies.map(each =>
+                        <AnnotationCard key={each.id} {...each} _depth={depth + 1}/>
+                    )
+                }
+            </div>
             }
 
             {Boolean(props.replies && props.replies.length) &&

@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, gql } from '@apollo/client'
 import { useLocation } from 'react-router-dom'
 import ViewStateManager from '../ViewStateManager/ViewStateManager.js'
 
-const GET_PAPER_AND_ANNOTATION_DATA = gql`
+export const GET_PAPER_AND_ANNOTATION_DATA = gql`
 query GetPaperAndAnnotationData($paperId:ID!){
   annotationsByPaperId(paperId: $paperId){
     id
@@ -18,11 +18,11 @@ query GetPaperAndAnnotationData($paperId:ID!){
     }
     scores{
       id
-      score
+      scoreNumber
       field
       explanation
     }
-    author{
+    author {
       username
     }
     parent{
@@ -58,13 +58,14 @@ query GetPaperAndAnnotationData($paperId:ID!){
     }
     scoresByPaperId(paperId:$paperId){
       field
-      score
+      scoreNumber
     }
   }
 `
 
 function PageManager(){
   // DOCUMENT ROUTER
+  const [dataState, setDataState] = useState()
   const location = useLocation()
   // replace the paperId variable below with "location.pathname.replace('/','')"
   // when you want to integrate with router
@@ -78,6 +79,11 @@ function PageManager(){
           loading } = useQuery(GET_PAPER_AND_ANNOTATION_DATA, {
     variables: { "paperId": location.pathname.replace('/', '')}
   })
+
+  // used to refresh all children components if there are changes
+  useEffect(()=>{
+    setDataState(paperAndAnnotationData)
+  }, [paperAndAnnotationData])
 
 //DEBUGGING LOGS
 if(networkRequestError){

@@ -10,6 +10,7 @@ import PageManager from '../PageManager/PageManager.js'
 import ProfilePage from '../ProfilePage/ProfilePage.js'
 import Navbar from '../Navbar/Navbar.js'
 import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
+import ScientistDomainPicker from '../ScientistDomainPicker/ScientistDomainPicker.js'
 
 const GET_ALL_TOPIC_SLUGS = gql`
     query{
@@ -70,7 +71,7 @@ function Router() {
             </Route>
 
             <Route path="/playground">
-              <PaperCardTemplate />
+              <ScientistDomainPicker />
             </Route>
 
             <Route path='/user-info'>

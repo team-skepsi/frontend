@@ -14,29 +14,47 @@ type TopLevelContentBlockType = {
     setActiveAnnotationId: (val: number | ((id: number) => number)) => void
 }
 
+// kinds of nodes which cannot become the active node/dont have anchors
 const excludedContentTypes = Set([
     "newline"
 ])
 
 const TopLevelContentBlock: React.FC<TopLevelContentBlockType> = (props) => {
 
+    const id = nodePrettyId(props.node)
+    const excluded = excludedContentTypes.has(props.node.type)
     const ref = useRef(null)
+
     const numAnnotationsInKids = nodesInNode(props.node).reduce(
         (c, n) => c.concat(n.props.annotations?
             n.props.annotations.filter(a => !a._user).map(a => a._id) : Set()),
         Set()
     ).size
 
-    const selectMe = () => !excludedContentTypes.has(props.node.type) && props.setActiveNodeRef(ref)
+    const selectMe = () => {
+        if (!excluded) {
+            props.setActiveNodeRef(ref)
+        }
+    }
+
+    const onClickAnchor = () => {
+        if (window.history.pushState){
+            window.history.pushState(null, "", "#" + id)
+        } else {
+            window.location.hash = "#" + id
+        }
+    }
 
     return (
         <div
-            id={nodePrettyId(props.node)}
+            id={id}
             className={styles.main}
             ref={ref}
             onMouseUp={selectMe}
         >
-            {/*<div className={styles.numberLabel}/>*/}
+            {!excluded &&
+                <div onClick={onClickAnchor} className={styles.anchor}/>
+            }
             <ContentBlock node={props.node} setActiveAnnotationId={props.setActiveAnnotationId} />
             <div onClick={selectMe} className={styles.dotTarget}>
                 {

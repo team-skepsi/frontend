@@ -3,7 +3,7 @@ import {AnnotationType, ContentNodeType} from "../types"
 import SelectionManager from "../SelectionManager/SelectionManager"
 import TexProvider from "../Tex/TexProvider"
 import {List} from "immutable";
-import TopLevelContentBlock from "./TopLevelContentBlock";
+import TopLevelContentBlock from "../TopLevelContentBlock/TopLevelContentBlock";
 
 type ContentViewerType = {
     root: ContentNodeType

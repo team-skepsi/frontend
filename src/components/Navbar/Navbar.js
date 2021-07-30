@@ -88,7 +88,7 @@ function Navbar(props){
               <Menu.Item>
                 <Link to="/user-info" style={{pointerEvents: 'all'}}>
                   <Button className={styles.userButton}>
-                  Profile
+                  {user['http://www.skepsi.com/username']}
                   </Button>
                 </Link>
               </Menu.Item>

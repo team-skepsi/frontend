@@ -1,80 +1,80 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from "./ScoreMetadata.module.css"
-import { Dropdown, Divider } from 'semantic-ui-react'
-import { titleize } from '../../utility/StringManipulation.js'
-import { std } from 'mathjs'
+import {Divider, Dropdown} from 'semantic-ui-react'
+import {titleize} from '../../utility/StringManipulation.js'
+import {std} from 'mathjs'
 // import ReactBarChart from './ReactBarChart.tsx'
 import VerticalBarChart from './VerticalBarChart.js'
-import './ScoreMetadata.css'
+import './ScoreMetadata.css' // TODO(Leo): convert to css module
 
-function ScoreMetadata(props){
-  const fieldSet = new Set(props.scores ? props.scores.map(score => score.field) : {})
-  const fieldArray = Array.from(fieldSet)
-  const [chart, setChart] = useState(titleize(fieldArray[0]))
-  const [xAxisData, setXAxisData] = useState()
+function ScoreMetadata(props) {
+    const fieldSet = new Set(props.scores ? props.scores.map(score => score.field) : {})
+    const fieldArray = Array.from(fieldSet)
+    const [chart, setChart] = useState(titleize(fieldArray[0]))
+    const [xAxisData, setXAxisData] = useState()
 
-  // useEffect(()=>{
-  //   console.log("PROPS.SCORES", props.scores)
-  //   console.log("FIELD SET", fieldSet)
-  //   console.log("FIELD ARRAY", fieldArray)
-  // }, [props.scores, fieldSet, fieldArray])
+    // useEffect(()=>{
+    //   console.log("PROPS.SCORES", props.scores)
+    //   console.log("FIELD SET", fieldSet)
+    //   console.log("FIELD ARRAY", fieldArray)
+    // }, [props.scores, fieldSet, fieldArray])
 
-  // CALCULATING METADATA
-  let scoreArray = []
-  let name = ""
-  let tempArray = []
+    // CALCULATING METADATA
+    let scoreArray = []
+    let name = ""
+    let tempArray = []
 
-  // this is an immediately invoked function expression (IIFE)
-  const calculateMetadata = (function(){
-    if(props.scores){
-      for(let fieldName of fieldArray){
-        // console.log(typeof fieldName)
-        name = fieldName
-        let sum = 0
-        let counter = 0
-        for(let score of props.scores){
-          if(fieldName===score.field){
-            sum += score.scoreNumber
-            counter += 1
-            tempArray.push(score.scoreNumber)
+    // this is an immediately invoked function expression (IIFE)
+    const calculateMetadata = (function () {
+            if (props.scores) {
+                for (let fieldName of fieldArray) {
+                    // console.log(typeof fieldName)
+                    name = fieldName
+                    let sum = 0
+                    let counter = 0
+                    for (let score of props.scores) {
+                        if (fieldName === score.field) {
+                            sum += score.scoreNumber
+                            counter += 1
+                            tempArray.push(score.scoreNumber)
+                        }
+                    }
+                    // add other metadata calculations to this section
+                    let obj = {}
+                    obj["field"] = titleize(name)
+                    obj["average"] = Number(sum / counter).toFixed(2)
+                    obj["standard_deviation"] = std(tempArray).toFixed(2)
+                    scoreArray.push(obj)
+                }
+
+                return scoreArray
+            } else {
+                return null
+            }
         }
-      }
-      // add other metadata calculations to this section
-      let obj = {}
-      obj["field"] = titleize(name)
-      obj["average"]=Number(sum/counter).toFixed(2)
-      obj["standard_deviation"]=std(tempArray).toFixed(2)
-      scoreArray.push(obj)
-    }
+    )()
 
-    return scoreArray
-  }
-  else{
-    return null
-  }
-}
-)()
-
-  // CREATING HISTOGRAM DATA
-  useEffect(()=>{
-    let scoreDistribution = [0,0,0,0,0,0,0,0,0,0]
-    for(let score of props.scores){
-      if(titleize(score.field)===chart){
-        scoreDistribution[`${score.scoreNumber - 1}`] += 1
-      }
-    }
-    setXAxisData(scoreDistribution)
-  }, [chart, props.scores])
+    // CREATING HISTOGRAM DATA
+    useEffect(() => {
+        let scoreDistribution = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        for (let score of props.scores) {
+            if (titleize(score.field) === chart) {
+                scoreDistribution[`${score.scoreNumber - 1}`] += 1
+            }
+        }
+        setXAxisData(scoreDistribution)
+    }, [chart, props.scores])
 
 
-
-  const dropdownOptions = []
+    const dropdownOptions = []
     fieldArray.map(field =>
-      dropdownOptions.push(
-      {key: `${field}`,
-       value: `${field}`,
-       text: titleize(`${field}`)}
-      )
+        dropdownOptions.push(
+            {
+                key: `${field}`,
+                value: `${field}`,
+                text: titleize(`${field}`)
+            }
+        )
     )
     //
     // useEffect(()=>{
@@ -82,49 +82,47 @@ function ScoreMetadata(props){
     // }, [xAxisData])
 
 
-  if(xAxisData){
-  return(
-    <div>
-      <div className={styles.barChartWrapper} style={{
-        }}>
-        <div className={styles.wrapperBox}>
-        <div className={"dropdownWrapper"}>
-          <div>
-          <Dropdown
-            options = {dropdownOptions}
-            selection
-            onChange={(data)=>setChart(data.target.innerText)}
-            placeholder={chart}
-            />
-          </div>
-          <div className={styles.horizontalFlex}/>
-          <div className={styles.metaData}>
-            {calculateMetadata.map(function({field, average, standard_deviation}, index){
-              if(field===chart){
-                return(
-                  <div key={index}>
-                  <p className={styles.metadataText}><b>Mean:</b> {average}</p>
-                  <p className={styles.metadataText}><b>STD:</b> {standard_deviation}</p>
-                  </div>)
-              }
-            }
-            )}
-          </div>
+    if (xAxisData) {
+        return (
+            <div>
+                <div className={styles.barChartWrapper} style={{}}>
+                    <div className={styles.wrapperBox}>
+                        <div className={"dropdownWrapper"}>
+                            <div>
+                                <Dropdown
+                                    options={dropdownOptions}
+                                    selection
+                                    onChange={(data) => setChart(data.target.innerText)}
+                                    placeholder={chart}
+                                />
+                            </div>
+                            <div className={styles.horizontalFlex}/>
+                            <div className={styles.metaData}>
+                                {calculateMetadata.map(function ({field, average, standard_deviation}, index) {
+                                        if (field === chart) {
+                                            return (
+                                                <div key={index}>
+                                                    <p className={styles.metadataText}><b>Mean:</b> {average}</p>
+                                                    <p className={styles.metadataText}><b>STD:</b> {standard_deviation}</p>
+                                                </div>)
+                                        }
+                                    }
+                                )}
+                            </div>
 
-        </div>
-        <Divider />
-        <VerticalBarChart
-          xAxisData={xAxisData}
-          />
-        </div>
-      </div>
-      </div>
-  )
-}
-  return(
-    <div>
-    </div>
-  )
+                        </div>
+                        <Divider/>
+                        <VerticalBarChart
+                            xAxisData={xAxisData}
+                        />
+                    </div>
+                </div>
+            </div>
+        )
+    }
+    return (
+        <div/>
+    )
 }
 
 export default ScoreMetadata

@@ -94,3 +94,26 @@ export const maxOfIterable = <T>(lst: List<T> | Set<T> | Array<T>, val: (x: T) =
     })
     return best
 }
+
+export const range = (start: number, stop?: number, step?: number) => {
+    step = step || 1
+    if (stop === undefined){
+        stop = start
+        start = 0
+    }
+
+    if (Math.sign(start - stop) === Math.sign(step)){
+        return []
+    }
+
+    const arr = []
+    while (Math.sign(start - stop) === -Math.sign(step)){
+        arr.push(start)
+        start += step
+    }
+    return arr
+}
+
+export const zip = <T, U>(a1: T[], a2: U[]): [T, U][] => (
+    range(Math.min(a1.length, a2.length)).map(i => [a1[i], a2[i]])
+)

@@ -1,0 +1,89 @@
+
+.main {
+    position: relative;
+}
+
+/* what is this for? */
+.blend {
+    width: 117px;
+    height: 122px;
+    mix-blend-mode: color-burn;
+    background-color: #DDBFA4;
+    opacity: 71%;
+    visibility: hidden;
+}
+
+.outerBox {
+    width: 117px;
+    height: 122px;
+    border: 1px solid #D8D9D5;
+    box-sizing: border-box;
+    border-radius: 6px;
+}
+
+.innerBox {
+    position: relative;
+    top: 1px;
+    left: 1px;
+    width: 113px;
+    height: 118px;
+
+    background: radial-gradient(38.94% 35.71% at 49.56% 50%, #656565 0%, rgba(196, 196, 196, 0) 100%);
+
+    border: 1px solid #828383;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.noise {
+    position: absolute;
+    width: 113px;
+    height: 118px;
+    opacity: 100%;
+    mix-blend-mode: soft-light;
+}
+
+.outerCircle {
+    width: 48px;
+    height: 48px;
+    background-color: #E7E7E7;
+    border-radius: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.innerCircle {
+    background-color: #525353;
+    width: 43.76px;
+    height: 43.76px;
+    border-radius: 21.88px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.label {
+    font-family: Yeseva One, serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16.4579px;
+    line-height: 19px;
+    letter-spacing: -0.045em;
+
+    color: #C4C4C4;
+}
+
+
+
+
+
+
+
+
+
+
+
+

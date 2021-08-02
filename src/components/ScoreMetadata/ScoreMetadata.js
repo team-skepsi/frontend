@@ -13,11 +13,11 @@ function ScoreMetadata(props){
   const [chart, setChart] = useState(titleize(fieldArray[0]))
   const [xAxisData, setXAxisData] = useState()
 
-  useEffect(()=>{
-    console.log("PROPS.SCORES", props.scores)
-    console.log("FIELD SET", fieldSet)
-    console.log("FIELD ARRAY", fieldArray)
-  }, [props.scores, fieldSet, fieldArray])
+  // useEffect(()=>{
+  //   console.log("PROPS.SCORES", props.scores)
+  //   console.log("FIELD SET", fieldSet)
+  //   console.log("FIELD ARRAY", fieldArray)
+  // }, [props.scores, fieldSet, fieldArray])
 
   // CALCULATING METADATA
   let scoreArray = []
@@ -28,7 +28,7 @@ function ScoreMetadata(props){
   const calculateMetadata = (function(){
     if(props.scores){
       for(let fieldName of fieldArray){
-        console.log(typeof fieldName)
+        // console.log(typeof fieldName)
         name = fieldName
         let sum = 0
         let counter = 0
@@ -76,10 +76,10 @@ function ScoreMetadata(props){
        text: titleize(`${field}`)}
       )
     )
-
-    useEffect(()=>{
-      console.log("This is the x axis data", xAxisData)
-    }, [xAxisData])
+    //
+    // useEffect(()=>{
+    //   console.log("This is the x axis data", xAxisData)
+    // }, [xAxisData])
 
 
   if(xAxisData){

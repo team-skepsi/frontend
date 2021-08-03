@@ -1,9 +1,10 @@
-import React, { useReducer, useEffect } from 'react';
-import { Button, Checkbox, Form, Label } from 'semantic-ui-react'
+import React, { useReducer, useEffect, useState } from 'react';
+import { Button, Checkbox, Form, Label, Divider } from 'semantic-ui-react'
 import { gql, useMutation } from "@apollo/client"
 import { isValidEmail, isValidPassword, isValidUsername } from "../../utility/user-validators.js"
 import { useHistory } from 'react-router-dom'
 import auth0 from "auth0-js"
+import ScientistDomainPicker from '../ScientistDomainPicker/ScientistDomainPicker.js'
 
 const initialState = {
   username: '',
@@ -49,8 +50,8 @@ function reducer(state, action){
 }
 
 const ADD_USER = gql`
-  mutation addUser($username: String!, $email: String!, $password: String!){
-    createUser(userData:{username: $username, email: $email, password: $password}){
+  mutation addUser($username: String!, $email: String!, $password: String!, $domains: String){
+    createUser(userData:{username: $username, email: $email, password: $password, domains: $domains}){
       user{
         username
       }
@@ -58,10 +59,11 @@ const ADD_USER = gql`
   }
 `
 
-function UserSignupForm(){
-
+function ExpertSignupForm(){
+  const [domains, setDomains] = useState()
   const [state, dispatch] = useReducer(reducer, initialState)
   const [addUser] = useMutation(ADD_USER)
+
 
   function handleChange(e){
     const user_input = e.target.value
@@ -108,7 +110,6 @@ function UserSignupForm(){
     }
   }
     `
-
   useEffect(()=>{
     if(state.emailValid
       && state.passwordValid
@@ -139,6 +140,7 @@ function UserSignupForm(){
           username: state.username,
           password: state.password,
           email: state.email,
+          domains: domains.value.join(",")
           }
         }).then(response => {history.push('/signup-success')})
       }
@@ -169,16 +171,14 @@ function UserSignupForm(){
         dispatch({type: 'emailExists', payload: true})
       }
     })
+    .catch(error => console.log('Check for User Error:', error))
     } // handleSubmit()
-
-
-
-
 
   /* LOGGING STUFF FOR DEBUG */
   useEffect(() => {
     console.log(state)
-  }, [state])
+    console.log('HERE ARE THE DOMAINS', domains)
+  }, [state, domains])
 
   return(
     <div style={{margin: '4em'}}>
@@ -243,10 +243,18 @@ function UserSignupForm(){
           </Label>}
       </Form.Field>
 
+      <Divider />
+
+      <ScientistDomainPicker
+        setDomains={setDomains}
+        />
+
+      <Divider />
+
       <Button type='submit'>Sign Up</Button>
     </Form>
   </div>
   );
 }
 
-export default UserSignupForm
+export default ExpertSignupForm

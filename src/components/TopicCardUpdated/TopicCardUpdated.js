@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './TopicCardUpdated.module.css'
 import "./TopicCardUpdated.css"
 import ProgressBar from './ProgressBar.js'
@@ -7,6 +7,11 @@ import Pluralize from 'react-pluralize'
 import { Link } from 'react-router-dom'
 
 function TopicCardUpdated(props){
+
+  useEffect(()=>{
+    console.log('These are the topic props', props.topics)
+  }, [props.topics])
+
   return(
     <div className={styles.cardGroup}>
 
@@ -65,9 +70,9 @@ function TopicCardUpdated(props){
                       </b></p>
                 </div>
                 <div className={styles.labelIconWrapper}>
-                    <h2 className={styles.largeNumber}>3</h2>
+                    <h2 className={styles.largeNumber}>{topic.scientistCount}</h2>
                   <p className={styles.metricText}><b>
-                    <Pluralize singular={'scientist'} plural={'scientists'} count={3} showCount={false} />
+                    <Pluralize singular={'scientist'} plural={'scientists'} count={topic.scientistCount} showCount={false} />
                   </b></p>
                 </div>
                 <div className={styles.labelPlaceholderRight} />

@@ -289,7 +289,7 @@ const AnnotationCard: React.FC<AnnotationCardType> = (props) => {
             }})
             .then(response => {
               for(let score of state.scoreBlocks ){
-                if(score.category && scoreNumber){
+                if(score.category && score.scoreNumber){
                   console.log("Creating a new score")
                   createScore({variables: {
                     author: user['http://www.skepsi.com/username'],

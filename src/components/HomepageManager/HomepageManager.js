@@ -12,6 +12,7 @@ query AllTopicsAndPapers{
     slug
     image
     annotationCount
+    scientistCount
   }
   allPapers{
     id
@@ -36,6 +37,10 @@ function HomepageManager(){
   React.useEffect(()=>{
     console.log('paper and topics', data)
   }, [data])
+
+  // useEffect(()=>{
+  //   console.log()
+  // }, [data])
 
   if(loading){
     return(

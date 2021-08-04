@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import styles from "./ScoreMetadata.module.css"
-import { Dropdown, Divider } from 'semantic-ui-react'
+import { Dropdown, Divider, Loader, Dimmer, Segment } from 'semantic-ui-react'
 import { titleize } from '../../utility/StringManipulation.js'
 import { std } from 'mathjs'
 // import ReactBarChart from './ReactBarChart.tsx'
@@ -82,6 +82,33 @@ function ScoreMetadata(props){
     }, [xAxisData])
 
 
+  if(props.loading){
+    return(
+      <div>
+        <div className={styles.barChartWrapper} style={{
+          }}>
+          <div className={styles.wrapperBox}>
+          <div className={"dropdownWrapper"}>
+            <div>
+            <Dropdown
+              selection
+              />
+            </div>
+            <div className={styles.horizontalFlex}/>
+            <div className={styles.metaData}>
+            </div>
+
+          </div>
+          <Divider />
+          <VerticalBarChart
+            />
+          </div>
+        </div>
+
+      </div>
+    )
+  }
+
   if(xAxisData){
   return(
     <div>
@@ -121,10 +148,28 @@ function ScoreMetadata(props){
       </div>
   )
 }
-  return(
-    <div>
+
+return(
+  <div>
+    <div className={styles.barChartWrapper}>
+      <div>
+        <Loader active/>
+      </div>
     </div>
-  )
+  </div>
+)
+
 }
 
 export default ScoreMetadata
+//
+// {calculateMetadata.map(function({field, average, standard_deviation}, index){
+//   if(field===chart){
+//     return(
+//       <div key={index}>
+//       <p className={styles.metadataText}><b>Mean:</b> {average}</p>
+//       <p className={styles.metadataText}><b>STD:</b> {standard_deviation}</p>
+//       </div>)
+//   }
+// }
+// )}

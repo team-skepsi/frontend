@@ -71,6 +71,8 @@ const PaperViewer = (props) => {
                         style={{flexBasis: featureBarWidth}}>
 
                         <div className={styles.tooltipVertical}/>
+                        <div className={styles.colorBox}>
+                        </div>
 
                         <TooltipRefRelative
                             root={root}
@@ -84,7 +86,7 @@ const PaperViewer = (props) => {
                         <div style={{
                             width: '80%',
                             position: 'relative',
-                            left: '50px'
+                            left: '50px',
                         }}/>
 
                         <div className={styles.annotationSidebarContainer}>

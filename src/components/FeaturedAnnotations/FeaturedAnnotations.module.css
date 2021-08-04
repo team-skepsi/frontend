@@ -1,0 +1,24 @@
+.scrollComponent {
+  overflow-y: auto;
+  width: 100%;
+  height: 600px;
+}
+
+.flexWrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.cardContent {
+  line-height: 20px;
+}
+
+.cardContentText {
+  font-family: "Roboto";
+  font-size: 10px;
+}
+
+.paperLinkText {
+  font-family: "Roboto";
+  font-size: 14px;
+}

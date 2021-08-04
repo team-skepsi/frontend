@@ -28,6 +28,8 @@
 .tooltipContainer {
     flex: 0 35%;
     position: relative;
+    /* background-color: orange; */
+    background-clip: content-box;
 }
 
 .tooltipVertical {
@@ -35,11 +37,20 @@
     left: 19px;
     height: 100%;
     width: 1px;
-    border-left: 1px dashed black;
+    border-left: 4px dashed darkgray;
 }
 
 .annotationSidebarContainer{
     padding-left: 50px;
     padding-right: 10px;
     padding-bottom: 20px;
+}
+
+.colorBox{
+  height: 100%;
+  width: 100%;
+  background-color: #FAFAFA;
+  position: absolute;
+  background-clip: content-box;
+  padding-left: 20px;
 }

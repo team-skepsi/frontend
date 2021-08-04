@@ -105,6 +105,7 @@ useEffect(()=>{
         document = { paperAndAnnotationData.papersById }
         annotations = { paperAndAnnotationData.annotationsByPaperId }
         scores = { paperAndAnnotationData.scoresByPaperId }
+        loading = { loading }
         />
       </div>
     )

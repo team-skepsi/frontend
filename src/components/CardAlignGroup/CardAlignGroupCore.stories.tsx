@@ -15,7 +15,7 @@ export const Basic = () => {
             <div style={{borderTop: "1px solid black"}}>
                 <CardAlignGroupCore
                     activeCardIndex={active}
-                    heights={Array(5).fill(0)}
+                    preferredOffsets={Array(5).fill(0)}
                     cards={range(5).map(i =>
                         <div style={{backgroundColor: "red", width: 50, height: 50,}}>{i}</div>)}/>
             </div>

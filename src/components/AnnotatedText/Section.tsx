@@ -38,6 +38,7 @@ const Section: React.FC<SectionType> = (props) => {
         <span
             {...annotationProps}
             onClick={onClick}
+            onDoubleClick={(e) => e.preventDefault()}
             style={{
                 ...annotationProps.style,
                 ...highlightStyle(props.annotations),

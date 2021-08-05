@@ -1,79 +1,84 @@
-import React, {useState} from "react"
-import {range, zip} from "../functions"
+import React, {useEffect, useRef, useState} from "react"
+import {List, Map} from "immutable"
+import {range} from "../functions"
+
+type CardContainerType = {
+    reportHeight: (height: number) => void
+    style: any
+}
+
+const CardContainer: React.FC<CardContainerType> = (props) => {
+    const ref = useRef<HTMLDivElement>(null)
+    const height = ref.current
+        ? ref.current.getBoundingClientRect().height
+        : 0
+    useEffect(() => props.reportHeight(height), [height])
+    return <div ref={ref} style={props.style}>{props.children}</div>
+}
+
+export type CardEachType = {
+    key: number
+    preferredOffset: number
+    card: JSX.Element
+    active: boolean
+}
 
 type CardAlignGroupCoreType = {
-    keys?: number[]
-    cards: React.ReactElement[]
-    heights: number[]
-    activeCardIndex: number
+    cards: List<CardEachType>
     margin?: number
 }
 
 const CardAlignGroupCore: React.FC<CardAlignGroupCoreType> = (props) => {
 
-    // set defaults
-    const keys = props.keys || []
     const margin = props.margin || 5
-    const activeIndexPresort = props.activeCardIndex >= 0 && props.activeCardIndex < props.cards.length
-        ? props.activeCardIndex
-        : 0
+    const cards = props.cards.sort((a, b) => a.preferredOffset - b.preferredOffset)
+    const activeIndex = cards
+        .map((c, i): [CardEachType, number] => [c, i])
+        .filter(([c, i]) => c.active)
+        .get(0, [0, 0])[1]
 
-    // generate refs to the card containers
-    const [refs] = useState(props.cards.map(() => React.createRef<HTMLDivElement>()))
+    const [cardHeightsMap, setCardHeightsMap] = useState(Map<number, number>())
+    const cardHeights = cards.map((card) => cardHeightsMap.get(card.key, 0))
 
-    const lengths = refs.map(r => r.current).includes(null)
-        ? refs.map(() => 0)
-        : refs.map(r => (r.current as HTMLDivElement).getBoundingClientRect().height)
-
-    // sort cards
-    const sorted = zip(
-        props.heights,
-        zip(
-            props.cards,
-            props.cards.map((_, i) => i === activeIndexPresort)
-        )
-    ).sort((a, b) => a[0] - b[0])
-
-    const heights = sorted.map(x => x[0])
-    const cards = sorted.map(x => x[1][0])
-    const activeIndex = sorted.map(x => x[1][1]).indexOf(true)
-
-    // gonna edit this guy until he has all the right heights to use
-    const useHeights = [...heights]
+    const preferredOffsets = cards.map(c => c.preferredOffset)
+    const adjustedOffsets = Array.from(preferredOffsets)
 
     // expand cards above
     for (const i of range(activeIndex)){
-        useHeights[i] = Math.max(
-            (useHeights[i - 1] || 0) + lengths[i] + margin,
-            heights[i]
+        adjustedOffsets[i] = Math.max(
+            (adjustedOffsets[i - 1] || 0) + cardHeights.get(i, 0) + margin,
+            preferredOffsets.get(i, 0)
         )
     }
 
     // set active card height
-    useHeights[activeIndex] = heights[activeIndex]
+    adjustedOffsets[activeIndex] = preferredOffsets.get(activeIndex, 0)
 
     // nudge above cards back up as necessary
     for (const i of range(activeIndex).reverse()){
-        useHeights[i] = Math.min(
-            useHeights[i + 1] - margin - lengths[i],
-            useHeights[i]
+        adjustedOffsets[i] = Math.min(
+            adjustedOffsets[i + 1] - margin - cardHeights.get(i, 0),
+            adjustedOffsets[i]
         )
     }
 
     // expand cards below
-    for (const i of range(activeIndex + 1, cards.length)){
-        useHeights[i] = Math.max(
-            useHeights[i - 1] + lengths[i] + margin,
-            heights[i]
+    for (const i of range(activeIndex + 1, cards.size)){
+        adjustedOffsets[i] = Math.max(
+            adjustedOffsets[i - 1] + cardHeights.get(i - 1, 0) + margin,
+            preferredOffsets.get(i, 0)
         )
     }
 
     return (
         <div style={{position: "relative"}}>
             {cards.map((card, i) =>
-                <div ref={refs[i]} key={keys[i]} style={{transition: "top 0.5s", position: "absolute", top: useHeights[i]}}>
-                    {card}
-                </div>
+                <CardContainer
+                    key={card.key}
+                    reportHeight={(val: number) => setCardHeightsMap(m => m.set(card.key, val))}
+                    style={{transition: "top 0.5s", position: "absolute", top: adjustedOffsets[i]}}>
+                    {card.card}
+                </CardContainer>
             )}
         </div>
     )

@@ -52,9 +52,8 @@ export const testStories = (stories: any) => {
     )
 }
 
-export const nodePrettyId = (node: ContentNodeType): string => {
-    return node.type + "-" + node._id
-}
+export const nodeIdToPrettyId = (nodeId: number) => "pos-" + nodeId
+export const nodePrettyId = (node: ContentNodeType) => nodeIdToPrettyId(node._id)
 
 export const scrollToContentNode = (node: ContentNodeType) => {
     document.getElementById(nodePrettyId(node))?.scrollIntoView({behavior: "smooth", block: "center"})

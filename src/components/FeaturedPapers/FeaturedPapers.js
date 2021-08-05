@@ -6,7 +6,6 @@ import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
 
 function FeaturedPapers(props){
 
-
   if(props.papers){
     return(
       <div className={styles.scrollComponent}>

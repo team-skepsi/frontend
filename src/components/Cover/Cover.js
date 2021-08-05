@@ -62,7 +62,8 @@ const Cover = (props) => {
 
             <div className={styles.annotationWrapper}>
               <ScoreMetadata
-                scores = { props.scores }
+                scores={ props.scores }
+                loading={props.loading}
                 />
             </div>
             <Modal

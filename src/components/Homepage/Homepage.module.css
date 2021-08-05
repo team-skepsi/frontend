@@ -22,6 +22,9 @@
 .searchBackground {
   /* background-repeat: no-repeat; */
   background-color: offwhite;
+  background-image: url('http://127.0.0.1:8000/static/covers/Roma.jpeg');
+  background-size: cover;
+
   overflow: hidden;
   width: 100%;
   height: 110%;

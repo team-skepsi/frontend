@@ -1,6 +1,6 @@
 .barChartWrapper {
-  height: fit-content;
-  width: fit-content;
+  height: 279px;
+  width: 360px;
   border: rgb(129, 128, 128, 0.5) 10px double;
   background-color: rgba(0, 0, 0, 0.7);
 }
@@ -25,4 +25,14 @@
 .wrapperBox {
   margin: 15px;
   padding: 5px;
+}
+
+.barChartWrapperLoading {
+  height: 279px;
+  width: 360px;
+  border: rgb(129, 128, 128, 0.5) 10px double;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

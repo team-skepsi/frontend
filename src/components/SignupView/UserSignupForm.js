@@ -1,9 +1,10 @@
-import React, { useReducer, useEffect } from 'react';
-import { Button, Checkbox, Form, Label } from 'semantic-ui-react'
+import React, { useReducer, useEffect, useState } from 'react';
+import { Button, Checkbox, Form, Label, Divider } from 'semantic-ui-react'
 import { gql, useMutation } from "@apollo/client"
 import { isValidEmail, isValidPassword, isValidUsername } from "../../utility/user-validators.js"
 import { useHistory } from 'react-router-dom'
 import auth0 from "auth0-js"
+import ScientistDomainPicker from '../ScientistDomainPicker/ScientistDomainPicker.js'
 
 const initialState = {
   username: '',
@@ -49,8 +50,8 @@ function reducer(state, action){
 }
 
 const ADD_USER = gql`
-  mutation addUser($username: String!, $email: String!, $password: String!){
-    createUser(userData:{username: $username, email: $email, password: $password}){
+  mutation addUser($username: String!, $email: String!, $password: String!, $domains: String){
+    createUser(userData:{username: $username, email: $email, password: $password, domains: $domains}){
       user{
         username
       }
@@ -59,7 +60,7 @@ const ADD_USER = gql`
 `
 
 function UserSignupForm(){
-
+  const [domains, setDomains] = useState()
   const [state, dispatch] = useReducer(reducer, initialState)
   const [addUser] = useMutation(ADD_USER)
 
@@ -110,6 +111,45 @@ function UserSignupForm(){
   }
     `
 
+    useEffect(()=>{
+      if(state.emailValid
+        && state.passwordValid
+        && state.usernameValid
+        && state.checkboxChecked
+        && !state.userError
+        && !state.emailError){
+          var webAuth = new auth0.WebAuth({
+            domain: 'skepsi.us.auth0.com',
+            clientID: 'V1VsPEgl7mgPORdnpFApnJVWLvf4xkbe',
+          });
+
+          //auth0 signup
+          webAuth.signup({
+            connection: 'Username-Password-Authentication',
+            email: state.email,
+            username: state.username,
+            password: state.password,
+            user_metadata: {role: 'expert'},
+            }, function (error) {
+              if (error){
+                dispatch({type: 'userError', payload: true})
+              }
+            })
+
+          // django signup and redirect
+          addUser({variables:{
+            username: state.username,
+            password: state.password,
+            email: state.email,
+            domains: domains.value.join(",")
+            }
+          }).then(response => {history.push('/signup-success')})
+        }
+        else{
+          console.log("No", state)
+        }
+    }, [state.userError, state.emailError])
+
   const [UserOrEmailIsInDatabase] = useMutation(CHECK_FOR_USER_AND_EMAIL, {errorPolicy:'all'})
 
   function handleSubmit(){
@@ -133,46 +173,7 @@ function UserSignupForm(){
       }
     })
     .catch(error => console.log('Check for User Error:', error))
-
-    if(state.emailValid
-      && state.passwordValid
-      && state.usernameValid
-      && state.checkboxChecked
-      && !state.userError
-      && !state.emailError){
-        var webAuth = new auth0.WebAuth({
-          domain: 'skepsi.us.auth0.com',
-          clientID: 'V1VsPEgl7mgPORdnpFApnJVWLvf4xkbe',
-        });
-
-        //auth0 signup
-        webAuth.signup({
-          connection: 'Username-Password-Authentication',
-          email: state.email,
-          username: state.username,
-          password: state.password,
-          user_metadata: {role: 'user'},
-          }, function (error) {
-            if (error){
-              dispatch({type: 'userError', payload: true})
-            }
-          })
-
-        // django signup and redirect
-        addUser({variables:{
-          username: state.username,
-          password: state.password,
-          email: state.email,
-          }
-        }).then(response => {history.push('/signup-success')})
-      }
-      else{
-        console.log("No", state)
-      }
     } // handleSubmit()
-
-
-
 
 
   /* LOGGING STUFF FOR DEBUG */
@@ -242,6 +243,14 @@ function UserSignupForm(){
             Please agree to the terms and conditions
           </Label>}
       </Form.Field>
+
+      <Divider />
+
+      <ScientistDomainPicker
+        setDomains={setDomains}
+        />
+
+      <Divider />
 
       <Button type='submit'>Sign Up</Button>
     </Form>

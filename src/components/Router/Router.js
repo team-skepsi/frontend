@@ -1,6 +1,7 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom'
 import {gql, useQuery} from "@apollo/client"
+import { Divider } from 'semantic-ui-react'
 
 import HomepageManager from '../HomepageManager/HomepageManager.js';
 import PaperCards from '../PaperCards/PaperCards.js'
@@ -11,6 +12,8 @@ import ProfilePage from '../ProfilePage/ProfilePage.js'
 import Navbar from '../Navbar/Navbar.js'
 import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
 import ScientistDomainPicker from '../ScientistDomainPicker/ScientistDomainPicker.js'
+import FeaturedAnnotations from '../FeaturedAnnotations/FeaturedAnnotations.js'
+import HomepageUpdated from '../HomepageUpdated/HomepageUpdated.js'
 
 const GET_ALL_TOPIC_SLUGS = gql`
     query{
@@ -71,7 +74,12 @@ function Router() {
             </Route>
 
             <Route path="/playground">
-              <ScientistDomainPicker />
+              <Divider />
+              <FeaturedAnnotations />
+            </Route>
+
+            <Route path="/homepage">
+              <HomepageUpdated />
             </Route>
 
             <Route path='/user-info'>

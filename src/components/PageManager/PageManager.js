@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useQuery, gql } from '@apollo/client'
-import { useLocation } from 'react-router-dom'
-// import ViewStateManager from '../ViewStateManager/ViewStateManager.js'
+import React, {useEffect, useState} from 'react'
+import {gql, useQuery} from '@apollo/client'
+import {useLocation} from 'react-router-dom'
 import ViewStateManager from '../ViewStateManager/ViewStateManager.js'
 
 

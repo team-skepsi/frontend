@@ -1,8 +1,6 @@
 .barChartWrapper {
   height: 279px;
   width: 360px;
-  border: rgb(129, 128, 128, 0.5) 10px double;
-  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .horizontalFlex {
@@ -10,7 +8,7 @@
 }
 
 .metadata {
-  background-color: rgba(30, 30, 30) !important;
+  /* background-color: rgba(30, 30, 30) !important; */
   border: 1px solid darkgray !important;
   height: 10px;
   width: 10px;
@@ -18,7 +16,7 @@
 
 .metadataText {
   margin: 1px;
-  color: white;
+  color: #888888;
   font-family: "Roboto"
 }
 

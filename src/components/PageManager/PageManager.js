@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, gql } from '@apollo/client'
 import { useLocation } from 'react-router-dom'
-import ViewStateManager from '../ViewStateManager/ViewStateManager.js'
+import ViewStateManager from '../ViewStateManagerUpdated/ViewStateManagerUpdated.js'
 
 export const GET_PAPER_AND_ANNOTATION_DATA = gql`
 query GetPaperAndAnnotationData($paperId:ID!){
@@ -35,6 +35,8 @@ query GetPaperAndAnnotationData($paperId:ID!){
       authors
       createdDate
       abstract
+      journal
+      doi
       citationAPA
       citationMLA
       figures{

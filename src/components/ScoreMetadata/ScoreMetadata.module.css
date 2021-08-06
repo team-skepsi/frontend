@@ -34,3 +34,12 @@
   justify-content: center;
   align-items: center;
 }
+
+
+.noScoresText {
+  color: rgba(30, 30, 30, 0.7);
+  position: relative;
+  top: -100px;
+  left: 60px;
+  font-weight: bold;
+}

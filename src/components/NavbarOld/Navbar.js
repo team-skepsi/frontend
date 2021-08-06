@@ -55,15 +55,37 @@ function Navbar(props){
     <div>
     <Menu style={menuStyle} borderless>
       <Link to="/" style={{pointerEvents: 'none'}}>
-        <Menu.Item style={{pointerEvents: "none"}}>
-          <Button compact color="black" style={{padding: "10px", paddingTop: '5px', paddingBottom: '5px'}}>
+        <Menu.Item borderless style={{pointerEvents: "none"}}>
             <h1 className={styles.skepsi} style={{pointerEvents: 'all'}}>ξ</h1>
-          </Button>
         </Menu.Item>
       </Link>
+        <Menu.Item borderless position='right'>
+            <Icon
+              fitted
+              name='bars'
+              size='big'
+              style={{
+                opacity: 1,
+                pointerEvents: 'all',
+                color: "#9E825E"
+              }}
+              onClick={() => setVisible(prevVisible => !prevVisible)}
+              />
+          </Menu.Item>
+          <Sidebar.Pushable id={styles.sidebarContainer}>
+          <Sidebar
+            as={Menu}
+            animation='push'
+            icon='labeled'
+            direction='right'
+            vertical
+            visible={visible}
+            width='thin'
+            id={styles.sidebar}
+          >
           {isAuthenticated &&
-            <Menu.Menu position='right'>
-              <Menu.Item position='right'>
+            <React.Fragment>
+              <Menu.Item>
                 <Link to="/user-info" style={{pointerEvents: 'all'}}>
                   <Button className={styles.userButton}>
                   {user['http://www.skepsi.com/username']}
@@ -75,10 +97,10 @@ function Navbar(props){
                   <LogoutButton />
                 </div>
               </Menu.Item>
-            </Menu.Menu>
+            </React.Fragment>
           }
           {!isAuthenticated &&
-            <Menu.Menu position='right'>
+            <React.Fragment>
               <Menu.Item>
                 <div style={{pointerEvents: 'all'}}>
                   <SignupButton />
@@ -89,8 +111,12 @@ function Navbar(props){
                   <LoginButton />
                 </div>
               </Menu.Item>
-            </Menu.Menu>
+            </React.Fragment>
           }
+          </Sidebar>
+          <Sidebar.Pusher className={styles.sidebarPusher}>
+          </Sidebar.Pusher>
+          </Sidebar.Pushable>
       </Menu>
       </div>
   )

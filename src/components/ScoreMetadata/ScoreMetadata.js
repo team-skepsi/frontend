@@ -82,7 +82,7 @@ function ScoreMetadata(props) {
     // }, [xAxisData])
 
 
-    if (xAxisData) {
+    if (xAxisData){
         return (
             <div>
                 <div className={styles.barChartWrapper} style={{}}>
@@ -115,6 +115,9 @@ function ScoreMetadata(props) {
                         <VerticalBarChart
                             xAxisData={xAxisData}
                         />
+                      {props.scores.length === 0 &&
+                          <p className={styles.noScoresText}>There are no annotations with scores</p>
+                        }
                     </div>
                 </div>
             </div>

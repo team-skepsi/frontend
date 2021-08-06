@@ -10,17 +10,17 @@ function VerticalBarChart(props){
       {
         data: props.xAxisData,
         backgroundColor: [
-          'rgba(255, 255, 255, 0.4)',
+          'rgba(148, 105, 75, 0.6)'
         ],
         borderColor: [
-          'rgba(255, 255, 255, 1)',
+          '#CCBA9C',
         ],
         borderWidth: 1,
       },
     ],
   };
 
-  const options = {
+  var options = {
     plugins: {
       legend: {
         display: false,
@@ -28,22 +28,28 @@ function VerticalBarChart(props){
     },
     scales: {
       x: {
+        grid: {
+          display: false,
+        },
         ticks: {
-          color: 'white',
+          color: '#888888',
           fontWeight: 'bold',
           fontFamily: "Roboto",
           precision: 0,
-        }
+        },
       },
       y: {
+        grid: {
+          color: "rgba(0, 0, 0, 0.1)"
+        },
         ticks: {
-          color: 'white',
+          color: '#888888',
           fontWeight: 'bold',
           precision: 0,
           fontFamily: "Roboto"
         }
       }
-    },
+    }
   };
 
   return(

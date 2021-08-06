@@ -1,6 +1,5 @@
 import {List, Record, Set, RecordOf} from "immutable"
 import {SingleASTNode} from "simple-markdown"
-import {RefObject} from "react"
 
 export const isAst = (thing: any): thing is SingleASTNode => thing && typeof thing.type === "string"
 
@@ -43,8 +42,6 @@ type _ContentNodeType = {
     _id: number
     type: string
     content?: ContentNodeType | List<ContentNodeType> | string
-    startIndex: number
-    nodeRef?: RefObject<HTMLElement>
     props: {
         annotations?: Set<AnnotationType>
         [key: string]: any
@@ -57,9 +54,7 @@ const contentNodeDefaults: _ContentNodeType = Object.freeze({
     _id: NaN,
     type: 'div',
     content: undefined,
-    startIndex: NaN,
-    nodeRef: undefined,
-    props: Object.freeze({}),
+    props: Object.freeze({})
 })
 
 // format for storing rich text that gets rendered in the document viewer

@@ -6,7 +6,7 @@ import Cover from "../Cover/Cover"
 import { Loader, Dimmer, Divider } from 'semantic-ui-react'
 import ScoreMetadata from '../ScoreMetadata/ScoreMetadata.js'
 
-import * as styles from "./ViewStateManager.module.css"
+import * as styles from "./ViewStateManagerUpdated.module.css"
 
 const ViewStateManager = (props) => {
     const {md, ...paperMetadata} = props.document

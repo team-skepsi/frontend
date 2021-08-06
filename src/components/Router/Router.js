@@ -14,7 +14,6 @@ import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
 import ScientistDomainPicker from '../ScientistDomainPicker/ScientistDomainPicker.js'
 import FeaturedAnnotations from '../FeaturedAnnotations/FeaturedAnnotations.js'
 import HomepageUpdated from '../HomepageUpdated/HomepageUpdated.js'
-import ViewStateManager from '../ViewStateManagerUpdated/ViewStateManager.js'
 
 const GET_ALL_TOPIC_SLUGS = gql`
     query{
@@ -72,10 +71,6 @@ function Router() {
             }
             <Route path="/homepage-test">
               <HomepageManager />
-            </Route>
-
-            <Route path="/vsm">
-              <ViewStateManager />
             </Route>
 
             <Route path="/playground">

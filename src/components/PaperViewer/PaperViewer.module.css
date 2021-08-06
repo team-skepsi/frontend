@@ -1,14 +1,14 @@
 .mainContainer {
     display: flex;
     align-items: stretch;
+    border: rgb(129, 128, 128, 0.5) 5px solid;
     border-top: none;
 }
 
 .paperContainer {
     flex: 1 0;
-    padding: 40px;
-    padding-top: 0px;
-    line-height: 1.6;
+    padding: 0 20px;
+    line-height: 1.5;
     font-family: "Computer Modern", sans-serif;
 }
 
@@ -28,6 +28,7 @@
 .tooltipContainer {
     flex: 0 35%;
     position: relative;
+    /* background-color: orange; */
     background-clip: content-box;
 }
 

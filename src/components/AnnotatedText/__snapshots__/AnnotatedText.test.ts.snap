@@ -6,7 +6,6 @@ exports[`render 1`] = `
 >
   <span
     className="Section"
-    onClick={[Function]}
     style={
       Object {
         "backgroundColor": "transparent",
@@ -18,7 +17,6 @@ exports[`render 1`] = `
   </span>
   <span
     className="Section"
-    onClick={[Function]}
     style={
       Object {
         "backgroundColor": "yellow",
@@ -30,7 +28,6 @@ exports[`render 1`] = `
   </span>
   <span
     className="Section"
-    onClick={[Function]}
     style={
       Object {
         "backgroundColor": "transparent",
@@ -42,7 +39,6 @@ exports[`render 1`] = `
   </span>
   <span
     className="Section"
-    onClick={[Function]}
     style={
       Object {
         "backgroundColor": "yellow",
@@ -54,7 +50,6 @@ exports[`render 1`] = `
   </span>
   <span
     className="Section"
-    onClick={[Function]}
     style={
       Object {
         "backgroundColor": "yellow",
@@ -66,7 +61,6 @@ exports[`render 1`] = `
   </span>
   <span
     className="Section"
-    onClick={[Function]}
     style={
       Object {
         "backgroundColor": "yellow",
@@ -78,7 +72,6 @@ exports[`render 1`] = `
   </span>
   <span
     className="Section"
-    onClick={[Function]}
     style={
       Object {
         "backgroundColor": "transparent",

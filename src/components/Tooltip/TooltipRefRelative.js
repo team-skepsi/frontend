@@ -11,9 +11,7 @@ const TooltipRefRelative = (props) => {
                 top={() => {
                     const thisOne = document.getElementById("TooltipRefRelative")
                     const top = (
-                        (props.activeNodeRef && props.activeNodeRef.current
-                            ? props.activeNodeRef.current.getBoundingClientRect().top
-                            : NaN) -
+                        (props.activeNodeRef? props.activeNodeRef.current.getBoundingClientRect().top: NaN) -
                         (thisOne? thisOne.getBoundingClientRect().top : NaN)
                     )
                     return Math.max(top || 0, 45)

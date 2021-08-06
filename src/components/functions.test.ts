@@ -1,5 +1,5 @@
-import { isAscending, convolve, range } from "./functions"
-import {List} from "immutable"
+import { isAscending, convolve } from "./functions"
+import {List} from "immutable";
 
 it("can tell if an array isAscending", () => {
     expect(isAscending([1, 2, 3])).toEqual(true)
@@ -14,11 +14,4 @@ it("convolves", () => {
         0,
         List(Array(5).fill(0))
     )).toEqual(List([0, 1, 2, 3, 4]))
-})
-
-it("can make ranges", () => {
-    expect(range(5)).toEqual([0, 1, 2, 3, 4])
-    expect(range(2, 5)).toEqual([2, 3, 4])
-    expect(() => range(0, 5, -1)).toThrow()
-    expect(range(4, 0, -2)).toEqual([4, 2])
 })

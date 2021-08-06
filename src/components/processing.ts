@@ -197,6 +197,38 @@ export const getAnnotationText = (node: ContentNodeType, annotations: Set<Annota
 }
 
 /*
+tells each content node how many character precede it in the document
+ */
+const markStartIndex = (node: ContentNodeType) => {
+    const _markStartIndex = (node: ContentNodeType, offset: number): [ContentNodeType, number] => {
+        node = node.merge({startIndex: offset})
+
+        const kids = List.isList(node.content)
+            ? node.content
+            : !(node.content === undefined || typeof node.content === "string")
+                ? List.of(node.content)
+                : null
+
+        if (List.isList(kids)){
+            node = node.merge({
+                content: kids.map((each) => {
+                    const [newKid, endOffset] = _markStartIndex(each, offset)
+                    offset = endOffset
+                    return newKid
+                })
+            })
+        } else if (typeof node.content === "string") {
+            offset += node.content.length
+        }
+
+        return [node, offset]
+    }
+
+    return _markStartIndex(node, 0)[0]
+}
+
+
+/*
 tells the nodes which annotations they get, tells the annotations which text they get
  */
 export const weaveNodeAnnotations = (node: ContentNodeType, annotations: Set<AnnotationType>): [ContentNodeType, Set<AnnotationType>] => {
@@ -208,7 +240,7 @@ export const weaveNodeAnnotations = (node: ContentNodeType, annotations: Set<Ann
     const augmentedAnnotations = getAnnotationText(nodeWithId, getAnnotationNodeIds(annotationGroups, annotations))
     const annotationGroupsMap = Map(annotationGroups)
     const augmentedNodes = nodeMap(nodeWithId,n => n.merge({props: {...n.props, annotations: annotationGroupsMap.get(n)}}))
-    return [augmentedNodes, augmentedAnnotations]
+    return [markStartIndex(augmentedNodes), augmentedAnnotations]
 }
 
 /*

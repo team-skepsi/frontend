@@ -29,12 +29,7 @@ export const codeBlock = "pre"
 export const inlineCode = "code"
 export const paragraph = "div"
 export const blockQuote = "blockquote"
-
-export const heading: React.FC<ContentComponentType> = (props) => {
-    return (
-        <h1 id={nodePrettyId(props.node)}>{props.children}</h1>
-    )
-}
+export const heading = "h1"
 
 export const link: React.FC<{target: string, content: string}> = (props) => {
     return <a href={props.target}>{props.children}</a>

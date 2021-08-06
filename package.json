@@ -24,6 +24,8 @@
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.8",
     "@types/react-mathjax": "^1.0.0",
+    "@types/react-router-dom": "^5.1.8",
+    "@types/react-window": "^1.8.5",
     "apollo-link-http": "^1.5.17",
     "auth0-js": "^9.16.2",
     "axios": "^0.21.1",
@@ -34,6 +36,7 @@
     "graphql": "^15.5.0",
     "heap": "^0.2.6",
     "husky": "^7.0.1",
+    "identity-obj-proxy": "^3.0.0",
     "immutable": "^4.0.0-rc.12",
     "is-valid-orcid": "^1.2.0",
     "jquery": "^3.6.0",
@@ -63,6 +66,7 @@
     "react-tooltip": "^4.2.21",
     "react-transition-group": "^4.4.2",
     "react-waypoint": "^10.1.0",
+    "react-window": "^1.8.6",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "shuffle-array": "^1.0.1",
@@ -134,5 +138,10 @@
     "@types/react-test-renderer": "^17.0.1",
     "react-test-renderer": "^17.0.2",
     "ts-jest": "^27.0.3"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass|gif)$": "identity-obj-proxy"
+    }
   }
 }

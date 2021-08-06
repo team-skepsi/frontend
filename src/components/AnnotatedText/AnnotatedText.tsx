@@ -22,6 +22,7 @@ type AnnotatedTextType = {
     children: string
     annotations?: Set<AnnotationType>
     withProps?: object
+    setActiveAnnotationId?: (val: number | ((id: number) => number)) => void
 }
 
 const AnnotatedText: React.FC<AnnotatedTextType> = (props) => {
@@ -30,7 +31,9 @@ const AnnotatedText: React.FC<AnnotatedTextType> = (props) => {
         <span {...(props.withProps || {})} className={"AnnotatedText"}>
             {assignAnnotations(x => x.length, annotations, breakUpString(props.children, annotations))
                 .map(([substring, substringAnnotations], i) =>
-                    <Section key={i} annotations={substringAnnotations}>{substring}</Section>)}
+                    <Section key={i} annotations={substringAnnotations} setActiveAnnotationId={props.setActiveAnnotationId}>
+                        {substring}
+                    </Section>)}
         </span>
     )
 }

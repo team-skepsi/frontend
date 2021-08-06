@@ -5,10 +5,12 @@ import {ContentNode, ContentNodeType} from "../types"
 import * as _ContentComponents from "./ContentComponents"
 import {astToNode} from "../processing";
 import {SingleASTNode} from "simple-markdown";
+import {nodeIdToPrettyId} from "../functions";
 const ContentComponents = Object.freeze(Object.create(_ContentComponents))
 
 type ContentBlockType = {
     node: ContentNodeType
+    setActiveAnnotationId?: (val: number | ((id: number) => number)) => void
 }
 
 /*
@@ -31,15 +33,27 @@ const ContentBlock: React.FC<ContentBlockType> = (props) => {
     if (content === undefined || typeof content === "string"){
         children = content
     } else if (List.isList(content)){
-        children = content.map((n, i) => <ContentBlock key={i} node={n} />)
+        children = content.map((n, i) => <ContentBlock key={i} node={n} setActiveAnnotationId={props.setActiveAnnotationId} />)
     } else {
-        children = <ContentBlock node={content} />
+        children = <ContentBlock node={content} setActiveAnnotationId={props.setActiveAnnotationId} />
     }
 
-    return React.createElement(
-        type,
-        {...props.node.props, node: props.node},
-        children
+    return (
+        <span
+            className={"ContentBlock"}
+            id={!isNaN(props.node._id)? nodeIdToPrettyId(props.node._id): undefined}
+            ref={props.node.nodeRef}>
+            {React.createElement(
+                type,
+                {
+                    ...props.node.props,
+                    className: (props.node.props.className || "") + " ContentBlock",
+                    node: props.node,
+                    setActiveAnnotationId: props.setActiveAnnotationId,
+                },
+                children
+            )}
+        </span>
     )
 }
 

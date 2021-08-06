@@ -76,7 +76,7 @@ const CardAlignGroupCore: React.FC<CardAlignGroupCoreType> = (props) => {
                 <CardContainer
                     key={card.key}
                     reportHeight={(val: number) => setCardHeightsMap(m => m.set(card.key, val))}
-                    style={{transition: "top 0.75s", position: "absolute", top: adjustedOffsets[i]}}>
+                    style={{transition: "top 0.5s", position: "absolute", top: adjustedOffsets[i]}}>
                     {card.card}
                 </CardContainer>
             )}

@@ -45,6 +45,7 @@ const TopLevelContentBlock: React.FC<TopLevelContentBlockType> = (props) => {
 
     // when the user clicks the little dot on the side, we update the url to be a link to this position
     const onClickAnchor = () => {
+        console.log("hi")
         try {
             if (window.history.pushState){
                 window.history.pushState(null, "", "#" + id)
@@ -69,10 +70,16 @@ const TopLevelContentBlock: React.FC<TopLevelContentBlockType> = (props) => {
             onMouseUp={selectMe}
             data-index={props.node.startIndex}
         >
-            {!excluded &&
-                <div onClick={onClickAnchor} className={styles.anchor}/>
-            }
-            <ContentBlock node={props.node} setActiveAnnotationId={props.setActiveAnnotationId} />
+            <div className={styles.anchorContainer}>
+                {!excluded &&
+                    <div onMouseDown={onClickAnchor} className={styles.anchor}/>
+                }
+            </div>
+
+            <div className={styles.ContentBlockContainer}>
+                <ContentBlock node={props.node} setActiveAnnotationId={props.setActiveAnnotationId} />
+            </div>
+
             <div onClick={selectMe} className={styles.dotTarget}>
                 {
                     numAnnotationsInKids === 0? <></> :

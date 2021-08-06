@@ -14,6 +14,7 @@ import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
 import ScientistDomainPicker from '../ScientistDomainPicker/ScientistDomainPicker.js'
 import FeaturedAnnotations from '../FeaturedAnnotations/FeaturedAnnotations.js'
 import HomepageUpdated from '../HomepageUpdated/HomepageUpdated.js'
+import AnnotationCardTemplate from '../AnnotationCardTemplate/AnnotationCardTemplate.js'
 
 const GET_ALL_TOPIC_SLUGS = gql`
     query{
@@ -74,8 +75,7 @@ function Router() {
             </Route>
 
             <Route path="/playground">
-              <Divider />
-              <FeaturedAnnotations />
+              <AnnotationCardTemplate />
             </Route>
 
             <Route path="/homepage">

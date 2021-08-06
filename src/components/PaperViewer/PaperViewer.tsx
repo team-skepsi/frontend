@@ -31,12 +31,28 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
     const [userSelection, _setUserSelection] = useState<null | AnnotationType>(null)
 
     const setUserSelection = (val: (null | AnnotationType) | ((val: null | AnnotationType) => null | AnnotationType)) => {
+
+        // special id so we can identity user annotations later (ids from db are guaranteed to be positive)
         const userSelectionId = -1
         if (val && "_user" in val && val?._user){
             val = val.merge({_id: userSelectionId})
         }
+
+        // if we are told to set user selection to a nonnull, we want to update the active annotation to be it
+        if (typeof val === "function"){
+            const oldVal = val
+            val = (current) => {
+                const derived = oldVal(current)
+                if (derived !== null){
+                    setActiveAnnotationId(userSelectionId)
+                }
+                return derived
+            }
+        } else if (val !== null){
+            setActiveAnnotationId(userSelectionId)
+        }
+
         _setUserSelection(val)
-        setActiveAnnotationId(userSelectionId)
     }
 
     const [activeNode, setActiveNode] = useState<null | ContentNodeType>(null)

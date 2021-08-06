@@ -37,8 +37,7 @@ const Section: React.FC<SectionType> = (props) => {
     return (
         <span
             {...annotationProps}
-            onClick={onClick}
-            onDoubleClick={(e) => e.preventDefault()}
+            onMouseDown={onClick} // for some reason onclick isn't working
             style={{
                 ...annotationProps.style,
                 ...highlightStyle(props.annotations),

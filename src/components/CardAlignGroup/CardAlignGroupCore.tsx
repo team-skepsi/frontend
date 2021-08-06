@@ -34,7 +34,7 @@ const CardAlignGroupCore: React.FC<CardAlignGroupCoreType> = (props) => {
     const cards = props.cards.sort((a, b) => a.preferredOffset - b.preferredOffset)
     const activeIndex = cards
         .map((c, i): [CardEachType, number] => [c, i])
-        .filter(([c, i]) => c.active)
+        .filter(([c]) => c.active)
         .get(0, [0, 0])[1]
 
     const [cardHeightsMap, setCardHeightsMap] = useState(Map<number, number>())
@@ -76,7 +76,7 @@ const CardAlignGroupCore: React.FC<CardAlignGroupCoreType> = (props) => {
                 <CardContainer
                     key={card.key}
                     reportHeight={(val: number) => setCardHeightsMap(m => m.set(card.key, val))}
-                    style={{transition: "top 0.5s", position: "absolute", top: adjustedOffsets[i]}}>
+                    style={{transition: "top 0.75s", position: "absolute", top: adjustedOffsets[i]}}>
                     {card.card}
                 </CardContainer>
             )}

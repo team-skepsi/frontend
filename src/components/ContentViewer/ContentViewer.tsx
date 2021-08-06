@@ -3,10 +3,11 @@
 import React, {useState, useRef, useCallback, useEffect} from "react"
 import {AnnotationType, ContentNode, ContentNodeType} from "../types"
 import SelectionManager from "../SelectionManager/SelectionManager"
-import TexProvider from "../Tex/TexProvider"
 import {List, Map} from "immutable"
 import TopLevelContentBlock from "../TopLevelContentBlock/TopLevelContentBlock"
 import {VariableSizeList} from "react-window"
+
+import * as styles from "./ContentViewer.module.css"
 
 type ContentViewerType = {
     root: ContentNodeType
@@ -79,14 +80,20 @@ const ContentViewer: React.FC<ContentViewerType> = (props) => {
         <div className={"ContentViewer"} id={"ContentViewer"} style={{position: "relative"}}>
             <SelectionManager selectionCallback={props.setUserSelection}>
                 <VariableSizeList
+                    // @ts-ignore
+                    className={styles.List}
                     onScroll={redraw}
                     ref={listRef}
+                    // estimatedItemSize={100} // does this do anything?
                     itemSize={index => indexToHeight.current.get(index, 50)}
                     height={800}
                     itemCount={topLevelContentNodes.size}
                     width={"100%"}>
                     {({index, style}) => (
-                        <div style={style}>
+                        <div
+                            // @ts-ignore
+                            className={styles.ListEach}
+                            style={style}>
                             <TopLevelContentBlock
                                 index={index}
                                 node={indexToContentNode.get(index, ContentNode())}

@@ -61,7 +61,7 @@ const getSelectionRelativePosition = () => {
         selectionRange.detach()
 
         if (selectionLen !== 0 && !isNaN(offset) && !isNaN(selectionLen)){
-            return Annotation({start: offset, stop: offset + selectionLen, _user: true})
+            return Annotation({start: offset, stop: offset + selectionLen, _activeHighlight: true})
         }
     }
 

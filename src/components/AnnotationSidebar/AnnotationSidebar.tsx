@@ -12,7 +12,7 @@ const annotationToAnnotationCard = (a: AnnotationType): AnnotationCardType => ({
     id: a._id,
     start: a.start,
     stop: a.stop,
-    user: a._user,
+    activeHighlight: a._activeHighlight,
     author: a.data.author ? a.data.author.username: "???",
     date: a.data.date || formatDate(new Date(Date.now())),
     text: a.data.content || "",
@@ -21,7 +21,7 @@ const annotationToAnnotationCard = (a: AnnotationType): AnnotationCardType => ({
             ({scoreNumber, category: field, id, text: explanation}))
         : [],
     userCouldEdit: true,
-    beingEdited: a._user,
+    beingEdited: a._activeHighlight,
     annotation: a,
 })
 
@@ -109,7 +109,7 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
         setReplies(replies => replies.push({
             parent: parentId,
             card: {
-                author: user,
+                author: user['http://www.skepsi.com/username'],
                 date: formatDate(new Date(Date.now())),
                 beingEdited: true,
                 userCouldEdit: true,

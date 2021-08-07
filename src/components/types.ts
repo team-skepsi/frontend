@@ -18,7 +18,7 @@ type _AnnotationType = {
     }
 
     _id: number
-    _user: boolean
+    _activeHighlight: boolean
     _first: boolean
     _text: string | undefined
     _node_id: List<number>
@@ -31,7 +31,7 @@ const annotationDefaults: _AnnotationType = {
     stop: NaN,
     data: Object.freeze({}),
     _id: NaN,
-    _user: false,
+    _activeHighlight: false,
     _first: false,
     _text: undefined,
     _node_id: List<number>(),

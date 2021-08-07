@@ -33,7 +33,7 @@ const TopLevelContentBlock: React.FC<TopLevelContentBlockType> = (props) => {
     // this is used to figure out how big of a dot to put on the "annotation heatmap"
     const numAnnotationsInKids = nodesInNode(props.node).reduce(
         (c, n) => c.concat(n.props.annotations?
-            n.props.annotations.filter(a => !a._user).map(a => a._id) : Set()),
+            n.props.annotations.filter(a => !a._activeHighlight).map(a => a._id) : Set()),
         Set()
     ).size
 

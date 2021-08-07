@@ -34,7 +34,7 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
 
         // special id so we can identity user annotations later (ids from db are guaranteed to be positive)
         const userSelectionId = -1
-        if (val && "_user" in val && val?._user){
+        if (val && "_activeHighlight" in val && val?._activeHighlight){
             val = val.merge({_id: userSelectionId})
         }
 

@@ -8,7 +8,7 @@ import {AuthenticationContext, UserContext} from '../../App.js'
 import {useLocation} from 'react-router-dom'
 import {Dropdown, Modal} from 'semantic-ui-react'
 import {GET_PAPER_AND_ANNOTATION_DATA} from '../PageManager/PageManager.js'
-import {AnnotationType} from "../types";
+import {AnnotationType} from "../types"
 
 const UPDATE_ANNOTATION = gql`
     mutation UpdateAnnotation($author: String, $quote: String, $content:String, $id: ID){
@@ -116,7 +116,7 @@ export type AnnotationCardType = {
     id?: number
     start?: number
     stop?: number
-    user?: boolean
+    activeHighlight?: boolean
     author?: string
     date?: string
     text?: string
@@ -224,6 +224,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         text: props.text || "",
         scoreBlocks: props.scoreBlocks || [],
         beingEdited: props.beingEdited || false,
+        activeHighlight: props.activeHighlight
     })
 
     const setState: typeof _setState = (...args) => {
@@ -266,7 +267,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         })
         setOpenScoreBlocks(openScoreBlocks.slice(0, sbIndex).concat(openScoreBlocks.slice(sbIndex + 1)))
 
-        // TODO(Finn): need error handling for if this request fails
+        // TODO: need error handling for if this request fails
         deleteScore({
             variables: {
                 scoreId: state.scoreBlocks[sbIndex].id
@@ -290,12 +291,14 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         setState({...state, beingEdited: false})
 
         if (isEdited()) {
-            if (Number.isNaN(state.id)) {
+
+            // state.id will be NaN if it is an active reply
+            if (state.activeHighlight || isNaN(state.id)) {
                 if (props.killActiveSelection){
                     props.killActiveSelection()
                 }
 
-                // TODO(Finn): error handling for if this request fails
+                // TODO: error handling for if this request fails
                 createAnnotation({
                     variables: {
                         author: user['http://www.skepsi.com/username'],
@@ -307,10 +310,13 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                     }
                 })
                     .then(response => {
+                        
+                        // TODO: modify the parent to know this guy is it's child (tricky error handling)
+                        
                         for (let score of state.scoreBlocks) {
                             if (score.field && score.scoreNumber) {
 
-                                // TODO(Finn): error handling for if this request fails
+                                // TODO: error handling for if this request fails
                                 createScore({
                                     variables: {
                                         author: user['http://www.skepsi.com/username'],
@@ -324,7 +330,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                         }
                     })
             } else {
-                // TODO(Finn): error handling for if this request fails
+                // TODO: error handling for if this request fails
                 updateAnnotation({
                     variables: {
                         id: state.id,
@@ -336,7 +342,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                         for (let score of state.scoreBlocks) {
                             if (score.id && score.field && score.scoreNumber !== undefined) {
                                 // OLD SCORE UPDATE
-                                // TODO(Finn): error handling for if this request fails
+                                // TODO: error handling for if this request fails
                                 updateScore({
                                     variables: {
                                         scoreId: score.id,
@@ -346,7 +352,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                                     }
                                 })
                             } else {
-                                // TODO(Finn): error handling for if this request fails
+                                // TODO: error handling for if this request fails
                                 createScore({
                                     variables: {
                                         author: user['http://www.skepsi.com/username'],
@@ -365,7 +371,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
 
     function onDelete() {
         setDeleteModalOpen(false)
-        // TODO(Finn): error handling for if this request fails
+        // TODO: error handling for if this request fails
         deleteAnnotation({
             variables: {
                 annotationId: state.id
@@ -413,7 +419,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                                     disabled={!state.beingEdited}
                                     options={categoryOptions}
                                     onChange={(e) =>
-                                        // TODO(Finn): my ide seems to think innerText will sometimes not be defined here, not sure
+                                        // TODO: my ide seems to think innerText will sometimes not be defined here, not sure
                                         // @ts-ignore
                                         editScoreBlock(sbIndex, {field: e.target.innerText})}/>
                             </div>

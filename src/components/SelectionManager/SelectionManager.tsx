@@ -1,6 +1,7 @@
 import React, {useRef} from 'react'
 import {Annotation, AnnotationType} from '../types'
 import './SelectionManager.css'
+import {TOP_LEVEL_CONTENT_CLASS, TOP_LEVEL_OFFSET_ATTRIBUTE_NAME} from "../TopLevelContentBlock/TopLevelContentBlock";
 
 // class for elements which should not be selectable
 export const NO_SELECT_CLASS = "SelectionManager-no-select"
@@ -23,7 +24,7 @@ const rangeTrueLen = (node: DocumentFragment | Element, selector: string): numbe
 uses window.getSelection() to get the user's current selection and generates a corresponding annotation, deleting the
 selection when done
  */
-const getSelectionRelativePosition = (referenceNode: HTMLDivElement) => {
+const getSelectionRelativePosition = () => {
     let selectionRange
     try {
         selectionRange = window.getSelection()?.getRangeAt(0)
@@ -34,19 +35,33 @@ const getSelectionRelativePosition = (referenceNode: HTMLDivElement) => {
 
     if (selectionRange && !selectionRange.collapsed){
 
+        // the length of the actual things the user has selected
         const selectionLen = rangeTrueLen(selectionRange.cloneContents(), "." + NO_SELECT_CLASS)
 
+        // complicated operations to measure the distance between an element and the start of the document
         selectionRange.setEnd(selectionRange.startContainer, selectionRange.startOffset)
-        selectionRange.setStartBefore(referenceNode)
 
-        const offset = rangeTrueLen(selectionRange.cloneContents(), "." + NO_SELECT_CLASS)
+        const enclosingTopLevelContentNode =
+            selectionRange.startContainer
+            && selectionRange.startContainer.parentElement
+            && selectionRange.startContainer.parentElement.closest("." + TOP_LEVEL_CONTENT_CLASS)
+
+        if (!enclosingTopLevelContentNode){
+            return null
+        }
+
+        const ecos = enclosingTopLevelContentNode.getAttribute(TOP_LEVEL_OFFSET_ATTRIBUTE_NAME)
+        const enclosingElementOffset = parseInt(ecos || "")
+
+        selectionRange.setStartBefore(enclosingTopLevelContentNode)
+
+        const offset = rangeTrueLen(selectionRange.cloneContents(), "." + NO_SELECT_CLASS) + enclosingElementOffset
 
         selectionRange.collapse()
         selectionRange.detach()
 
-
-        if (selectionLen !== 0){
-            return Annotation({start: offset, stop: offset + selectionLen, _user: true})
+        if (selectionLen !== 0 && !isNaN(offset) && !isNaN(selectionLen)){
+            return Annotation({start: offset, stop: offset + selectionLen, _activeHighlight: true})
         }
     }
 
@@ -61,18 +76,13 @@ type SelectionManagerType = {
 Wraps some text. When the text is selected, it creates an `Annotation` and feeds it to `selectionCallback`.
  */
 const SelectionManager: React.FC<SelectionManagerType> = (props) => {
-    const ref: React.Ref<HTMLDivElement> = useRef(null)
     const onMouseUp = () => {
-        if (ref.current === null){
-            throw Error("SelectionManager not rendered yet")
-        }
-        props.selectionCallback(getSelectionRelativePosition(ref.current))
+        props.selectionCallback(getSelectionRelativePosition())
     }
     const onMouseDown = () => props.selectionCallback(null)
 
     return (
         <div
-            ref={ref}
             className={"SelectionManager"}
             id={"SelectionManager-reference"}
             onMouseUp={onMouseUp}

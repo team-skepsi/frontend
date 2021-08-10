@@ -7,7 +7,6 @@
 
 .paperContainer {
     flex: 1 0;
-    padding: 0 20px;
     line-height: 1.5;
     font-family: "Computer Modern", sans-serif;
 }

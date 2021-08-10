@@ -33,13 +33,23 @@ const Tooltip = (props) => {
         }
     }
 
-    const knobStyles = {
-        top: (typeof props.top === "function"? props.top() : props.top) || 45
+    // if we've been told to freeze, use the saved value, otherwise run the calculation and save the new value
+    const [topPrev, setTopPrev] = useState(45)
+    const getTop = () => {
+        if (props.freeze){
+            return topPrev
+        } else {
+            const val = (typeof props.top === "function" ? props.top() : props.top) || 45
+            if (val !== topPrev){
+                setTopPrev(val)
+            }
+            return val
+        }
     }
 
     return (
         <div className={styles.main} style={{width: props.width}}>
-            <div className={styles.dynamicPosition} style={{height: 150, ...knobStyles}}>
+            <div className={styles.dynamicPosition} style={{height: 150, top: getTop()}}>
                 <IconContext.Provider value={{color: "#E3DBD4"}}>
                     <div className={styles.knob}>
                         <div className={styles.knobNav}>

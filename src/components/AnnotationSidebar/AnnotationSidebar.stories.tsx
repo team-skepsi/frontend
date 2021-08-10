@@ -39,7 +39,7 @@ export const Example = () => (
                     children: [1, 2],
                 }
             }),
-            Annotation({_id: 0, _user: true})
+            Annotation({_id: 0, _activeHighlight: true})
         ])
     } />
 )

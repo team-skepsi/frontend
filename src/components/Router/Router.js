@@ -1,20 +1,23 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom'
 import {gql, useQuery} from "@apollo/client"
-import { Divider, Message } from 'semantic-ui-react'
 
-import HomepageManager from '../HomepageManager/HomepageManager.js';
+import { Divider, Message } from 'semantic-ui-react'
+=======
+import HomepageManager from '../HomepageManager/HomepageManager.js'
 import PaperCards from '../PaperCards/PaperCards.js'
 import RoleSelection from '../RoleSelection/RoleSelection.js'
 import SignupView from '../SignupView/SignupView.js'
 import PageManager from '../PageManager/PageManager.js'
 import ProfilePage from '../ProfilePage/ProfilePage.js'
 import Navbar from '../Navbar/Navbar.js'
-import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
-import ScientistDomainPicker from '../ScientistDomainPicker/ScientistDomainPicker.js'
-import FeaturedAnnotations from '../FeaturedAnnotations/FeaturedAnnotations.js'
+// import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
+// import ScientistDomainPicker from '../ScientistDomainPicker/ScientistDomainPicker.js'
+// import FeaturedAnnotations from '../FeaturedAnnotations/FeaturedAnnotations.js'
 import HomepageUpdated from '../HomepageUpdated/HomepageUpdated.js'
 import SkepsiIsBroken from '../SkepsiIsBroken/SkepsiIsBroken.js'
+
+import AnnotationCardTemplate from '../AnnotationCardTemplate/AnnotationCardTemplate.js'
 
 const GET_ALL_TOPIC_SLUGS = gql`
     query{
@@ -54,57 +57,59 @@ function Router() {
     )
   }
 
-  return (
+    return (
         <Switch>
             {data && data.allTopics.map((topic) =>
                 <Route key={topic.id} path={"/".concat(topic.slug)}>
                     <React.Fragment>
-                      <PaperCards />
+                        <PaperCards />
                     </React.Fragment>
                 </Route>
             )}
 
-            {paperData &&
-                paperData.allPapers.map((paper) =>
-                    <Route key={paper.id} path={"/".concat(paper.id)}>
-                        <PageManager />
-                    </Route>
-                )
-            }
+            {paperData && paperData.allPapers.map((paper) =>
+                <Route key={paper.id} path={"/".concat(paper.id)}>
+                    <PageManager />
+                </Route>
+            )}
+
             <Route path="/homepage-test">
-              <HomepageManager />
+                <HomepageManager />
             </Route>
 
             <Route path="/playground">
-              <Divider />
-              <FeaturedAnnotations />
+                <div/>
+                {/*<AnnotationCardTemplate />*/}
             </Route>
 
             <Route path="/broken">
               <SkepsiIsBroken />
-            </Route>
+
 
             <Route path='/user-info'>
-              <React.Fragment>
-                <Navbar />
-                <ProfilePage />
-              </React.Fragment>
-            </Route>
-            <Route path='/signup'>
-              <React.Fragment>
-                <Navbar />
-                <RoleSelection />
-              </React.Fragment>
-            </Route>
-            <Route path={['/scientist-signup', '/user-signup', '/expert-signup']}>
                 <React.Fragment>
-                  <Navbar />
-                  <SignupView/>
+                    <Navbar />
+                    <ProfilePage />
                 </React.Fragment>
             </Route>
+
+            <Route path='/signup'>
+                <React.Fragment>
+                    <Navbar />
+                    <RoleSelection />
+                </React.Fragment>
+            </Route>
+
+            <Route path={['/scientist-signup', '/user-signup', '/expert-signup']}>
+                <React.Fragment>
+                    <Navbar />
+                    <SignupView/>
+                </React.Fragment>
+            </Route>
+
             <Route path="/">
                 <React.Fragment>
-                  <HomepageManager />
+                    <HomepageManager />
                 </React.Fragment>
             </Route>
         </Switch>

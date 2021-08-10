@@ -3,7 +3,6 @@ import styles from "./ScoreMetadata.module.css"
 import {Divider, Dropdown} from 'semantic-ui-react'
 import {titleize} from '../../utility/StringManipulation.js'
 import {std} from 'mathjs'
-// import ReactBarChart from './ReactBarChart.tsx'
 import VerticalBarChart from './VerticalBarChart.js'
 import './ScoreMetadata.css' // TODO(Leo): convert to css module
 
@@ -82,7 +81,7 @@ function ScoreMetadata(props) {
     // }, [xAxisData])
 
 
-    if (xAxisData) {
+    if (xAxisData){
         return (
             <div>
                 <div className={styles.barChartWrapper} style={{}}>
@@ -115,6 +114,9 @@ function ScoreMetadata(props) {
                         <VerticalBarChart
                             xAxisData={xAxisData}
                         />
+                        {props.scores.length === 0 &&
+                        <p className={styles.noScoresText}>There are no annotations with scores</p>
+                        }
                     </div>
                 </div>
             </div>

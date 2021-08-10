@@ -1,14 +1,20 @@
-import React, {useMemo, useRef, useState} from "react"
+import React, {useCallback, useMemo, useRef, useState} from "react"
 import {DraggableCore} from "react-draggable"
 import {Set, Map} from "immutable"
+import {VscInfo, VscSymbolRuler, VscFileMedia, VscBook} from "react-icons/all"
 
 import {Annotation, AnnotationType, ContentNodeType} from "../types"
 import {mdToNode, nodeMap, nodesInNode, weaveNodeAnnotations} from "../processing"
 import {KNOB_DRAG_HANDLE_CLASS} from "../Tooltip/Tooltip"
+import {addSingleAnnotation} from "../functions"
 
 import ContentViewer from "../ContentViewer/ContentViewer"
 import TooltipRefRelative from "../Tooltip/TooltipRefRelative"
 import AnnotationSidebar from "../AnnotationSidebar/AnnotationSidebar"
+import CitationViewer from "../CitationViewer/CitationViewer"
+import TableContents from "../TableContents/TableContents"
+import FigureViewer from "../FigureViewer/FigureViewer"
+import ReferenceViewer from "../ReferenceViewer/ReferenceViewer"
 
 import styles from './PaperViewer.module.css'
 
@@ -30,7 +36,7 @@ and id, which are all integers or strings
 const PaperViewer: React.FC<PaperViewerType> = (props) => {
     const [userSelection, _setUserSelection] = useState<null | AnnotationType>(null)
 
-    const setUserSelection = (val: (null | AnnotationType) | ((val: null | AnnotationType) => null | AnnotationType)) => {
+    const setUserSelection = useCallback((val: (null | AnnotationType) | ((val: null | AnnotationType) => null | AnnotationType)) => {
 
         // special id so we can identity user annotations later (ids from db are guaranteed to be positive)
         const userSelectionId = -1
@@ -53,23 +59,24 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
         }
 
         _setUserSelection(val)
-    }
+    }, [_setUserSelection]) // TODO: possible bug here with missing dependency
 
     const [activeNode, setActiveNode] = useState<null | ContentNodeType>(null)
     const [activeNodeRef, setActiveNodeRef] = useState<null | React.RefObject<HTMLDivElement>>(null)
     const [activeAnnotationId, _setActiveAnnotationId] = useState(NaN)
 
-    const setActiveAnnotationId = (val: number | ((val: number) => number)) => {
+    const setActiveAnnotationId = useCallback((val: number | ((val: number) => number)) => {
         _setActiveAnnotationId(val)
         if (val !== -1){
             _setUserSelection(null)
         }
-    }
+    }, [_setActiveAnnotationId, _setUserSelection])
 
     const [activeResize, setActiveResize] = useState(false)
     const [featureBarWidth, setFeatureBarWidth] = useState<string | number>("35%")
 
-    const {md, ...paperMetadata} = props.document
+    // memo means paperMetadata remains the same, preventing tooltip rendering on resize
+    const {md, ...paperMetadata} = useMemo(() => props.document, [props.document])
 
     const [relatedToText, notRelatedToText] = useMemo(() => {
         const parsedAnnotations = Set(props.annotations.map((annotation) => {
@@ -90,12 +97,9 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
     const parsedMD = useMemo(() => mdToNode(md), [md])
 
     // memoize so it doesn't run on resize
-    const [root, annotations, nodeIdToRef] = useMemo(() => {
+    const [rootNoHighlight, annotationsNoHighlight, nodeIdToRef] = useMemo(() => {
 
-        const [root, annotationsWovenRelated] = weaveNodeAnnotations(
-            parsedMD,
-            userSelection ? relatedToText.add(userSelection) : relatedToText
-        )
+        const [root, annotationsWovenRelated] = weaveNodeAnnotations(parsedMD, relatedToText)
         const annotations = annotationsWovenRelated.concat(notRelatedToText)
 
         // maps from node id to a ref to that node
@@ -103,15 +107,19 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
         const rootWithRefs = nodeMap(root, node => node.merge({nodeRef: nodeIdToRef.get(node._id)}))
 
         return [rootWithRefs, annotations, nodeIdToRef]
-    }, [userSelection, notRelatedToText, relatedToText, parsedMD])
+    }, [notRelatedToText, relatedToText, parsedMD])
+
+    // add the activeHighlight in if it exists
+    const [root, annotations] = useMemo(() => {
+        if (!userSelection){
+            return [rootNoHighlight, annotationsNoHighlight]
+        } else {
+            const [root, annotation] = addSingleAnnotation(rootNoHighlight, userSelection)
+            return [root, annotationsNoHighlight.add(annotation)]
+        }
+    }, [rootNoHighlight, annotationsNoHighlight, userSelection])
 
     const draggableRef = useRef(null)
-
-    // ContentViewer declares this as a dependency, so whenever it changes (i.e. whenever featureBarWidth changes by
-    // more that a factor of n) ContentViewer knows it has to rerender and resize everything
-    const contentViewerRenderSentinel = typeof featureBarWidth === "number"
-        ? Math.round(featureBarWidth/30)
-        : 0
 
     return (
         <div className={styles.main}>
@@ -119,29 +127,17 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
             <div className={styles.mainContainer}>
 
                 <div className={styles.paperContainer} style={{position: 'relative'}}>
-                    {
-                        // again, avoid rendering on resize
-                        useMemo(
-                            () => (
-                                <ContentViewer
-                                    root={root}
-                                    setActiveNode={setActiveNode}
-                                    setActiveNodeRef={setActiveNodeRef}
-                                    setUserSelection={setUserSelection}
-                                    setActiveAnnotationId={setActiveAnnotationId}
-                                />
-                            ),
-                            [
-                                root,
-                                setActiveNode,
-                                setActiveNodeRef,
-                                setUserSelection,
-                                setActiveAnnotationId,
-                                contentViewerRenderSentinel,
-                                activeResize,
-                            ]
-                        )
-                    }
+                    {useMemo(() => (
+                        // doesn't render on resize
+                        <ContentViewer
+                            root={root}
+                            setActiveNode={setActiveNode}
+                            setActiveNodeRef={setActiveNodeRef}
+                            setUserSelection={setUserSelection}
+                            setActiveAnnotationId={setActiveAnnotationId}
+                        />
+                        ),[root, setActiveNode, setActiveNodeRef, setUserSelection, setActiveAnnotationId]
+                    )}
                 </div>
 
                 <DraggableCore
@@ -149,9 +145,9 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                     axis={"x"}
                     handle={"." + KNOB_DRAG_HANDLE_CLASS}
                     // adjustment of half the width of the slider = 21px TODO(Leo): this doesn't work!
-                    onDrag={e => setFeatureBarWidth("clientX" in e ? window.innerWidth - e.clientX : + 21)}
-                    onStart={() => setActiveResize(true)}
-                    onStop={() => setActiveResize(false)}
+                    onDrag={useCallback(e => setFeatureBarWidth("clientX" in e ? window.innerWidth - e.clientX : + 21), [setFeatureBarWidth])}
+                    onStart={useCallback(() => setActiveResize(true), [setActiveResize])}
+                    onStop={useCallback(() => setActiveResize(false), [setActiveResize])}
                     nodeRef={draggableRef}>
                     <div
                         ref={draggableRef}
@@ -160,15 +156,18 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
 
                         <div className={styles.tooltipVertical}/>
 
-                        <TooltipRefRelative
-                            root={root}
-                            annotations={annotations}
-                            paperMetadata={paperMetadata}
-                            activeNode={activeNode}
-                            activeNodeRef={activeNodeRef}
-                            width={featureBarWidth}
-                            freeze={activeResize}>
-                        </TooltipRefRelative>
+                        {useMemo(() => (
+                            <TooltipRefRelative
+                                activeNodeRef={activeNodeRef}
+                                freeze={activeResize}
+                                options={[
+                                    [<VscInfo/>, <CitationViewer paperMetadata={paperMetadata}/>],
+                                    [<VscSymbolRuler/>, <TableContents content={root}/>],
+                                    [<VscFileMedia/>, <FigureViewer paperMetadata={paperMetadata}/>],
+                                    [<VscBook/>, <ReferenceViewer paperMetadata={paperMetadata}/>],
+                                ]}>
+                            </TooltipRefRelative>
+                        ), [activeNodeRef, activeResize, JSON.stringify(paperMetadata), root])}
 
                         {/* what is this for? did i put this here? --Leo */}
                         <div style={{
@@ -177,14 +176,18 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                             left: '50px'
                         }}/>
 
-                        <div className={styles.annotationSidebarContainer}>
-                            <AnnotationSidebar
-                                annotations={annotations}
-                                activeAnnotationId={activeAnnotationId}
-                                setActiveAnnotationId={setActiveAnnotationId}
-                                nodeIdToRef={nodeIdToRef}
-                                killActiveSelection={() => setUserSelection(null)}/>
-                        </div>
+                        {useMemo(() => (
+                            // doesn't render on resize
+                            <div className={styles.annotationSidebarContainer}>
+                                <AnnotationSidebar
+                                    annotations={annotations}
+                                    activeAnnotationId={activeAnnotationId}
+                                    setActiveAnnotationId={setActiveAnnotationId}
+                                    nodeIdToRef={nodeIdToRef}
+                                    killActiveSelection={() => setUserSelection(null)}/>
+                            </div>
+                            ), [annotations, activeAnnotationId, setActiveAnnotationId, nodeIdToRef, setUserSelection]
+                        )}
                     </div>
                 </DraggableCore>
             </div>

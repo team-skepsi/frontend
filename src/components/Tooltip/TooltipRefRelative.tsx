@@ -1,15 +1,21 @@
 import React, {useRef} from "react"
 import Tooltip from "./Tooltip"
 
-const TooltipRefRelative = (props) => {
+type TooltipRefRelativeType = {
+    activeNodeRef: React.RefObject<HTMLDivElement> | null
+    freeze: boolean
+    options: [React.ReactElement, React.ReactElement][]
+}
 
-    const ref = useRef(null)
+const TooltipRefRelative: React.FC<TooltipRefRelativeType> = (props) => {
+
+    const ref = useRef<HTMLDivElement>(null)
 
     return (
-        <div className={"TooltipRefRelative"} id={"TooltipRefRelative"} ref={ref}>
+        <div className={"TooltipRefRelative"} ref={ref}>
             <Tooltip
                 top={() => {
-                    const thisOne = document.getElementById("TooltipRefRelative")
+                    const thisOne = ref.current
                     const top = (
                         (props.activeNodeRef && props.activeNodeRef.current
                             ? props.activeNodeRef.current.getBoundingClientRect().top
@@ -18,7 +24,8 @@ const TooltipRefRelative = (props) => {
                     )
                     return Math.max(top || 0, 45)
                 }}
-                {...props}
+                freeze={props.freeze}
+                options={props.options}
             />
         </div>
     )

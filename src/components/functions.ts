@@ -1,8 +1,9 @@
 import React from "react"
 import {Collection, List, RecordOf, Set} from "immutable"
 import renderer from "react-test-renderer"
-import {ContentNodeType} from "./types"
+import {AnnotationType, ContentNodeType} from "./types"
 import curry from "just-curry-it"
+import {isAnnotationSectionOverlap, nodeMap, translateAnnotation} from "./processing";
 
 /*
 Whether the list is ascending monotonically (a > b)
@@ -116,3 +117,26 @@ export const range = (start: number, stop?: number, step?: number) => {
 export const zip = <T, U>(a1: T[], a2: U[]): [T, U][] => (
     range(Math.min(a1.length, a2.length)).map(i => [a1[i], a2[i]])
 )
+
+export const addSingleAnnotation = (root: ContentNodeType, annotation: AnnotationType): [ContentNodeType, AnnotationType] => {
+    root = nodeMap(root, (node) => {
+        if (typeof node.content === "string"){
+            const start = node.startIndex
+            const stop = node.startIndex + node.content.length
+
+            if (isAnnotationSectionOverlap(start, stop, annotation)){
+                node = node.merge({props: {
+                        ...node.props,
+                        annotations: (node.props.annotations || Set<AnnotationType>()).add(
+                            translateAnnotation(start, stop, annotation)
+                        )
+                    }})
+                annotation = annotation.merge({_node_id: annotation._node_id.push(node._id)})
+            }
+        }
+
+        return node
+    })
+
+    return [root, annotation]
+}

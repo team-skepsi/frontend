@@ -19,7 +19,7 @@ const CardAlignGroup: React.FC<CardAlignGroupType> = (props) => {
     const ref = refRef.current
 
     const heights = props.alignRefs.map((r) =>
-        r.current === null || ref.current === null? 32:
+        r.current === null || ref.current === null? -1000:
             r.current.getBoundingClientRect().y - ref.current.getBoundingClientRect().y
     )
 

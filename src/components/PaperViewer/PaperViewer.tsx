@@ -1,4 +1,4 @@
-import React, {useMemo, useRef, useState} from "react"
+import React, {useEffect, useMemo, useRef, useState} from "react"
 import {DraggableCore} from "react-draggable"
 import {Set, Map} from "immutable"
 
@@ -21,6 +21,7 @@ type PaperViewerType = {
         stop: string
         id: string
     }[]
+    setScrollable: (val: boolean) => void
 }
 
 /*
@@ -28,6 +29,14 @@ takes document, an object with a md property carrying a string, and annotations,
 and id, which are all integers or strings
  */
 const PaperViewer: React.FC<PaperViewerType> = (props) => {
+
+    const [viewportHeight, setViewportHeight] = useState(window.innerHeight)
+    useEffect(() => {
+        const callback = () => setViewportHeight(window.innerHeight)
+        window.addEventListener("resize", callback)
+        return () => window.removeEventListener("resize", callback)
+    })
+
     const [userSelection, _setUserSelection] = useState<null | AnnotationType>(null)
 
     const setUserSelection = (val: (null | AnnotationType) | ((val: null | AnnotationType) => null | AnnotationType)) => {
@@ -113,6 +122,12 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
         ? Math.round(featureBarWidth/30)
         : 0
 
+    const [contentViewerOffset, _setContentViewerOffset] = useState(0)
+    const setContentViewerOffset = (val: number) => {
+        props.setScrollable(!val)
+        _setContentViewerOffset(val)
+    }
+
     return (
         <div className={styles.main}>
 
@@ -125,14 +140,17 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                             () => (
                                 <ContentViewer
                                     root={root}
+                                    height={viewportHeight}
                                     setActiveNode={setActiveNode}
                                     setActiveNodeRef={setActiveNodeRef}
                                     setUserSelection={setUserSelection}
                                     setActiveAnnotationId={setActiveAnnotationId}
+                                    setContentViewerOffset={setContentViewerOffset}
                                 />
                             ),
                             [
                                 root,
+                                viewportHeight,
                                 setActiveNode,
                                 setActiveNodeRef,
                                 setUserSelection,
@@ -181,9 +199,11 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                             <AnnotationSidebar
                                 annotations={annotations}
                                 activeAnnotationId={activeAnnotationId}
+                                height={viewportHeight}
                                 setActiveAnnotationId={setActiveAnnotationId}
                                 nodeIdToRef={nodeIdToRef}
-                                killActiveSelection={() => setUserSelection(null)}/>
+                                killActiveSelection={() => setUserSelection(null)}
+                                contentViewerOffset={contentViewerOffset}/>
                         </div>
                     </div>
                 </DraggableCore>

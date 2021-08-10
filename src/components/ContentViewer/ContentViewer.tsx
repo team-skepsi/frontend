@@ -15,6 +15,8 @@ type ContentViewerType = {
     setActiveNodeRef: (activeNodeRef: React.RefObject<HTMLDivElement> | null) => void
     setUserSelection: (selection: AnnotationType | null) => void
     setActiveAnnotationId: (val: number | ((id: number) => number)) => void
+    setContentViewerOffset: (val: number) => void
+    height: number
 }
 
 /*
@@ -82,11 +84,14 @@ const ContentViewer: React.FC<ContentViewerType> = (props) => {
                 <VariableSizeList
                     // @ts-ignore
                     className={styles.List}
-                    onScroll={redraw}
+                    onScroll={({scrollOffset}) => {
+                        props.setContentViewerOffset(scrollOffset)
+                        redraw()
+                    }}
                     ref={listRef}
                     // estimatedItemSize={100} // does this do anything?
                     itemSize={index => indexToHeight.current.get(index, 50)}
-                    height={800}
+                    height={props.height}
                     itemCount={topLevelContentNodes.size}
                     width={"100%"}>
                     {({index, style}) => (

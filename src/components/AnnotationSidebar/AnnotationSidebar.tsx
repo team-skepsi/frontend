@@ -97,6 +97,8 @@ type AnnotationSidebarType = {
     setActiveAnnotationId: (id: number) => void
     nodeIdToRef: Map<number, React.RefObject<HTMLElement>>
     killActiveSelection: () => void
+    contentViewerOffset: number
+    height: number
 }
 
 const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
@@ -164,7 +166,7 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
         .get(0, NaN)
 
     return (
-        <div className={"AnnotationSidebar"}>
+        <div style={{height: props.height, overflow: "hidden"}}>
             <CardAlignGroup
                 cards={cards}
                 // @ts-ignore

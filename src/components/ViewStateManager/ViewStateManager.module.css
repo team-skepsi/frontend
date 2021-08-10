@@ -17,9 +17,14 @@
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    overflow: auto;
+    /*overflow: auto;*/
+    scroll-snap-type: y mandatory;
 }
 
 .main::-webkit-scrollbar {
   display: none;
+}
+
+.snapOn {
+    scroll-snap-align: start;
 }

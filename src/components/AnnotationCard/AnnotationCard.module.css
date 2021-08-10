@@ -1,10 +1,223 @@
 
-.main {
+
+.annotationCard {
+  width: 350px;
+  border: 1px solid black;
+  position: relative;
+  z-index: 5;
+}
+
+
+/* HEADER CSS */
+.cardHeader {
+  height: 30px;
+  border: 1px solid #E2E5ED;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5px;
+}
+
+.headerIcon {
+  border-right: 3px solid #E2E5ED;
+  border-bottom: 1px solid #E2E5ED;
+  background-color: rgb(245, 245, 245);
+  width: 30px;
+  height: 105%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerIconCircle {
+  border-radius: 100%;
+  width: 10px;
+  height: 10px;
+  background-color: black;
+}
+
+.headerTextWrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.flexComponent {
+  flex: 1
+}
+
+.authorNameWrapper {
+  margin-right: 10px;
+  padding-left: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.authorName {
+  font-family: "Roboto";
+  font-weight: bold;
+  color: #959AA4;
+}
+
+.createdTimeWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.createdTime {
+  font-family: "Roboto";
+  font-weight: normal;
+  color: #959AA4;
+}
+
+.headerButton {
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 10px;
+}
+
+.headerButtonText {
+  color: #959AA4
+}
+
+.cardBodyAndScores {
+  border: 1px solid #E2E5ED;
+  border-radius: 2px;
+}
+
+/* BODY CSS */
+.annotationCardBody{
+ display: flex;
+ flex-direction: row;
+ border-bottom: 1px solid #E2E5ED;
+}
+
+.bodyIndent {
+  background-color: lightgray;
+  width: 25px;
+}
+
+.bodyTextWrapper{
+  padding: 5px;
+}
+
+.bodyText {
+  font-size: 14px;
+  font-family: "Roboto";
+}
+
+
+/* SCORE CSS */
+
+.annotationCardScore {
+  border-bottom: 1px solid #E2E5ED;
+  display: flex;
+  flex-direction: row;
+  min-height: 70px;
+  box-sizing: border-box;
+}
+
+.scoreIndent {
+  background-color: rgb(245, 245, 245);
+  width: 30px;
+  display: flex;
+  flex-direction: column;
+  border-right: 3px solid #E2E5ED;
+
+}
+
+.scoreButtonWrapper {
+  border-bottom: 2px solid #E2E5ED;
+  height: 30px;
+  width: 104%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scoreButton {
+  border-radius: 100%;
+  width: 24px;
+  height: 24px;
+  background-color: rgba(148, 105, 75, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scoreButtonText {
+  font-size: 12px;
+  color: white;
+}
+
+.scoreNumberDropdownText {
+  font-size: 11px;
+  font-family: 'Roboto'
+}
+
+.scoreMainContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.scoreLabelWrapper {
+  border-bottom: 2px solid #E2E5ED;
+  height: 30px;
+  padding-top: 3px;
+  display: flex;
+  align-items: center;
+}
+
+.scoreLabel{
+  padding-left: 4px;
+  padding-right: 5px;
+  font-size: 12px;
+  font-family: "Roboto";
+  /* color: #E2E5ED; */
+}
+
+.dropdownWrapper {
+  padding-left: 10px;
+}
+
+.scoreResponse {
+  flex: 1;
+  padding: 5px;
+}
+
+.responseText {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  font-family: "Roboto";
+}
+
+/* BUTTONS */
+
+.buttonRow{
+  display: flex;
+  flex-direction: row;
+}
+
+.buttonFlex{
+  flex: 1;
+}
+
+.buttonRowWrapper{
+
+}
+
+
+/* .main {
     border: 1px solid black;
     min-width: 250px;
     position: relative;
     z-index: 5;
-}
+} */
 
 .header {
     display: flex;

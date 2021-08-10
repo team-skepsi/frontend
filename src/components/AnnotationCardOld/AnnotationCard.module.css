@@ -1,0 +1,36 @@
+
+.main {
+    border: 1px solid black;
+    min-width: 250px;
+    position: relative;
+    z-index: 5;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+}
+
+.headerSpacer {
+    flex: 1;
+}
+
+.scoreBlockHeader {
+    display: flex;
+    flex-direction: row;
+    font-style: italic;
+}
+
+.scoreBlockList {
+    margin: 0;
+}
+
+.linkish {
+    color: blue;
+    text-decoration: underline;
+}
+
+.childrenContainer {
+    margin-left: 20px;
+}

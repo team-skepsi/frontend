@@ -6,12 +6,10 @@ import styles from "./AnnotationCard.module.css"
 import {gql, useMutation} from '@apollo/client'
 import {AuthenticationContext, UserContext} from '../../App.js'
 import {useLocation} from 'react-router-dom'
-import {Dropdown, Modal, Icon, Button} from 'semantic-ui-react'
+import {Dropdown, Modal} from 'semantic-ui-react'
 import {GET_PAPER_AND_ANNOTATION_DATA} from '../PageManager/PageManager.js'
 import {AnnotationType} from "../types"
 import { isNotEmpty, scoreIsIntegerBetweenOneAndTen } from './validators.js'
-import { titleize } from '../../utility/StringManipulation.js'
-import {useStateWithCallbackLazy} from "use-state-with-callback";
 
 const UPDATE_ANNOTATION = gql`
     mutation UpdateAnnotation($author: String, $quote: String, $content:String, $id: ID){
@@ -29,8 +27,8 @@ const UPDATE_ANNOTATION = gql`
 `
 
 const CREATE_ANNOTATION = gql`
-    mutation CreateAnnotation($start: Int!, $stop: Int!, $author: String!, $quote: String, $content: String!, $paperId: ID!, $parentId: ID) {
-        createAnnotation(start: $start, stop: $stop, author: $author, quote: $quote, content: $content, paperId: $paperId, parentId: $parentId){
+    mutation CreateAnnotation($start: Int!, $stop: Int!, $author: String!, $quote: String, $content: String!, $paperId: ID!) {
+        createAnnotation(start: $start, stop: $stop, author: $author, quote: $quote, content: $content, paperId: $paperId){
             annotation {
                 id
                 author {
@@ -91,8 +89,6 @@ const DELETE_SCORE = gql`
     }
 `
 
-
-
 type SometimesEditableType = {
     text: string
     editable: boolean
@@ -133,7 +129,6 @@ export type AnnotationCardType = {
     _depth?: number
     activeReply?: boolean
     annotation?: AnnotationType
-    parentId?: number
 }
 
 type SecretRealAnnotationCardType = AnnotationCardType & {
@@ -149,6 +144,8 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
     const isAuthenticated = useContext(AuthenticationContext)
     const location = useLocation()
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+    const [errorModalOpen, setErrorModalOpen] = useState(false)
+    const [errorModalText, setErrorModalText] = useState("Sorry, something went wrong.")
 
     const [createAnnotation, { error: createAnnotationError}] = useMutation(CREATE_ANNOTATION, {
         refetchQueries: [
@@ -204,7 +201,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         ]
     })
 
-    const fieldOptions = [
+    const categoryOptions = [
         {
             value: "Validity",
             text: "Validity",
@@ -223,72 +220,21 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         },
     ]
 
-    const scoreNumberOptions = [
-      {
-        value: 1,
-        text: 1,
-        key: 1,
-      },
-      {
-        value: 2,
-        text: 2,
-        key: 2,
-      },
-      {
-        value: 3,
-        text: 3,
-        key: 3,
-      },
-      {
-        value: 4,
-        text: 4,
-        key: 4,
-      },
-      {
-        value: 5,
-        text: 5,
-        key: 5,
-      },
-      {
-        value: 6,
-        text: 6,
-        key: 6,
-      },
-      {
-        value: 7,
-        text: 7,
-        key: 7,
-      },
-      {
-        value: 8,
-        text: 8,
-        key: 8,
-      },
-      {
-        value: 9,
-        text: 9,
-        key: 9,
-      },
-      {
-        value: 10,
-        text: 10,
-        key: 10,
-      },
-    ]
-
-    const [state, _setState] = useStateWithCallbackLazy({
+    const [state, _setState] = useState({
         id: props.id || NaN,
         author: props.author || "",
         date: props.date || "",
         text: props.text || "",
         scoreBlocks: props.scoreBlocks || [],
         beingEdited: props.beingEdited || false,
-        activeHighlight: props.activeHighlight,
-        parentId: props.parentId
+        activeHighlight: props.activeHighlight
     })
 
-    const setState = (val: typeof state | ((current: typeof state) => typeof state)) => {
-        _setState(val, () => props.onChange && props.onChange())
+    const setState: typeof _setState = (...args) => {
+        if (props.onChange){
+            props.onChange()
+        }
+        _setState(...args)
     }
 
     // depth is used in a number of styling decisions
@@ -355,7 +301,6 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                     props.killActiveSelection()
                 }
                 // TODO: error handling for if this request fails
-                console.log("SUBMIT STATE!", state)
                 createAnnotation({
                     variables: {
                         author: user['http://www.skepsi.com/username'],
@@ -363,24 +308,27 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                         stop: props.stop || 0,
                         quote: "",
                         content: state.text,
-                        paperId: location.pathname.replace('/', ''),
-                        parentId: state.parentId ? state.parentId : undefined
+                        paperId: location.pathname.replace('/', '')
                     }
                 })
                     .then(response => {
-                      console.log("Created annotation, moving to scores")
+
                         // TODO: modify the parent to know this guy is it's child (tricky error handling)
+
                         for (let score of state.scoreBlocks) {
-                              // TODO: error handling for if this request fails
-                              createScore({
-                                  variables: {
-                                      author: user['http://www.skepsi.com/username'],
-                                      scoreNumber: score.scoreNumber,
-                                      field: score.field,
-                                      explanation: score.explanation,
-                                      annotationId: response.data ? response.data.createAnnotation.annotation.id : undefined
-                                  }
-                              })
+                            if (score.field && score.scoreNumber) {
+
+                                // TODO: error handling for if this request fails
+                                createScore({
+                                    variables: {
+                                        author: user['http://www.skepsi.com/username'],
+                                        scoreNumber: score.scoreNumber,
+                                        field: score.field,
+                                        explanation: score.explanation,
+                                        annotationId: response.data ? response.data.createAnnotation.annotation.id : undefined
+                                    }
+                                })
+                            }
                         }
                     })
             } else {
@@ -394,7 +342,6 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                 })
                     .then(() => {
                         for (let score of state.scoreBlocks) {
-                          console.log("HIII", score.id, score.field, score.scoreNumber)
                             if (score.id && score.field && score.scoreNumber !== undefined) {
                                 // OLD SCORE UPDATE
                                 // TODO: error handling for if this request fails
@@ -424,10 +371,12 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
             // ERROR MESSAGE HANDLING
         } else {
           if(!isNotEmpty(state.text)){
-            alert('Annotations must have some text in them')
+            setErrorModalText('Annotations must have some text in them')
+            setErrorModalOpen(true)
           }
           if(!scoreIsIntegerBetweenOneAndTen(state.scoreBlocks)){
-            alert("Scores must be integers between 1 and 10")
+            setErrorModalText("Scores must be integers between 1 and 10")
+              setErrorModalOpen(true)
           }
         }
       }
@@ -443,150 +392,84 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         })
     }
 
-    useEffect(()=>{
-      console.log("STATE!", state)
-    }, [state])
-
     useEffect(() =>{
       if(createAnnotationError || updateAnnotationError || deleteAnnotationError || createScoreError || updateScoreError || deleteScoreError){
-        alert("Server down :( Apologies!")
+        setErrorModalText("Server down :( Apologies!")
+        setErrorModalOpen(true)
       }
     }, [createAnnotationError, updateAnnotationError, deleteAnnotationError, createScoreError, updateScoreError, deleteScoreError, deleteModalOpen])
 
-    // <div className={styles.header}>
-    //     <div className={styles.author}>
-    //         {state.author === user['http://www.skepsi.com/username'] || state.author === "???" ? "me" : state.author}
-    //     </div>
-    //     <div className={styles.headerSpacer}/>
-    //     <div className={styles.date}>{state.date}</div>
-    // </div>
     return (
         <div
             ref={props.nodeRef}
             className={styles.main}
             onClick={props.onClick}
-            className={styles.annotationCard}
             style={{
                 backgroundColor: depth % 2 === 1 ? "lightgrey": "white",
                 borderWidth: props.active? 2 : 1,
             }}>
 
-            <div className={styles.cardHeader}>
-              <div className={styles.headerIcon}>
-                <div className={styles.headerIconCircle}></div>
-              </div>
-              <div className={styles.headerTextWrapper}>
-                <div className={styles.authorNameWrapper}>
-                  <p className={styles.authorName}>{state.author === user['http://www.skepsi.com/username'] || state.author === "???" ? "me" : state.author}</p>
+            <div className={styles.header}>
+                <div className={styles.author}>
+                    {state.author === user['http://www.skepsi.com/username'] || state.author === "???" ? "me" : state.author}
                 </div>
-                <div className={styles.createdTimeWrapper}>
-                  <p className={styles.createdTime}>{state.date}</p>
-                </div>
-              </div>
-              <div className={styles.flexComponent}></div>
-              <div className={styles.headerButton}>
-                <p className={styles.headerButtonText}>[+]</p>
-              </div>
+                <div className={styles.headerSpacer}/>
+                <div className={styles.date}>{state.date}</div>
             </div>
 
-            <div className={styles.cardBodyAndScores}>
-            {/* BODY */}
-            <div className={styles.annotationCardBody}>
-              <div className={styles.scoreIndent}>
-              </div>
-              <div className={styles.bodyTextWrapper}>
-                <p className={styles.responseText}>
-                  <SometimesEditable
-                      editable={state.beingEdited}
-                      text={state.text}
-                      callback={md => setState({...state, text: md || ""})}
-                      defaultText={"...add details"}
-                      editorProps={{rows: 5, cols: 20}}/>
-                </p>
-              </div>
-            </div>
-
-            { /* <SometimesEditable
+            <SometimesEditable
                 editable={state.beingEdited}
-                callback={(s) => editScoreBlock(sbIndex, {scoreNumber: parseInt(s || "")})}
-                text={sb.scoreNumber === undefined || isNaN(sb.scoreNumber) ? "?" : sb.scoreNumber.toString()}
-                editorProps={{rows: 1, cols: 2}}>
-            </SometimesEditable> */ }
+                text={state.text}
+                callback={md => setState({...state, text: md || ""})}
+                defaultText={"...add details"}
+                editorProps={{rows: 5, cols: 20}}/>
 
-            {/* SCORES */}
-            <div className={styles.scoreBlockList}>
+            <ul className={styles.scoreBlockList}>
                 {Array.isArray(state.scoreBlocks) && state.scoreBlocks.map((sb, sbIndex) => (
-                    <div key={sbIndex} className={styles.scoreBlockContainerEach}>
-                      <div className={styles.annotationCardScore}>
-                        <div className={styles.scoreIndent}>
-                          <div className={styles.scoreButtonWrapper}>
-                            <div className={styles.scoreButton}>
-                              {!state.beingEdited &&
-                                <p className={styles.scoreButtonText}>{sb.scoreNumber}</p>
-                              }
-                              {/* EDITABLE */}
-                              {state.beingEdited &&
-                                <span className={styles.scoreNumberDropdownText}>
+                    <li key={sbIndex} className={styles.scoreBlockContainerEach}>
+                        <div
+                            className={styles.scoreBlockHeader}
+                            onClick={() => state.beingEdited || toggleOpen(sbIndex)}>
+
+                            <div className={styles.scoreBlockCategory}>
                                 <Dropdown
-                                  inline
-                                  basic
-                                  icon='dropdown'
-                                  value={sb.scoreNumber}
-                                  options={scoreNumberOptions}
-                                  onChange={(e)=>
-                                    editScoreBlock(sbIndex, {scoreNumber: parseInt(e.target.innerText || "")})
-                                  }
-                                />
-                                </span>
-                              }
+                                    // placeholder={"Please select a field"}
+                                    value={sb.field}
+                                    selection
+                                    disabled={!state.beingEdited}
+                                    options={categoryOptions}
+                                    onChange={(e) =>
+                                        // TODO: my ide seems to think innerText will sometimes not be defined here, not sure
+                                        // @ts-ignore
+                                        editScoreBlock(sbIndex, {field: e.target.innerText})}/>
                             </div>
-                          </div>
-                        </div>
-                        <div className={styles.scoreMainContainer}>
-                          <div className={styles.scoreLabelWrapper}>
-                            {!state.beingEdited &&
-                              <p className={styles.scoreLabel}><b>{titleize(sb.field)}</b></p>
-                            }
-                            {/* EDITABLE */}
-                            {state.beingEdited &&
-                            <span className={styles.dropdownWrapper}>
-                              <Dropdown
-                                  inline
-                                  placeholder={"Please select a field"}
-                                  value={titleize(sb.field)}
-                                  options={fieldOptions}
-                                  onChange={(e) =>
-                                      // TODO: my ide seems to think innerText will sometimes not be defined here, not sure
-                                      // @ts-ignore
-                                      editScoreBlock(sbIndex, {field: e.target.innerText})}/>
-                            </span>
-                            }
-                          </div>
-                          <div className={styles.scoreResponse}>
-                            {/* <p className={styles.responseText}>As for the experimental side, this is dubious at best. Perhapes someone can chime in with something more enlightening, but here is my verdict. As for the experimental side, this is dubious at best. Perhapes someone can chime in with something more enlightening, but here is my verdict.</p> */}
-                            {/* EDITABLE */}
-                            {openScoreBlocks[sbIndex] &&
-                            <div className={styles.scoreBlockTextContainer}>
-                                <SometimesEditable
-                                    editable={state.beingEdited}
-                                    text={sb.explanation || ""}
-                                    callback={(md) => editScoreBlock(sbIndex, {explanation: md || ""})}
-                                    defaultText={"..."}/>
-                            </div>
-                            }
-                          </div>
-                          <div>
+
+                            <div className={styles.headerSpacer}/>
+
+                            <SometimesEditable
+                                editable={state.beingEdited}
+                                callback={(s) => editScoreBlock(sbIndex, {scoreNumber: parseInt(s || "")})}
+                                text={sb.scoreNumber === undefined || isNaN(sb.scoreNumber) ? "?" : sb.scoreNumber.toString()}
+                                editorProps={{rows: 1, cols: 2}}>
+                            </SometimesEditable>
+
                             {state.beingEdited &&
                                 <button onClick={() => removeScoreBlock(sbIndex)}>delete</button>}
-                          </div>
                         </div>
-                      </div>
-                    </div>
+
+                        {openScoreBlocks[sbIndex] &&
+                        <div className={styles.scoreBlockTextContainer}>
+                            <SometimesEditable
+                                editable={state.beingEdited}
+                                text={sb.explanation || ""}
+                                callback={(md) => editScoreBlock(sbIndex, {explanation: md || ""})}
+                                defaultText={"...add details"}/>
+                        </div>
+                        }
+                    </li>
                 ))}
-            </div>
+            </ul>
 
-
-            {/* NOT OPERATIONAL AT THE MOMENT, CONTROLS THE ERROR DISPLAY */}
             {Boolean(state.scoreBlocks && (state.scoreBlocks.length > 0)) &&
                 (openScoreBlocks.filter(x => x).length > 0
                     ? <div className={styles.linkish}
@@ -596,10 +479,8 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                 )
             }
 
-            </div>
-
             {/*BUGGY, NEED TO FIX*/}
-            {/* {errorModalOpen &&
+            {errorModalOpen &&
                 <Modal
                   onClose={()=>setErrorModalOpen(false)}
                   onOpen={()=>setErrorModalOpen(true)}
@@ -609,14 +490,11 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                   <button onClick={()=>setErrorModalOpen(false)}></button>
                 </Modal.Actions>
                 </Modal>
-            } */}
+            }
 
-            {/* BUTTONS */}
             <div className={styles.buttonRow}>
-                <div className={styles.buttonFlex} />
                 {state.beingEdited
                     ? <>
-                    <div className={styles.buttonRowWrapper}>
                         <button
                             className={styles.addScoreBlockButton}
                             onClick={isAuthenticated ? addScoreBlock : () => alert("You must sign in to add scores")}>
@@ -627,71 +505,53 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                             onClick={isAuthenticated ? onSave : () => alert("You must sign in to save annotations")}>
                             Save
                         </button>
-                        <button
-                            className={styles.saveButton}
-                            onClick={()=>setState({...state, beingEdited: false})}>
-                            Escape
-                        </button>
-                      </div>
                     </>
                     : <>
-                      <div>
                         {state.author === user['http://www.skepsi.com/username'] &&
-                            <Button
-                                icon
-                                basic
-                                size='mini'
+                            <button
                                 className={styles.editButton}
                                 onClick={() => {
                                     props.onChange && props.onChange()
                                     setState({...state, beingEdited: true})
                                     setOpenScoreBlocks(x => x.map(() => true))
                                 }}>
-                                <Icon name='edit' />
-                            </Button>
+                                Edit
+                            </button>
                         }
 
-                        <Button
-                            icon
-                            size='mini'
-                            basic
+                        <button
                             className={styles.replyButton}
                             onClick={isAuthenticated
                                 ? props.onReply
                                 : () => alert('Please log in or sign up to comment')}>
-                            <Icon name='reply' />
-                        </Button>
-                      </div>
-
-                      {state.author === user['http://www.skepsi.com/username'] &&
-                          <>
-                              <Button
-                                  icon
-                                  basic
-                                  size='mini'
-                                  className={styles.editButton}
-                                  onClick={() => {
-                                      setDeleteModalOpen(true)
-                                  }}>
-                                  <Icon name='delete' />
-                              </Button>
-
-                              <Modal
-                                  onClose={() => setDeleteModalOpen(false)}
-                                  onOpen={() => setDeleteModalOpen(true)}
-                                  open={deleteModalOpen}>
-                                  <Modal.Content>Are you sure you want to delete this annotation?</Modal.Content>
-                                  <Modal.Actions>
-                                      <button onClick={onDelete}>Yes</button>
-                                      <button onClick={() => setDeleteModalOpen(false)}>No</button>
-                                  </Modal.Actions>
-                              </Modal>
-                          </>
-                      }
+                            Reply
+                        </button>
                     </>
                 }
 
-                </div>
+                {state.author === user['http://www.skepsi.com/username'] &&
+                    <>
+                        <button
+                            className={styles.editButton}
+                            onClick={() => {
+                                setDeleteModalOpen(true)
+                            }}>
+                            Delete
+                        </button>
+
+                        <Modal
+                            onClose={() => setDeleteModalOpen(false)}
+                            onOpen={() => setDeleteModalOpen(true)}
+                            open={deleteModalOpen}>
+                            <Modal.Content>Are you sure you want to delete this annotation?</Modal.Content>
+                            <Modal.Actions>
+                                <button onClick={onDelete}>Yes</button>
+                                <button onClick={() => setDeleteModalOpen(false)}>No</button>
+                            </Modal.Actions>
+                        </Modal>
+                    </>
+                }
+            </div>
 
             {repliesOpen &&
                 <div className={styles.childrenContainer}>

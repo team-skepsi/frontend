@@ -3,7 +3,6 @@ import {Route, Switch} from 'react-router-dom'
 import {gql, useQuery} from "@apollo/client"
 
 import { Divider, Message } from 'semantic-ui-react'
-=======
 import HomepageManager from '../HomepageManager/HomepageManager.js'
 import PaperCards from '../PaperCards/PaperCards.js'
 import RoleSelection from '../RoleSelection/RoleSelection.js'
@@ -79,12 +78,12 @@ function Router() {
 
             <Route path="/playground">
                 <div/>
-                {/*<AnnotationCardTemplate />*/}
+                <AnnotationCardTemplate />
             </Route>
 
             <Route path="/broken">
               <SkepsiIsBroken />
-
+            </Route>
 
             <Route path='/user-info'>
                 <React.Fragment>

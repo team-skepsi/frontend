@@ -12,13 +12,14 @@ const annotationToAnnotationCard = (a: AnnotationType): AnnotationCardType => ({
     id: a._id,
     start: a.start,
     stop: a.stop,
+    parentId: a.data.parent ? parseInt(a.data.parent.id) : undefined,
     activeHighlight: a._activeHighlight,
     author: a.data.author ? a.data.author.username: "???",
     date: a.data.date || formatDate(new Date(Date.now())),
     text: a.data.content || "",
     scoreBlocks: a.data.scores
         ? a.data.scores.map(({scoreNumber, explanation, field, id}: {scoreNumber: number, id: number, explanation: string, field: string}) =>
-            ({scoreNumber, category: field, id, text: explanation}))
+            ({scoreNumber, field: field, id, text: explanation}))
         : [],
     userCouldEdit: true,
     beingEdited: a._activeHighlight,
@@ -114,7 +115,8 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
                 beingEdited: true,
                 userCouldEdit: true,
                 activeReply: true,
-            }
+                parentId: parentId
+            },
         }))
     }
 

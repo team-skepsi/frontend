@@ -129,6 +129,7 @@ export type AnnotationCardType = {
     _depth?: number
     activeReply?: boolean
     annotation?: AnnotationType
+    parentId?: number
 }
 
 type SecretRealAnnotationCardType = AnnotationCardType & {
@@ -227,7 +228,8 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         text: props.text || "",
         scoreBlocks: props.scoreBlocks || [],
         beingEdited: props.beingEdited || false,
-        activeHighlight: props.activeHighlight
+        activeHighlight: props.activeHighlight,
+        parentId: props.parentId
     })
 
     const setState: typeof _setState = (...args) => {

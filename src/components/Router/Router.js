@@ -1,8 +1,9 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom'
 import {gql, useQuery} from "@apollo/client"
-// import { Divider } from 'semantic-ui-react'
 
+import { Divider, Message } from 'semantic-ui-react'
+=======
 import HomepageManager from '../HomepageManager/HomepageManager.js'
 import PaperCards from '../PaperCards/PaperCards.js'
 import RoleSelection from '../RoleSelection/RoleSelection.js'
@@ -14,7 +15,9 @@ import Navbar from '../Navbar/Navbar.js'
 // import ScientistDomainPicker from '../ScientistDomainPicker/ScientistDomainPicker.js'
 // import FeaturedAnnotations from '../FeaturedAnnotations/FeaturedAnnotations.js'
 import HomepageUpdated from '../HomepageUpdated/HomepageUpdated.js'
-// import AnnotationCardTemplate from '../AnnotationCardTemplate/AnnotationCardTemplate.js'
+import SkepsiIsBroken from '../SkepsiIsBroken/SkepsiIsBroken.js'
+
+import AnnotationCardTemplate from '../AnnotationCardTemplate/AnnotationCardTemplate.js'
 
 const GET_ALL_TOPIC_SLUGS = gql`
     query{
@@ -37,15 +40,22 @@ function Router() {
     const {data, loading, error} = useQuery(GET_ALL_TOPIC_SLUGS)
     const {data: paperData, loading: paperLoading, error: paperError} = useQuery(GET_ALL_PAPERS)
 
-    if(loading || paperLoading || error || paperError){
-        if (error){
-            console.log(error)
-        }
-        if (paperError){
-            console.log(paperError)
-        }
-        return <div/>
-    }
+  if(loading || paperLoading){
+    return(
+      <div>
+      </div>
+    )
+  }
+
+  if(error || paperError){
+    console.log(error)
+    console.log(paperError)
+    return(
+      <div>
+        <SkepsiIsBroken />
+      </div>
+    )
+  }
 
     return (
         <Switch>
@@ -72,9 +82,9 @@ function Router() {
                 {/*<AnnotationCardTemplate />*/}
             </Route>
 
-            <Route path="/homepage">
-                <HomepageUpdated />
-            </Route>
+            <Route path="/broken">
+              <SkepsiIsBroken />
+
 
             <Route path='/user-info'>
                 <React.Fragment>

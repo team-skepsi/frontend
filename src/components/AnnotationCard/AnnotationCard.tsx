@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react"
+import React, {useContext, useState, useEffect} from "react"
 import MDEditor from "../MDEditor/MDEditor"
 import ContentBlock from "../ContentBlock/ContentBlock"
 import {mdToNode} from "../processing"
@@ -9,6 +9,7 @@ import {useLocation} from 'react-router-dom'
 import {Dropdown, Modal} from 'semantic-ui-react'
 import {GET_PAPER_AND_ANNOTATION_DATA} from '../PageManager/PageManager.js'
 import {AnnotationType} from "../types"
+import { isNotEmpty, scoreIsIntegerBetweenOneAndTen } from './validators.js'
 
 const UPDATE_ANNOTATION = gql`
     mutation UpdateAnnotation($author: String, $quote: String, $content:String, $id: ID){
@@ -143,8 +144,10 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
     const isAuthenticated = useContext(AuthenticationContext)
     const location = useLocation()
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+    const [errorModalOpen, setErrorModalOpen] = useState(false)
+    const [errorModalText, setErrorModalText] = useState("Sorry, something went wrong.")
 
-    const [createAnnotation] = useMutation(CREATE_ANNOTATION, {
+    const [createAnnotation, { error: createAnnotationError}] = useMutation(CREATE_ANNOTATION, {
         refetchQueries: [
             {
                 query: GET_PAPER_AND_ANNOTATION_DATA,
@@ -153,7 +156,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         ]
     })
 
-    const [updateAnnotation] = useMutation(UPDATE_ANNOTATION, {
+    const [updateAnnotation, { error: updateAnnotationError}] = useMutation(UPDATE_ANNOTATION, {
         refetchQueries: [
             {
                 query: GET_PAPER_AND_ANNOTATION_DATA,
@@ -162,7 +165,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         ]
     })
 
-    const [deleteAnnotation] = useMutation(DELETE_ANNOTATION, {
+    const [deleteAnnotation, { error: deleteAnnotationError}] = useMutation(DELETE_ANNOTATION, {
         refetchQueries: [
             {
                 query: GET_PAPER_AND_ANNOTATION_DATA,
@@ -171,7 +174,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         ]
     })
 
-    const [createScore] = useMutation(CREATE_SCORE, {
+    const [createScore, { error: createScoreError}] = useMutation(CREATE_SCORE, {
         refetchQueries: [
             {
                 query: GET_PAPER_AND_ANNOTATION_DATA,
@@ -180,7 +183,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         ]
     })
 
-    const [updateScore] = useMutation(UPDATE_SCORE, {
+    const [updateScore, { error: updateScoreError}] = useMutation(UPDATE_SCORE, {
         refetchQueries: [
             {
                 query: GET_PAPER_AND_ANNOTATION_DATA,
@@ -189,7 +192,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         ]
     })
 
-    const [deleteScore] = useMutation(DELETE_SCORE, {
+    const [deleteScore, { error: deleteScoreError}] = useMutation(DELETE_SCORE, {
         refetchQueries: [
             {
                 query: GET_PAPER_AND_ANNOTATION_DATA,
@@ -291,13 +294,12 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         setState({...state, beingEdited: false})
 
         if (isEdited()) {
-
             // state.id will be NaN if it is an active reply
+            if(isNotEmpty(state.text) && scoreIsIntegerBetweenOneAndTen(state.scoreBlocks)){
             if (state.activeHighlight || isNaN(state.id)) {
                 if (props.killActiveSelection){
                     props.killActiveSelection()
                 }
-
                 // TODO: error handling for if this request fails
                 createAnnotation({
                     variables: {
@@ -310,9 +312,9 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                     }
                 })
                     .then(response => {
-                        
+
                         // TODO: modify the parent to know this guy is it's child (tricky error handling)
-                        
+
                         for (let score of state.scoreBlocks) {
                             if (score.field && score.scoreNumber) {
 
@@ -366,7 +368,18 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                         }
                     })
             }
+            // ERROR MESSAGE HANDLING
+        } else {
+          if(!isNotEmpty(state.text)){
+            setErrorModalText('Annotations must have some text in them')
+            setErrorModalOpen(true)
+          }
+          if(!scoreIsIntegerBetweenOneAndTen(state.scoreBlocks)){
+            setErrorModalText("Scores must be integers between 1 and 10")
+              setErrorModalOpen(true)
+          }
         }
+      }
     }
 
     function onDelete() {
@@ -378,6 +391,13 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
             }
         })
     }
+
+    useEffect(() =>{
+      if(createAnnotationError || updateAnnotationError || deleteAnnotationError || createScoreError || updateScoreError || deleteScoreError){
+        setErrorModalText("Server down :( Apologies!")
+        setErrorModalOpen(true)
+      }
+    }, [createAnnotationError, updateAnnotationError, deleteAnnotationError, createScoreError, updateScoreError, deleteScoreError, deleteModalOpen])
 
     return (
         <div
@@ -457,6 +477,18 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                     : <div className={styles.linkish}
                            onClick={() => setOpenScoreBlocks(open => open.map(() => true))}>expand all</div>
                 )
+            }
+
+            {errorModalOpen &&
+                <Modal
+                  onClose={()=>setErrorModalOpen(false)}
+                  onOpen={()=>setErrorModalOpen(true)}
+                  >
+                <Modal.Content>Sorry, something went wrong. Please try again!</Modal.Content>
+                <Modal.Actions>
+                  <button onClick={()=>setErrorModalOpen(false)}></button>
+                </Modal.Actions>
+                </Modal>
             }
 
             <div className={styles.buttonRow}>

@@ -3,6 +3,7 @@
     align-items: stretch;
     border: rgb(129, 128, 128, 0.5) 5px solid;
     border-top: none;
+    overflow: hidden;
 }
 
 .paperContainer {

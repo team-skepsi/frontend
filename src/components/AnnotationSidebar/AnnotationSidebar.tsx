@@ -98,7 +98,6 @@ type AnnotationSidebarType = {
     nodeIdToRef: Map<number, React.RefObject<HTMLElement>>
     killActiveSelection: () => void
     contentViewerOffset: number
-    height: number
 }
 
 const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
@@ -166,7 +165,7 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
         .get(0, NaN)
 
     return (
-        <div style={{height: props.height, overflow: "hidden"}}>
+        <div>
             <CardAlignGroup
                 cards={cards}
                 // @ts-ignore

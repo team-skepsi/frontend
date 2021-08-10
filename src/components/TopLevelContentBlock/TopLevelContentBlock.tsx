@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react"
+import React, {useRef} from "react"
 import {Set} from "immutable"
 import {ContentNodeType} from "../types"
 import ContentBlock from "../ContentBlock/ContentBlock"
@@ -11,10 +11,9 @@ export const TOP_LEVEL_CONTENT_CLASS = "TOP_LEVEL_CONTENT"
 export const TOP_LEVEL_OFFSET_ATTRIBUTE_NAME = "data-index"
 
 type TopLevelContentBlockType = {
-    index: number
+    // index: number
     node: ContentNodeType
     active: boolean
-    setSize: (index: number, size: number) => void
     setActiveNodeRef: (r: React.RefObject<HTMLDivElement>) => void
     setActiveAnnotationId: (val: number | ((id: number) => number)) => void
 }
@@ -45,22 +44,15 @@ const TopLevelContentBlock: React.FC<TopLevelContentBlockType> = (props) => {
 
     // when the user clicks the little dot on the side, we update the url to be a link to this position
     const onClickAnchor = () => {
-        console.log("hi")
         try {
+            // only newer browsers have the pushState function, on older ones, we just give up
             if (window.history.pushState){
                 window.history.pushState(null, "", "#" + id)
-            } else {
-                window.location.hash = "#" + id
             }
         } catch (e) {
             console.log(e)
         }
     }
-
-    // when we first render, we report our size back to ContentViewer
-    useEffect(() => {
-        props.setSize(props.index, ref.current? ref.current.getBoundingClientRect().height: 0)
-    }, [])
 
     return (
         <div

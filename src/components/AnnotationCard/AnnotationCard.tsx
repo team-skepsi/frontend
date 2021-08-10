@@ -10,12 +10,8 @@ import {Dropdown, Modal, Icon, Button} from 'semantic-ui-react'
 import {GET_PAPER_AND_ANNOTATION_DATA} from '../PageManager/PageManager.js'
 import {AnnotationType} from "../types"
 import { isNotEmpty, scoreIsIntegerBetweenOneAndTen } from './validators.js'
-<<<<<<< HEAD
 import { titleize } from '../../utility/StringManipulation.js'
 import {useStateWithCallbackLazy} from "use-state-with-callback";
-=======
-import {useStateWithCallbackLazy} from "use-state-with-callback"
->>>>>>> 6bf482907497d78b351db74528f6e7a8c0a6c68e
 
 const UPDATE_ANNOTATION = gql`
     mutation UpdateAnnotation($author: String, $quote: String, $content:String, $id: ID){
@@ -227,7 +223,6 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         },
     ]
 
-<<<<<<< HEAD
     const scoreNumberOptions = [
       {
         value: 1,
@@ -281,8 +276,6 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
       },
     ]
 
-=======
->>>>>>> 6bf482907497d78b351db74528f6e7a8c0a6c68e
     const [state, _setState] = useStateWithCallbackLazy({
         id: props.id || NaN,
         author: props.author || "",

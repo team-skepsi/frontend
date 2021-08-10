@@ -120,15 +120,9 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
                 beingEdited: true,
                 userCouldEdit: true,
                 activeReply: true,
-<<<<<<< HEAD
-                parentId: parentId
-            },
-        }))
-=======
                 parentId: parentId,
             }
         }), flush)
->>>>>>> 6bf482907497d78b351db74528f6e7a8c0a6c68e
     }
 
     const trees = Seq(annotationsToTreesOfAnnotationCards(props.annotations))

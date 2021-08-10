@@ -10,6 +10,7 @@ import {Dropdown, Modal} from 'semantic-ui-react'
 import {GET_PAPER_AND_ANNOTATION_DATA} from '../PageManager/PageManager.js'
 import {AnnotationType} from "../types"
 import { isNotEmpty, scoreIsIntegerBetweenOneAndTen } from './validators.js'
+import {useStateWithCallbackLazy} from "use-state-with-callback"
 
 const UPDATE_ANNOTATION = gql`
     mutation UpdateAnnotation($author: String, $quote: String, $content:String, $id: ID){
@@ -221,7 +222,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         },
     ]
 
-    const [state, _setState] = useState({
+    const [state, _setState] = useStateWithCallbackLazy({
         id: props.id || NaN,
         author: props.author || "",
         date: props.date || "",
@@ -232,11 +233,8 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         parentId: props.parentId
     })
 
-    const setState: typeof _setState = (...args) => {
-        if (props.onChange){
-            props.onChange()
-        }
-        _setState(...args)
+    const setState = (val: typeof state | ((current: typeof state) => typeof state)) => {
+        _setState(val, () => props.onChange && props.onChange())
     }
 
     // depth is used in a number of styling decisions

@@ -44,6 +44,7 @@ const ContentViewer: React.FC<ContentViewerType> = (props) => {
             <SelectionManager selectionCallback={props.setUserSelection}>
                 {topLevelContentNodes.map((node, index) => (
                     <TopLevelContentBlock
+                        key={node._id}
                         node={node}
                         active={activeIndex === index}
                         setActiveNodeRef={(r: React.RefObject<HTMLDivElement>) => setActiveNode(index, r)}

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react"
+import React, {useContext, useEffect, useState} from "react"
 import {List, Set, Map, Seq} from "immutable"
 
 import AnnotationCard, {AnnotationCardType} from "../AnnotationCard/AnnotationCard"
@@ -7,6 +7,7 @@ import CardAlignGroup from "../CardAlignGroup/CardAlignGroup"
 import {UserContext} from "../../App"
 import {formatDate, nodeIdToPrettyId} from "../functions"
 import {AnnotationType} from "../types"
+import {useStateWithCallbackLazy} from "use-state-with-callback";
 
 const annotationToAnnotationCard = (a: AnnotationType): AnnotationCardType => ({
     id: a._id,
@@ -101,7 +102,11 @@ type AnnotationSidebarType = {
 
 const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
 
-    const [replies, setReplies] = useState(List<ReplyType>())
+    const [replies, setReplies] = useStateWithCallbackLazy(List<ReplyType>())
+
+    // sometimes we need to imperatively rerender
+    const _setFlushes = useState(0)[1]
+    const flush = () => _setFlushes(t => t + 1)
 
     const user = useContext(UserContext)
 
@@ -116,7 +121,7 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
                 activeReply: true,
                 parentId: parentId,
             }
-        }))
+        }), flush)
     }
 
     const trees = Seq(annotationsToTreesOfAnnotationCards(props.annotations))
@@ -131,6 +136,7 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
                 key={tree.id}
                 active={tree.id === props.activeAnnotationId}
                 onClick={() => props.setActiveAnnotationId(tree.id === undefined? NaN: tree.id)}
+                onChange={flush}
                 killActiveSelection={props.killActiveSelection}
                 {...tree} />
             ))
@@ -148,6 +154,22 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
         .map(el => ({current: el}))
     )
 
+    // on first render, we can't see the document yet, so look again every 200 ms until we see it
+    const [docRendered, setDocRendered] = useState(false)
+
+    useEffect(() => {
+        // if the document has not rendered yet, remind me to check again in 100 ms
+        if (!docRendered){
+            setTimeout(() => {
+                const rendered = Boolean(alignRefs.filter(r => r.current).size)
+                setDocRendered(rendered)
+                if (!rendered){
+                    flush()
+                }
+            }, 200)
+        }
+    })
+
     // const alignRefs = List(trees
     //     .map(tree => tree.annotation?._node_id.get(0, undefined) || undefined)
     //     .map(id => id === undefined? React.createRef<HTMLElement>(): props.nodeIdToRef.get(id, React.createRef<HTMLElement>()))
@@ -164,7 +186,6 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
         <div>
             <CardAlignGroup
                 cards={cards}
-                // @ts-ignore
                 alignRefs={alignRefs}
                 activeCardIndex={activeCardIndex}/>
         </div>

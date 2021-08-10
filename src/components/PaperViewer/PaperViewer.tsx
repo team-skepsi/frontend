@@ -21,7 +21,6 @@ type PaperViewerType = {
         stop: string
         id: string
     }[]
-    setScrollable: (val: boolean) => void
 }
 
 /*
@@ -122,11 +121,7 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
         ? Math.round(featureBarWidth/30)
         : 0
 
-    const [contentViewerOffset, _setContentViewerOffset] = useState(0)
-    const setContentViewerOffset = (val: number) => {
-        props.setScrollable(!val)
-        _setContentViewerOffset(val)
-    }
+    const [contentViewerOffset, setContentViewerOffset] = useState(0)
 
     return (
         <div className={styles.main}>

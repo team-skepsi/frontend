@@ -5,11 +5,16 @@ import {AnnotationType, ContentNode, ContentNodeType, isAst} from "./types"
 import {isAscending} from "./functions"
 import parse from "./mdParser"
 
+// whether the annotation overlaps with the region designated by start and stop
+export const isAnnotationSectionOverlap = (start: number, stop: number, a: AnnotationType) => (
+    !(isAscending([a.start, a.stop, start, stop]) || isAscending([start, stop, a.start, a.stop]))
+)
+
 /*
 Translates the annotation into the reference frame defined by start and stop
  */
 export const translateAnnotation = (start: number, stop: number, a: AnnotationType) => {
-    if (isAscending([a.start, a.stop, start, stop]) || isAscending([start, stop, a.start, a.stop])){
+    if (!isAnnotationSectionOverlap(start, stop, a)){
         throw Error(`no overlap between annotation ${[a.start, a.stop]} and section ${[start, stop]}`)
     }
     return a.merge({

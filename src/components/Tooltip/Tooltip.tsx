@@ -1,31 +1,25 @@
 import React, {useState} from "react"
-import {VscInfo, VscSymbolRuler, VscFileMedia, VscBook, VscChevronLeft, VscChevronRight} from "react-icons/vsc"
+import {VscChevronLeft, VscChevronRight} from "react-icons/vsc"
 import {IconContext} from "react-icons"
-
-import TableContents from "../TableContents/TableContents"
-import CitationViewer from "../CitationViewer/CitationViewer"
-import ReferenceViewer from "../ReferenceViewer/ReferenceViewer"
-import FigureViewer from "../FigureViewer/FigureViewer"
 
 import styles from "./Tooltip.module.css"
 
-const options = [
-    [<VscInfo/>, CitationViewer],
-    [<VscSymbolRuler/>, TableContents],
-    [<VscFileMedia/>, FigureViewer],
-    [<VscBook/>, ReferenceViewer],
-]
-
 export const KNOB_DRAG_HANDLE_CLASS = "KNOB_DRAG_HANDLE"
 
-const Tooltip = (props) => {
+type TooltipType = {
+    freeze: boolean
+    top: number | (() => number)
+    options: [React.ReactElement, React.ReactElement][]
+}
 
-    const thumbnails = options.map(x => x[0])
-    const components = options.map(x => x[1])
+const Tooltip: React.FC<TooltipType> = (props) => {
+
+    const thumbnails = props.options.map(x => x[0])
+    const components = props.options.map(x => x[1])
 
     const [featureComponentIndex, setFeatureComponentIndex] = useState(NaN)
 
-    const makeClickCallback = (index) => () => {
+    const makeClickCallback = (index: number) => () => {
         if (featureComponentIndex === index){
             setFeatureComponentIndex(NaN)
         } else {
@@ -48,7 +42,7 @@ const Tooltip = (props) => {
     }
 
     return (
-        <div className={styles.main} style={{width: props.width}}>
+        <div className={styles.main}>
             <div className={styles.dynamicPosition} style={{height: 150, top: getTop()}}>
                 <IconContext.Provider value={{color: "#E3DBD4"}}>
                     <div className={styles.knob}>
@@ -69,8 +63,8 @@ const Tooltip = (props) => {
                                         <IconContext.Provider
                                             key={i}
                                             value={i === featureComponentIndex?
-                                                {color: "#837C7C", size: 16.5}:
-                                                {color: "#E3DBD4", size: 16.5}}>
+                                                {color: "#837C7C", size: "16.5px"}:
+                                                {color: "#E3DBD4", size: "16.5px"}}>
                                             <div
                                                 className={`
                                                     ${styles.knobMenuButtonEachContainer}
@@ -94,17 +88,7 @@ const Tooltip = (props) => {
 
                 {!isNaN(featureComponentIndex) && components[featureComponentIndex] &&
                     <div className={styles.knobFeatureContainer}>
-                        {typeof components[featureComponentIndex] !== "function"? components[featureComponentIndex]:
-                            React.createElement(
-                                components[featureComponentIndex],
-                                {
-                                    paperMetadata: props.paperMetadata,
-                                    content: props.root,
-                                    annotations: props.annotations,
-                                    activeNode: props.activeNode,
-                                    activeNodeRef: props.activeNodeRef,
-                                }
-                            )}
+                        {components[featureComponentIndex]}
                     </div>}
             </div>
         </div>

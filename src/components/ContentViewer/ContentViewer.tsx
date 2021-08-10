@@ -12,7 +12,6 @@ type ContentViewerType = {
     setActiveNodeRef: (activeNodeRef: React.RefObject<HTMLDivElement> | null) => void
     setUserSelection: (selection: AnnotationType | null) => void
     setActiveAnnotationId: (val: number | ((id: number) => number)) => void
-    setContentViewerOffset: (val: number) => void
 }
 
 /*

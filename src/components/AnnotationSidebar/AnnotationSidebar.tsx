@@ -97,7 +97,6 @@ type AnnotationSidebarType = {
     setActiveAnnotationId: (id: number) => void
     nodeIdToRef: Map<number, React.RefObject<HTMLElement>>
     killActiveSelection: () => void
-    contentViewerOffset: number
 }
 
 const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
@@ -122,9 +121,6 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
     const trees = Seq(annotationsToTreesOfAnnotationCards(props.annotations))
     const treeRefs: List<React.RefObject<HTMLDivElement>> = List(Array(trees.size).map(() => React.createRef()))
 
-    const [_x, _set_x] = useState(0)
-    const lookAgain = () => _set_x(Math.random())
-
     const cardElements = List(trees
         .map(tree => overlayReplies(tree, replies))
         .map(tree => overlayReplyCreationCallbacks(createReply, tree))
@@ -134,7 +130,6 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
                 key={tree.id}
                 active={tree.id === props.activeAnnotationId}
                 onClick={() => props.setActiveAnnotationId(tree.id === undefined? NaN: tree.id)}
-                onChange={() => lookAgain()}
                 killActiveSelection={props.killActiveSelection}
                 {...tree} />
             ))
@@ -170,7 +165,6 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
                 cards={cards}
                 // @ts-ignore
                 alignRefs={alignRefs}
-                lookAgain={_x}
                 activeCardIndex={activeCardIndex}/>
         </div>
     )

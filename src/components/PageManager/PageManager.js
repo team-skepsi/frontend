@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {gql, useQuery} from '@apollo/client'
 import {useLocation} from 'react-router-dom'
-import ViewStateManager from '../ViewStateManager/ViewStateManager.js'
+import ViewStateManagerUpdated from '../ViewStateManagerUpdated/ViewStateManagerUpdated.js'
 
 export const GET_PAPER_AND_ANNOTATION_DATA = gql`
     query GetPaperAndAnnotationData($paperId:ID!){
@@ -103,7 +103,7 @@ function PageManager() {
     if (paperAndAnnotationData) {
         return (
             <div>
-                <ViewStateManager
+                <ViewStateManagerUpdated
                     document={paperAndAnnotationData.papersById}
                     annotations={paperAndAnnotationData.annotationsByPaperId}
                     scores={paperAndAnnotationData.scoresByPaperId}

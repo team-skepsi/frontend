@@ -1,5 +1,6 @@
 import React, {useContext, useState, useEffect} from "react"
 import MDEditor from "../MDEditor/MDEditor"
+import MDAnnotationEditor from '../MDAnnotationEditor/MDAnnotationEditor'
 import ContentBlock from "../ContentBlock/ContentBlock"
 import {mdToNode} from "../processing"
 import styles from "./AnnotationCard.module.css"
@@ -106,7 +107,7 @@ type SometimesEditableType = {
 
 const SometimesEditable: React.FC<SometimesEditableType> = (props) => (
     props.editable
-        ? <MDEditor {...props.editorProps} value={props.text} onMDChange={props.callback}/>
+        ? <MDAnnotationEditor {...props.editorProps} value={props.text} onMDChange={props.callback}/>
         : <ContentBlock node={mdToNode(props.text || props.defaultText || "")}/>
 )
 
@@ -500,8 +501,9 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                       editable={state.beingEdited}
                       text={state.text}
                       callback={md => setState({...state, text: md || ""})}
-                      defaultText={"...add details"}
-                      editorProps={{rows: 5, cols: 20}}/>
+                      defaultText={"..."}
+                      editorProps={{rows: 5, cols: 40}}
+                    />
                 </p>
               </div>
             </div>
@@ -571,13 +573,28 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                                     editable={state.beingEdited}
                                     text={sb.explanation || ""}
                                     callback={(md) => editScoreBlock(sbIndex, {explanation: md || ""})}
-                                    defaultText={"..."}/>
+                                    defaultText={"..."}
+                                    editorProps={{rows: 5, cols: 40}}
+                                    placeholder="Write anything in plain text or markdown"
+                                  />
                             </div>
                             }
                           </div>
-                          <div>
+                          <div className={styles.scoreDeleteButtonWrapper}>
+                            <div className={styles.flexComponent}/>
                             {state.beingEdited &&
-                                <button onClick={() => removeScoreBlock(sbIndex)}>delete</button>}
+                              <Button
+                                  icon
+                                  basic
+                                  size='mini'
+                                  className={styles.scoreDeleteButton}
+                                  style={{marginRight: '5px'}}
+                                  onClick={() => {removeScoreBlock(sbIndex)}}
+                                  >
+                                  <Icon name='trash' />
+                                  <span className={styles.buttonText}> Delete Score</span>
+                              </Button>
+                            }
                           </div>
                         </div>
                       </div>
@@ -596,7 +613,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                 )
             }
 
-            </div>
+
 
             {/*BUGGY, NEED TO FIX*/}
             {/* {errorModalOpen &&
@@ -617,21 +634,37 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                 {state.beingEdited
                     ? <>
                     <div className={styles.buttonRowWrapper}>
-                        <button
-                            className={styles.addScoreBlockButton}
-                            onClick={isAuthenticated ? addScoreBlock : () => alert("You must sign in to add scores")}>
-                            Add Score
-                        </button>
-                        <button
-                            className={styles.saveButton}
-                            onClick={isAuthenticated ? onSave : () => alert("You must sign in to save annotations")}>
-                            Save
-                        </button>
-                        <button
-                            className={styles.saveButton}
-                            onClick={()=>setState({...state, beingEdited: false})}>
-                            Escape
-                        </button>
+                      <Button
+                          icon
+                          basic
+                          size='mini'
+                          className={styles.editButton}
+                          onClick={
+                              isAuthenticated ? addScoreBlock : () => alert("You must sign in to add scores")
+                          }>
+                          <Icon name='add' />
+                          <span className={styles.buttonText}> Add Score</span>
+                      </Button>
+                      <Button
+                          icon
+                          basic
+                          size='mini'
+                          className={styles.editButton}
+                          onClick={isAuthenticated ? onSave : () => alert("You must sign in to save annotations")}
+                          >
+                          <Icon name='save' />
+                          <span className={styles.buttonText}> Save</span>
+                      </Button>
+                      <Button
+                          icon
+                          basic
+                          size='mini'
+                          className={styles.editButton}
+                          onClick={()=>setState({...state, beingEdited: false})}
+                          >
+                          <Icon name='arrow left' />
+                          <span className={styles.buttonText}> Back</span>
+                      </Button>
                       </div>
                     </>
                     : <>
@@ -647,8 +680,12 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                                     setState({...state, beingEdited: true})
                                     setOpenScoreBlocks(x => x.map(() => true))
                                 }}>
-                                <Icon name='edit' />
+
+                                  <Icon name='edit' />
+                                    <span className={styles.buttonText}> Edit</span>
+
                             </Button>
+
                         }
 
                         <Button
@@ -660,6 +697,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                                 ? props.onReply
                                 : () => alert('Please log in or sign up to comment')}>
                             <Icon name='reply' />
+                            <span className={styles.buttonText}> Reply</span>
                         </Button>
                       </div>
 
@@ -674,6 +712,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                                       setDeleteModalOpen(true)
                                   }}>
                                   <Icon name='delete' />
+                                  <span className={styles.buttonText}> Delete</span>
                               </Button>
 
                               <Modal
@@ -692,6 +731,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                 }
 
                 </div>
+              </div>
 
             {repliesOpen &&
                 <div className={styles.childrenContainer}>

@@ -2,6 +2,7 @@ import React from "react"
 import {mdToNode} from "../processing"
 import {MDAnnotationEditorType} from "./MDEditor"
 import styles from './MDAnnotationEditorCore.module.css'
+// import TextareaAutosize from 'react-textarea-autosize'
 
 const MDAnnotationEditorCore: React.FC<MDAnnotationEditorType> = (props) => {
     const {value, onMDChange, onNodeChange, ...rest} = props

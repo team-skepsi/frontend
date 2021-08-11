@@ -15,7 +15,7 @@
   border-radius: 2px;
   display: flex;
   flex-direction: row;
-  margin-bottom: 1px;
+  margin-bottom: 2px;
 }
 
 .headerIcon {
@@ -98,10 +98,13 @@
 .bodyIndent {
   background-color: lightgray;
   width: 30px;
+  min-width: 30px;
 }
 
 .bodyTextWrapper{
   padding: 5px;
+  min-width: 0px;
+  flex: 1;
 }
 
 .bodyText {
@@ -149,8 +152,10 @@
 }
 
 .scoreButtonText {
-  font-size: 12px;
-  color: white;
+  font-size: 14px;
+  color: black;
+  font-family: "Roboto";
+  font-weight: bold;
 }
 
 .scoreNumberDropdownText {
@@ -213,13 +218,14 @@
 .buttonRow{
   display: flex;
   flex-direction: row;
+  padding: 5px;
 }
 
 .buttonFlex{
   flex: 1;
 }
 
-.buttonRowWrapper{
+.buttonWrapper{
 
 }
 
@@ -241,6 +247,31 @@
     position: relative;
     z-index: 5;
 } */
+
+
+/* ERROR MANAGEMENT */
+
+.scoreInnerWarningBox {
+  border: 2px solid rgb(213, 163, 165);
+  margin-bottom: 3px;
+  padding: 5px;
+  border-radius: 4px;
+  background-color: rgb(254, 243, 244);
+}
+
+.scoreInnerWarningText{
+  color: rgb(122, 29, 32);
+  font-family: "Roboto";
+  /* font-weight: bold; */
+  font-size: 12px;
+}
+
+.deleteModalContent {
+  font-family: "Roboto";
+  font-size: 16px;
+}
+
+/* OLD COMPONENT CSS */
 
 .header {
     display: flex;

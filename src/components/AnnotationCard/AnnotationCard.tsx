@@ -92,6 +92,15 @@ const DELETE_SCORE = gql`
     }
 `
 
+const PLACEHOLDER_MUTATION = gql`
+  mutation PlaceholderMutation($placeholderField: String){
+    placeholderMutation(placeholderField:$placeholderField){
+      score{
+        id
+      }
+    }
+  }
+`
 
 
 type SometimesEditableType = {
@@ -150,7 +159,9 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
     const isAuthenticated = useContext(AuthenticationContext)
     const location = useLocation()
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
-
+    const [scoreNumberError, setScoreNumberError] = useState(false)
+    const [scoreFieldError, setScoreFieldError] = useState(false)
+    const [noSaves, setNoSaves] = useState(true)
     const [createAnnotation, { error: createAnnotationError}] = useMutation(CREATE_ANNOTATION, {
         refetchQueries: [
             {
@@ -203,6 +214,15 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                 variables: {paperId: location.pathname.replace('/', '')}
             }
         ]
+    })
+
+    const [placeholderMutation, { error: placeholderMutationError}] = useMutation(PLACEHOLDER_MUTATION, {
+      refetchQueries: [
+        {
+          query: GET_PAPER_AND_ANNOTATION_DATA,
+          variables: {paperId: location.pathname.replace('/', '')}
+        }
+      ]
     })
 
     const fieldOptions = [
@@ -326,11 +346,13 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         setOpenScoreBlocks(openScoreBlocks.slice(0, sbIndex).concat(openScoreBlocks.slice(sbIndex + 1)))
 
         // TODO: need error handling for if this request fails
-        deleteScore({
-            variables: {
-                scoreId: state.scoreBlocks[sbIndex].id
-            }
-        })
+        if(state.scoreBlocks[sbIndex].id){
+          deleteScore({
+              variables: {
+                  scoreId: state.scoreBlocks[sbIndex].id
+              }
+          })
+        }
     }
 
     const editScoreBlock = (sbIndex: number, newVals: ScoreBlockType) => {
@@ -350,7 +372,6 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
 
         if (isEdited()) {
             // state.id will be NaN if it is an active reply
-            if(isNotEmpty(state.text) && scoreIsIntegerBetweenOneAndTen(state.scoreBlocks)){
             if (state.activeHighlight || isNaN(state.id)) {
                 if (props.killActiveSelection){
                     props.killActiveSelection()
@@ -395,7 +416,6 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                 })
                     .then(() => {
                         for (let score of state.scoreBlocks) {
-                          console.log("HIII", score.id, score.field, score.scoreNumber)
                             if (score.id && score.field && score.scoreNumber !== undefined) {
                                 // OLD SCORE UPDATE
                                 // TODO: error handling for if this request fails
@@ -422,27 +442,76 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                         }
                     })
             }
-            // ERROR MESSAGE HANDLING
-        } else {
-          if(!isNotEmpty(state.text)){
-            alert('Annotations must have some text in them')
-          }
-          if(!scoreIsIntegerBetweenOneAndTen(state.scoreBlocks)){
-            alert("Scores must be integers between 1 and 10")
-          }
         }
       }
-    }
 
-    function onDelete() {
+    function onDelete(){
         setDeleteModalOpen(false)
         // TODO: error handling for if this request fails
-        deleteAnnotation({
-            variables: {
-                annotationId: state.id
-            }
-        })
+          deleteAnnotation({
+              variables: {
+                  annotationId: state.id
+              }
+          })
     }
+
+    function onBack(){
+      setState({...state, beingEdited: false})
+      // setNoSaves(true)
+      // setScoreFieldError(false)
+      // setScoreNumberError(false)
+      // for(let scoreIndex in state.scoreBlocks){
+      //   console.log(scoreIndex)
+      //   if(!state.scoreBlocks[scoreIndex].id){
+      //     console.log('here', !state.scoreBlocks[scoreIndex].id)
+      //     removeScoreBlock(scoreIndex)
+      //   }
+      // }
+    }
+
+    function scoreIsIntegerBetweenOneAndTen(scoreBlock){
+      let scoreNumber = scoreBlock.scoreNumber
+      return (scoreNumber <= 10 && scoreNumber >= 1 && Number.isInteger(scoreNumber))
+    }
+
+    function fieldIsAProperValue(scoreBlock){
+      let scoreField = scoreBlock.field
+      return (scoreField)
+    }
+
+    useEffect(()=>{
+      console.log("NO SAVES", noSaves)
+      console.log("SCORE NUMBER ERROR", scoreNumberError)
+      console.log("SCORE FIELD ERROR", scoreFieldError)
+    }, [noSaves, scoreNumberError, scoreFieldError])
+
+    function checkSave(){
+      setNoSaves(false)
+      if(isAuthenticated){
+        if(state.scoreBlocks ? state.scoreBlocks.every(scoreIsIntegerBetweenOneAndTen) : true){
+          setScoreNumberError(false)
+        } else {
+          setScoreNumberError(true)
+        }
+
+        if(state.scoreBlocks ? state.scoreBlocks.every(fieldIsAProperValue) : true){
+          setScoreFieldError(false)
+        } else {
+          setScoreFieldError(true)
+        }
+      } else{
+          alert("You must sign in to save annotations")
+        }
+      }
+
+    useEffect(()=>{
+      if(!noSaves && !scoreNumberError && !scoreFieldError){
+      onSave()
+      }
+      else{
+        console.log("SAVE WENT WRONG")
+      }
+    }, [noSaves, scoreNumberError, scoreFieldError])
 
     useEffect(()=>{
       console.log("STATE!", state)
@@ -524,7 +593,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                           <div className={styles.scoreButtonWrapper}>
                             <div className={styles.scoreButton}>
                               {!state.beingEdited &&
-                                <p className={styles.scoreButtonText}>{sb.scoreNumber}</p>
+                                <p className={styles.scoreButtonText}>{isNaN(sb.scoreNumber) ? "?" : sb.scoreNumber}</p>
                               }
                               {/* EDITABLE */}
                               {state.beingEdited &&
@@ -547,7 +616,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                         <div className={styles.scoreMainContainer}>
                           <div className={styles.scoreLabelWrapper}>
                             {!state.beingEdited &&
-                              <p className={styles.scoreLabel}><b>{titleize(sb.field)}</b></p>
+                              <p className={styles.scoreLabel}><b>{sb.field ? titleize(sb.field) : "No field selected"}</b></p>
                             }
                             {/* EDITABLE */}
                             {state.beingEdited &&
@@ -569,6 +638,17 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                             {/* EDITABLE */}
                             {openScoreBlocks[sbIndex] &&
                             <div className={styles.scoreBlockTextContainer}>
+                              {scoreNumberError &&
+                                <div className={styles.scoreInnerWarningBox}>
+                                  <p className={styles.scoreInnerWarningText}>Please set a value</p>
+                                </div>
+                              }
+                              {scoreFieldError &&
+                                <div className={styles.scoreInnerWarningBox}>
+                                  <p className={styles.scoreInnerWarningText}>Please select a field</p>
+                                </div>
+                              }
+
                                 <SometimesEditable
                                     editable={state.beingEdited}
                                     text={sb.explanation || ""}
@@ -604,32 +684,37 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
 
 
             {/* NOT OPERATIONAL AT THE MOMENT, CONTROLS THE ERROR DISPLAY */}
-            {Boolean(state.scoreBlocks && (state.scoreBlocks.length > 0)) &&
-                (openScoreBlocks.filter(x => x).length > 0
-                    ? <div className={styles.linkish}
-                           onClick={() => setOpenScoreBlocks(open => open.map(() => false))}>close all</div>
-                    : <div className={styles.linkish}
-                           onClick={() => setOpenScoreBlocks(open => open.map(() => true))}>expand all</div>
-                )
-            }
 
-
-
-            {/*BUGGY, NEED TO FIX*/}
-            {/* {errorModalOpen &&
-                <Modal
-                  onClose={()=>setErrorModalOpen(false)}
-                  onOpen={()=>setErrorModalOpen(true)}
-                  >
-                <Modal.Content>Sorry, something went wrong. Please try again!</Modal.Content>
-                <Modal.Actions>
-                  <button onClick={()=>setErrorModalOpen(false)}></button>
-                </Modal.Actions>
-                </Modal>
-            } */}
 
             {/* BUTTONS */}
             <div className={styles.buttonRow}>
+
+              {Boolean(state.scoreBlocks && (state.scoreBlocks.length > 0)) &&
+                  (openScoreBlocks.filter(x => x).length > 0
+                      ?
+                      <Button
+                          icon
+                          basic
+                          size='mini'
+                          className={styles.editButton}
+                          onClick={() => setOpenScoreBlocks(open => open.map(() => false))}
+                          >
+                          <Icon name='compress' />
+                          <span className={styles.buttonText}> Close All Scores</span>
+                      </Button>
+                      :
+                      <Button
+                          icon
+                          basic
+                          size='mini'
+                          className={styles.editButton}
+                          onClick={() => setOpenScoreBlocks(open => open.map(() => true))}
+                          >
+                          <Icon name='expand' />
+                          <span className={styles.buttonText}> Expand All Scores</span>
+                      </Button>
+                  )
+              }
                 <div className={styles.buttonFlex} />
                 {state.beingEdited
                     ? <>
@@ -637,6 +722,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                       <Button
                           icon
                           basic
+                          style={{marginRight: "5px"}}
                           size='mini'
                           className={styles.editButton}
                           onClick={
@@ -648,9 +734,10 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                       <Button
                           icon
                           basic
+                          style={{marginRight: "5px"}}
                           size='mini'
                           className={styles.editButton}
-                          onClick={isAuthenticated ? onSave : () => alert("You must sign in to save annotations")}
+                          onClick={checkSave}
                           >
                           <Icon name='save' />
                           <span className={styles.buttonText}> Save</span>
@@ -660,7 +747,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                           basic
                           size='mini'
                           className={styles.editButton}
-                          onClick={()=>setState({...state, beingEdited: false})}
+                          onClick={onBack}
                           >
                           <Icon name='arrow left' />
                           <span className={styles.buttonText}> Back</span>
@@ -674,6 +761,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                                 icon
                                 basic
                                 size='mini'
+                                style={{marginRight: "5px"}}
                                 className={styles.editButton}
                                 onClick={() => {
                                     props.onChange && props.onChange()
@@ -692,6 +780,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                             icon
                             size='mini'
                             basic
+                            style={{marginRight: "5px"}}
                             className={styles.replyButton}
                             onClick={isAuthenticated
                                 ? props.onReply
@@ -719,10 +808,28 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                                   onClose={() => setDeleteModalOpen(false)}
                                   onOpen={() => setDeleteModalOpen(true)}
                                   open={deleteModalOpen}>
-                                  <Modal.Content>Are you sure you want to delete this annotation?</Modal.Content>
+                                  <Modal.Content>
+                                    <p className={styles.deleteModalContent}>Are you sure you want to delete this annotation?</p>
+                                  </Modal.Content>
                                   <Modal.Actions>
-                                      <button onClick={onDelete}>Yes</button>
-                                      <button onClick={() => setDeleteModalOpen(false)}>No</button>
+                                    <Button
+                                        basic
+                                        size='tiny'
+                                        style={{marginRight: "3px"}}
+                                        className={styles.editButton}
+                                        onClick={onDelete}>
+
+                                        <span className={styles.buttonText}> Yes</span>
+                                    </Button>
+                                    <Button
+                                        basic
+                                        size='tiny'
+                                        style={{marginRight: "5px"}}
+                                        className={styles.editButton}
+                                        onClick={() => setDeleteModalOpen(false)}>
+
+                                        <span className={styles.buttonText}> No</span>
+                                    </Button>
                                   </Modal.Actions>
                               </Modal>
                           </>

@@ -13,6 +13,8 @@ import {AnnotationType} from "../types"
 import { isNotEmpty, scoreIsIntegerBetweenOneAndTen } from './validators.js'
 import { titleize } from '../../utility/StringManipulation.js'
 import {useStateWithCallbackLazy} from "use-state-with-callback";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from 'react-router-dom'
 
 const UPDATE_ANNOTATION = gql`
     mutation UpdateAnnotation($author: String, $quote: String, $content:String, $id: ID){
@@ -318,6 +320,9 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
     // tracks whether the children are currently visible
     const [repliesOpen, setRepliesOpen] = useState(depth < 3)
 
+    const { loginWithRedirect } = useAuth0();
+
+
     // tracks which score blocks are currently opened by the user
     const [openScoreBlocks, setOpenScoreBlocks] = useState(Array.isArray(state.scoreBlocks)
         ? state.scoreBlocks.map(() => depth < 2)
@@ -565,6 +570,16 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
               <div className={styles.scoreIndent}>
               </div>
               <div className={styles.bodyTextWrapper}>
+                {scoreNumberError &&
+                  <div className={styles.scoreInnerWarningBox}>
+                    <p className={styles.scoreInnerWarningText}>At least one of your scores doesn't have a value</p>
+                  </div>
+                }
+                {scoreFieldError &&
+                  <div className={styles.scoreInnerWarningBox}>
+                    <p className={styles.scoreInnerWarningText}>At least one of your scores doesn't have a field</p>
+                  </div>
+                }
                 <p className={styles.responseText}>
                   <SometimesEditable
                       editable={state.beingEdited}
@@ -573,6 +588,32 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                       defaultText={"..."}
                       editorProps={{rows: 5, cols: 40}}
                     />
+                    {!isAuthenticated && !state.beingEdited &&
+                      <>
+                      <div className={styles.errorDivider}/>
+                      <div className={styles.logInErrorWrapper}>
+                        <p className={styles.logInErrorText}>If you have an ORCID number, please
+                          <span className={styles.authText} onClick={() => loginWithRedirect()}> log in </span>
+                          or
+                        <Link to='/signup'><span className={styles.authText}> sign up </span></Link>
+                          to reply to annotations
+                        </p>
+                      </div>
+                    </>
+                    }
+                    {!isAuthenticated && state.beingEdited &&
+                      <>
+                      <div className={styles.errorDivider}/>
+                      <div className={styles.logInErrorWrapper}>
+                        <p className={styles.logInErrorText}>If you have an ORCID number, please
+                          <span className={styles.authText} onClick={() => loginWithRedirect()}> log in </span>
+                          or
+                        <Link to='/signup'><span className={styles.authText}> sign up </span></Link>
+                          to save annotations
+                        </p>
+                      </div>
+                    </>
+                    }
                 </p>
               </div>
             </div>
@@ -634,20 +675,9 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                             }
                           </div>
                           <div className={styles.scoreResponse}>
-                            {/* <p className={styles.responseText}>As for the experimental side, this is dubious at best. Perhapes someone can chime in with something more enlightening, but here is my verdict. As for the experimental side, this is dubious at best. Perhapes someone can chime in with something more enlightening, but here is my verdict.</p> */}
                             {/* EDITABLE */}
                             {openScoreBlocks[sbIndex] &&
                             <div className={styles.scoreBlockTextContainer}>
-                              {scoreNumberError &&
-                                <div className={styles.scoreInnerWarningBox}>
-                                  <p className={styles.scoreInnerWarningText}>Please set a value</p>
-                                </div>
-                              }
-                              {scoreFieldError &&
-                                <div className={styles.scoreInnerWarningBox}>
-                                  <p className={styles.scoreInnerWarningText}>Please select a field</p>
-                                </div>
-                              }
 
                                 <SometimesEditable
                                     editable={state.beingEdited}
@@ -687,8 +717,8 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
 
 
             {/* BUTTONS */}
+            {isAuthenticated &&
             <div className={styles.buttonRow}>
-
               {Boolean(state.scoreBlocks && (state.scoreBlocks.length > 0)) &&
                   (openScoreBlocks.filter(x => x).length > 0
                       ?
@@ -838,7 +868,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                 }
 
                 </div>
-              </div>
+              }
 
             {repliesOpen &&
                 <div className={styles.childrenContainer}>
@@ -856,6 +886,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                         : <div className={styles.linkish} onClick={() => setRepliesOpen(true)}>show replies</div>
                 )
             }
+            </div>
         </div>
     )
 }

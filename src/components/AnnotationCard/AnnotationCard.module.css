@@ -249,7 +249,7 @@
 } */
 
 
-/* ERROR MANAGEMENT */
+/* ERROR AND AUTH MANAGEMENT */
 
 .scoreInnerWarningBox {
   border: 2px solid rgb(213, 163, 165);
@@ -269,6 +269,34 @@
 .deleteModalContent {
   font-family: "Roboto";
   font-size: 16px;
+}
+
+.errorDivider {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.logInErrorWrapper {
+  text-align: center;
+  padding: 5px;
+}
+
+.logInErrorText {
+  font-family: "Roboto";
+  font-size: 12px;
+  color: rgba(150, 150, 150, 0.5);
+}
+
+.authText {
+  color: rgba(215, 186, 160, 0.5);
+  font-weight: 700;
+  font-family: "Roboto";
+}
+
+.authText:hover {
+  cursor: pointer;
 }
 
 /* OLD COMPONENT CSS */

@@ -6,11 +6,25 @@ const Auth0ProviderWithHistory = ({ children }) => {
   const domain = "skepsi.us.auth0.com";
   const clientId = "V1VsPEgl7mgPORdnpFApnJVWLvf4xkbe"
 
-  const history = useHistory();
+  const history = useHistory()
+  //
+  // const [prevHistory, setPrevHistory] = React.useState()
+  //
+  // React.useEffect(() => {
+  //   setPrevHistory(history.location.pathname)
+  // }, [history.location.pathname])
 
-  const onRedirectCallback = (appState) => {
-    history.push(appState?.returnTo || window.location.pathname)
-  }
+      React.useEffect(()=>{
+        console.log("HISTORY", history)
+      }, [history])
+
+  const onRedirectCallback = appState => {
+  history.push(
+    appState && appState.targetUrl
+      ? appState.targetUrl
+      : window.location.href = process.env.REACT_APP_URL
+  );
+};
 
   return(
     <Auth0Provider

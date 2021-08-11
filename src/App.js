@@ -2,7 +2,6 @@ import React, {useEffect, useState, useContext } from 'react'
 import './App.css'
 import "semantic-ui-css/semantic.min.css";
 
-
 // FONTS
 import WebFont from 'webfontloader'
 
@@ -61,6 +60,7 @@ function App() {
             authorization: isAuthenticated ? token : ""
         }
     })
+
 
     // throttles the entire site until the access token loads
     if (isLoading) {

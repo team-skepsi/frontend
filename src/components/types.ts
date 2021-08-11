@@ -14,6 +14,9 @@ type _AnnotationType = {
         }
         date?: string
         content?: string
+        children?: {
+            id: string
+        }[]
         [key: string]: any
     }
 

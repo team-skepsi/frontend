@@ -13,8 +13,8 @@ const annotationToAnnotationCard = (a: AnnotationType): AnnotationCardType => ({
     id: a._id,
     start: a.start,
     stop: a.stop,
-    parentId: a.data.parent ? parseInt(a.data.parent.id) : undefined,
-    childrenId: a.data.children ? a.data.children.map(child => parseInt(child.id)) : undefined,
+    parentId: a.data.parent ? parseInt(a.data.parent.id) : -1,
+    // childrenId: a.data.children ? a.data.children.map(child => parseInt(child.id)) : undefined,
     activeHighlight: a._activeHighlight,
     author: a.data.author ? a.data.author.username: "???",
     date: a.data.date || formatDate(new Date(Date.now())),
@@ -31,20 +31,23 @@ const annotationToAnnotationCard = (a: AnnotationType): AnnotationCardType => ({
 // takes a `Set` of `Annotation`s and constructs a `List` of `AnnotationCard` trees
 export const annotationsToTreesOfAnnotationCards = (annotations: Set<AnnotationType>) => {
 
-    const annotationsList = List(annotations)
-        // .filter(a => a._user)
-        .sort((a, b) => (a.start - b.start) || (a._id - b._id))
+    const annotationsList = List(annotations).sort((a, b) => (a.start - b.start) || (a._id - b._id))
 
     const idToAnnotation = Map(annotationsList.map(a => a._id).zip(annotationsList))
-    const idsOfAnnotationsWhichAreChildren = annotationsList.reduce((current, next) =>
-        current.concat(next.data.children || Set()), Set())
+    const idsOfAnnotationsWhichAreChildren: Set<number> = annotationsList.reduce((current, next) =>
+        current.concat((next.data.children && next.data.children.map(c => parseInt(c.id))) || Set()), Set())
     const annotationCardsNotChildren = annotationsList
         .filter(a => !idsOfAnnotationsWhichAreChildren.has(a._id))
         .map(annotationToAnnotationCard)
 
     // takes a top level `AnnotationCard` and recursively assembles the tree of replies beneath (returning a new card)
     const attachReplies = (a: AnnotationCardType): AnnotationCardType => {
-        const childrenIds = a.id === undefined ? undefined: idToAnnotation.get(a.id)?.data.children
+        const annotation = a.id !== undefined && idToAnnotation.get(a.id)
+        const childrenIds: number[] | undefined = (annotation
+            && Array.isArray(annotation.data.children)
+            && annotation.data.children.map(c => parseInt(c.id)))
+            || undefined
+
         return {
             ...a,
             replies: Array.isArray(childrenIds)
@@ -103,6 +106,9 @@ type AnnotationSidebarType = {
 }
 
 const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
+
+    // @ts-ignore
+    // console.log(JSON.stringify(Array.from(props.annotations).map(a => [a.data.content, a.data.children.map(a => a.id)]), null, 4))
 
     const [replies, setReplies] = useStateWithCallbackLazy(List<ReplyType>())
 

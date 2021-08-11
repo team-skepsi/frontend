@@ -14,6 +14,7 @@ const annotationToAnnotationCard = (a: AnnotationType): AnnotationCardType => ({
     start: a.start,
     stop: a.stop,
     parentId: a.data.parent ? parseInt(a.data.parent.id) : undefined,
+    childrenId: a.data.children ? a.data.children.map(child => parseInt(child.id)) : undefined,
     activeHighlight: a._activeHighlight,
     author: a.data.author ? a.data.author.username: "???",
     date: a.data.date || formatDate(new Date(Date.now())),

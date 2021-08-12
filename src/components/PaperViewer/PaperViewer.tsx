@@ -29,6 +29,7 @@ type PaperViewerType = {
         stop: string
         id: string
     }[]
+    scrollToTop: () => void
 }
 
 /*
@@ -164,7 +165,13 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                                 activeNodeRef={activeNodeRef}
                                 freeze={activeResize}
                                 options={[
-                                    [<VscInfo/>, <CitationViewer paperMetadata={paperMetadata}/>],
+                                    [
+                                        <VscInfo/>,
+                                        <div>
+                                            <button onClick={props.scrollToTop}>top</button>
+                                            <CitationViewer paperMetadata={paperMetadata}/>
+                                        </div>
+                                    ],
                                     [<VscSymbolRuler/>, <TableContents content={root}/>],
                                     [<VscFileMedia/>, <FigureViewer paperMetadata={paperMetadata}/>],
                                     [<VscBook/>, <ReferenceViewer paperMetadata={paperMetadata}/>],

@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo, useRef, useState} from "react"
 import {DraggableCore} from "react-draggable"
-import {Set, Map} from "immutable"
+import {Set, Map, List} from "immutable"
 import {VscInfo, VscSymbolRuler, VscFileMedia, VscBook} from "react-icons/all"
 
 import Annotation, {AnnotationType} from "../../logic/annotation"
@@ -64,17 +64,6 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
         _setUserSelection(val)
     }, [_setUserSelection]) // TODO: possible bug here with missing dependency
 
-    const [activeNode, setActiveNode] = useState<null | ContentNodeType>(null)
-    const [activeNodeRef, setActiveNodeRef] = useState<null | React.RefObject<HTMLDivElement>>(null)
-    const [activeAnnotationId, _setActiveAnnotationId] = useState(NaN)
-
-    const setActiveAnnotationId = useCallback((val: number | ((val: number) => number)) => {
-        _setActiveAnnotationId(val)
-        if (val !== -1){
-            _setUserSelection(null)
-        }
-    }, [_setActiveAnnotationId, _setUserSelection])
-
     const [activeResize, setActiveResize] = useState(false)
     const [featureBarWidth, setFeatureBarWidth] = useState<string | number>("35%")
 
@@ -107,7 +96,7 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
         const annotations = annotationsWovenRelated.concat(notRelatedToText)
 
         // maps from node id to a ref to that node
-        const nodeIdToRef = Map(nodesInNode(root).map((node) => [node._id, React.createRef<HTMLElement>()]))
+        const nodeIdToRef = Map(nodesInNode(root).map((node) => [node._id, React.createRef<HTMLDivElement>()]))
         const rootWithRefs = nodeMap(root, node => node.merge({nodeRef: nodeIdToRef.get(node._id)}))
 
         return [rootWithRefs, annotations, nodeIdToRef]
@@ -116,12 +105,32 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
     // add the activeHighlight in if it exists
     const [root, annotations] = useMemo(() => {
         if (!userSelection){
-            return [rootNoHighlight, annotationsNoHighlight]
+            return [rootNoHighlight, List(annotationsNoHighlight).sort((a, b) => (a.start - b.start) || (a._id - b._id))]
         } else {
             const [root, annotation] = addSingleAnnotation(rootNoHighlight, userSelection)
-            return [root, annotationsNoHighlight.add(annotation)]
+            const annotationsWithHighlight = annotationsNoHighlight.add(annotation)
+            const annotationsSorted = List(annotationsWithHighlight).sort((a, b) => (a.start - b.start) || (a._id - b._id))
+            return [root, annotationsSorted]
         }
     }, [rootNoHighlight, annotationsNoHighlight, userSelection])
+
+    const [activeNode, setActiveNode] = useState<null | ContentNodeType>(null)
+    const [activeNodeRef, setActiveNodeRef] = useState<null | React.RefObject<HTMLDivElement>>(null)
+    const [activeAnnotationId, _setActiveAnnotationId] = useState(NaN)
+
+    const setActiveAnnotationId = useCallback((val: number | ((val: number) => number)) => {
+        _setActiveAnnotationId(val)
+        if (val !== -1){
+            _setUserSelection(null)
+        }
+    }, [_setActiveAnnotationId, _setUserSelection])
+
+    // logic to handle prev and next buttons on Tooltip
+    const annotationIds = annotations.map(a => a._id)
+    const annotationsCircleMap = Map(annotationIds.zip(annotationIds.shift().push(annotationIds.first())))
+    const annotationsCircleMapPrev = annotationsCircleMap.mapEntries(([a, b]) => [b, a])
+    const onNextAnnotation = () => setActiveAnnotationId(aId => annotationsCircleMap.get(aId, annotationIds.first()))
+    const onPrevAnnotation = () => setActiveAnnotationId(aId => annotationsCircleMapPrev.get(aId, annotationIds.last()))
 
     const draggableRef = useRef(null)
 
@@ -175,8 +184,9 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                                     [<VscSymbolRuler/>, <TableContents content={root}/>],
                                     [<VscFileMedia/>, <FigureViewer paperMetadata={paperMetadata}/>],
                                     [<VscBook/>, <ReferenceViewer paperMetadata={paperMetadata}/>],
-                                ]}>
-                            </TooltipRefRelative>
+                                ]}
+                                onNext={onNextAnnotation}
+                                onPrevious={onPrevAnnotation}/>
                         ), [activeNodeRef, activeResize, JSON.stringify(paperMetadata), root])}
 
                         {/* what is this for? did i put this here? --Leo */}

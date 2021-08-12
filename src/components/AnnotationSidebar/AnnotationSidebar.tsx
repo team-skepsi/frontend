@@ -30,9 +30,7 @@ const annotationToAnnotationCard = (a: AnnotationType): AnnotationCardType => ({
 })
 
 // takes a `Set` of `Annotation`s and constructs a `List` of `AnnotationCard` trees
-export const annotationsToTreesOfAnnotationCards = (annotations: Set<AnnotationType>) => {
-
-    const annotationsList = List(annotations).sort((a, b) => (a.start - b.start) || (a._id - b._id))
+export const annotationsToTreesOfAnnotationCards = (annotationsList: List<AnnotationType>) => {
 
     const idToAnnotation = Map(annotationsList.map(a => a._id).zip(annotationsList))
     const idsOfAnnotationsWhichAreChildren: Set<number> = annotationsList.reduce((current, next) =>
@@ -100,7 +98,7 @@ const overlayReplyCreationCallbacks = (createReply: (id: number) => void, a: Ann
 })
 
 type AnnotationSidebarType = {
-    annotations: Set<AnnotationType>
+    annotations: List<AnnotationType>
     activeAnnotationId: number
     setActiveAnnotationId: (id: number) => void
     nodeIdToRef: Map<number, React.RefObject<HTMLElement>>

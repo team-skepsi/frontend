@@ -1,7 +1,8 @@
 // https://codesandbox.io/s/dynamic-size-of-react-window-list-items-64o9p
 
 import React, {useState} from "react"
-import {AnnotationType, ContentNodeType} from "../types"
+import {AnnotationType} from "../../logic/annotation"
+import {ContentNodeType} from "../../logic/contentNode"
 import SelectionManager from "../SelectionManager/SelectionManager"
 import {List} from "immutable"
 import TopLevelContentBlock from "../TopLevelContentBlock/TopLevelContentBlock"

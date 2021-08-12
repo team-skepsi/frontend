@@ -1,8 +1,7 @@
 import React from "react"
-import {nodesInNode} from "../processing"
-import {scrollToContentNode} from "../functions"
+import {scrollToContentNode, nodesInNode} from "../../logic/functions"
 import ContentBlock from "../ContentBlock/ContentBlock"
-import {ContentNodeType} from "../types"
+import {ContentNodeType} from "../../logic/contentNode"
 
 type TableContentsType = {
     content: ContentNodeType

@@ -1,6 +1,6 @@
 import React from "react"
 import TableContents from "./TableContents"
-import {mdToNode} from "../processing"
+import {mdToNode} from "../../logic/processing"
 
 import "../../App.css"
 

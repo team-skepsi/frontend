@@ -1,27 +1,15 @@
+/*
+
+logic to take in markdown and annotations and turn out populated annotations and a content tree
+
+ */
+
 import Heap from "heap"
 import {List, Set, Map} from "immutable"
-import {SingleASTNode} from "simple-markdown"
-import {AnnotationType, ContentNode, ContentNodeType, isAst} from "./types"
-import {isAscending} from "./functions"
-import parse from "./mdParser"
-
-// whether the annotation overlaps with the region designated by start and stop
-export const isAnnotationSectionOverlap = (start: number, stop: number, a: AnnotationType) => (
-    !(isAscending([a.start, a.stop, start, stop]) || isAscending([start, stop, a.start, a.stop]))
-)
-
-/*
-Translates the annotation into the reference frame defined by start and stop
- */
-export const translateAnnotation = (start: number, stop: number, a: AnnotationType) => {
-    if (!isAnnotationSectionOverlap(start, stop, a)){
-        throw Error(`no overlap between annotation ${[a.start, a.stop]} and section ${[start, stop]}`)
-    }
-    return a.merge({
-        start: Math.max(0, a.start - start),
-        stop: Math.min(stop - start, a.stop - start),
-    })
-}
+import {translateAnnotation, nodeMap, nodesInNode} from "./functions"
+import ContentNode, {ContentNodeType} from "./contentNode"
+import {AnnotationType} from "./annotation"
+import {parseToAst, astToNode} from "./mdParser"
 
 /*
 Takes a list of lists of annotation types and marks each one as first the first time
@@ -72,81 +60,15 @@ export const assignAnnotations = <T>(len: (item: T) => number, annotations: Set<
     return items.zip(annotationGroups)
 }
 
-/*
-Recursive type coercion of an ast tree
- */
-export const astToNode = (astNode: SingleASTNode): ContentNodeType => {
-    let {type, content, ...rest} = astNode
 
-    // simple-markdown sometimes loads the nodes down with crap we don't want
-    const props: {[key: string]: any} = {}
-    for (const key in rest){
-        if (rest.hasOwnProperty(key) && key[0] !== "_"){
-            props[key] = rest[key]
-        }
-    }
-
-    // recursive calls
-    if (Array.isArray(content)) {
-        content = List(content.map((c) => {
-            if (isAst(c)){
-                return astToNode(c)
-            } else {
-                throw Error("content array can only contain ast")
-            }
-        }))
-    } else if (isAst(content)) {
-        content = astToNode(content)
-    }
-
-    return ContentNode({
-        type: type,
-        content: content,
-        props: props
-    })
-}
 
 /*
 Uses the Khan function to convert the function and wraps the result in a div
  */
 export const mdToNode = (md: string) => astToNode(ContentNode({
     type: "div",
-    content: List(parse(md)).map(astToNode),
+    content: List(parseToAst(md)).map(astToNode),
 }))
-
-/*
-Takes a root node a returns a list of all the nodes in the underlying tree
- */
-export const nodesInNode = (node: ContentNodeType): List<ContentNodeType> => {
-    if (node.content === undefined || typeof node.content === "string"){
-        return List([node])
-    } else if (!List.isList(node.content)) {
-        return List([node, node.content])
-    } else {
-        return List([node]).concat(
-            node.content
-                .map(n => nodesInNode(n))
-                .reduce((a, b) => a.concat(b), List<ContentNodeType>())
-        )
-    }
-}
-
-/*
-recursive map for document node functor
- */
-export const nodeMap = (node: ContentNodeType, fn: (n: ContentNodeType) => ContentNodeType): ContentNodeType => {
-
-    let content
-    if (node.content === undefined || typeof node.content === "string"){
-        content = node.content
-    } else if (List.isList(node.content)) {
-        content = node.content.map(n => nodeMap(n, fn))
-    } else {
-        content = nodeMap(node.content, fn)
-    }
-
-    return fn(node.merge({content: content}))
-}
 
 /*
 Augments each nodes annotations with the annotations from each of it's children
@@ -156,7 +78,7 @@ export const trickleUpAnnotations = (root: ContentNodeType) => {
         let newAnnotations = Set<AnnotationType>()
 
         if (List.isList(node.content)) {
-            node.content.forEach((childNode) => {
+            node.content.forEach((childNode: ContentNodeType) => {
                 if (childNode.props.annotations){
                     newAnnotations = newAnnotations.concat(childNode.props.annotations)
                 }

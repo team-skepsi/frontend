@@ -3,10 +3,11 @@ import {DraggableCore} from "react-draggable"
 import {Set, Map} from "immutable"
 import {VscInfo, VscSymbolRuler, VscFileMedia, VscBook} from "react-icons/all"
 
-import {Annotation, AnnotationType, ContentNodeType} from "../types"
-import {mdToNode, nodeMap, nodesInNode, weaveNodeAnnotations} from "../processing"
-import {KNOB_DRAG_HANDLE_CLASS} from "../Tooltip/Tooltip"
-import {addSingleAnnotation} from "../functions"
+import Annotation, {AnnotationType} from "../../logic/annotation"
+import {ContentNodeType} from "../../logic/contentNode"
+import {mdToNode, weaveNodeAnnotations} from "../../logic/processing"
+import {nodeMap, nodesInNode} from "../../logic/functions"
+import {addSingleAnnotation} from "../../logic/functions"
 
 import ContentViewer from "../ContentViewer/ContentViewer"
 import TooltipRefRelative from "../Tooltip/TooltipRefRelative"
@@ -16,6 +17,7 @@ import TableContents from "../TableContents/TableContents"
 import FigureViewer from "../FigureViewer/FigureViewer"
 import ReferenceViewer from "../ReferenceViewer/ReferenceViewer"
 
+import {KNOB_DRAG_HANDLE_CLASS} from "../Tooltip/Tooltip"
 import styles from './PaperViewer.module.css'
 
 type PaperViewerType = {
@@ -88,9 +90,10 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                 data: Object.freeze(rest)
             })
         }))
+        const related = (a: AnnotationType) => !isNaN(a.start) && !isNaN(a.stop) && a.start !== a.stop
         return [
-            parsedAnnotations.filter(a => !isNaN(a.start) && !isNaN(a.stop)),
-            parsedAnnotations.filter(a => isNaN(a.start) || isNaN(a.stop))
+            parsedAnnotations.filter(related),
+            parsedAnnotations.filterNot(related)
         ]
     }, [props.annotations])
 

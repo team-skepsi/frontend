@@ -1,7 +1,7 @@
-import React, {useRef} from 'react'
-import {Annotation, AnnotationType} from '../types'
+import React from 'react'
+import Annotation, {AnnotationType} from "../../logic/annotation"
 import './SelectionManager.css'
-import {TOP_LEVEL_CONTENT_CLASS, TOP_LEVEL_OFFSET_ATTRIBUTE_NAME} from "../TopLevelContentBlock/TopLevelContentBlock";
+import {TOP_LEVEL_CONTENT_CLASS, TOP_LEVEL_OFFSET_ATTRIBUTE_NAME} from "../TopLevelContentBlock/TopLevelContentBlock"
 
 // class for elements which should not be selectable
 export const NO_SELECT_CLASS = "SelectionManager-no-select"

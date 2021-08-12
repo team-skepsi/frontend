@@ -1,11 +1,12 @@
 import React, {useMemo} from "react"
 import {List} from "immutable"
-import {ContentNode, ContentNodeType} from "../types"
+import ContentNode, {ContentNodeType} from "../../logic/contentNode"
 
 import * as _ContentComponents from "./ContentComponents"
-import {astToNode} from "../processing";
-import {SingleASTNode} from "simple-markdown";
-import {nodeIdToPrettyId} from "../functions";
+import {astToNode} from "../../logic/mdParser"
+import {SingleASTNode} from "simple-markdown"
+import {nodeIdToPrettyId} from "../../logic/functions"
+
 const ContentComponents = Object.freeze(Object.create(_ContentComponents))
 
 type ContentBlockType = {
@@ -41,7 +42,6 @@ const ContentBlock: React.FC<ContentBlockType> = (props) => {
 
         return (
             <span
-                className={"ContentBlock"}
                 id={!isNaN(props.node._id)? nodeIdToPrettyId(props.node._id): undefined}
                 ref={props.node.nodeRef}>
             {React.createElement(

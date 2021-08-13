@@ -40,6 +40,7 @@ export type AnnotationCardType = {
     activeReply?: false | (() => void)
     annotation?: AnnotationType
     parentId?: number
+    width?: number
 }
 
 type SecretRealAnnotationCardType = AnnotationCardType & {
@@ -82,6 +83,8 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         _setState(valSetRevert, () => props.onChange && props.onChange())
     }
 
+    const childrenIndent = 20
+    const width = props.width || 450
     const annotationId = typeof props.id === "number"? props.id: NaN
     const depth = props._depth || 0
     const author = props.author || ""
@@ -108,10 +111,6 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
     const [createScore] = useMutation(CREATE_SCORE, {refetchQueries: [{query: GET_PAPER_AND_ANNOTATION_DATA, variables: {paperId: paperId}}]})
     const [updateScore] = useMutation(UPDATE_SCORE, {refetchQueries: [{query: GET_PAPER_AND_ANNOTATION_DATA, variables: {paperId: paperId}}]})
     const [deleteScore] = useMutation(DELETE_SCORE, {refetchQueries: [{query: GET_PAPER_AND_ANNOTATION_DATA, variables: {paperId: paperId}}]})
-
-    useEffect(() =>{
-      console.log("STATE!", state)
-    }, [state])
 
     const addScoreBlock = () => {
         setState(state => ({
@@ -163,7 +162,6 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
     }
 
     const saveScoreBlocks = (aId: number) => {
-        console.log("update")
         return Promise.all(
             state.scoreBlocks.map((score) => {
                 const info = {explanation: score.explanation || "", field: score.field, scoreNumber: score.scoreNumber}
@@ -248,6 +246,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
             style={{
                 backgroundColor: depth % 2 === 1 ? "lightgrey" : "white",
                 borderWidth: props.active ? 2 : 1,
+                width: width,
             }}>
 
             <div className={styles.cardHeader}>
@@ -400,9 +399,14 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                 }
 
                 {repliesOpen &&
-                    <div className={styles.childrenContainer}>
+                    <div className={styles.childrenContainer} style={{marginLeft: childrenIndent}}>
                         {Array.isArray(props.replies) && props.replies.map(each =>
-                            <AnnotationCard key={each.id} {...each} _depth={depth + 1} onChange={props.onChange}/>
+                            <AnnotationCard
+                                key={each.id}
+                                {...each}
+                                _depth={depth + 1}
+                                width={width - childrenIndent}
+                                onChange={props.onChange}/>
                         )}
                     </div>
                 }

@@ -198,6 +198,28 @@
 }
 
 
+
+/* WHITESPACE */
+
+.whitespaceTitleWrapper {
+  margin-top: 70px;
+
+}
+
+
+.whitespaceTitle {
+  font-family: "Spartan";
+  font-weight: 800 !important;
+  font-size: 60px;
+}
+
+.whitespaceTitleUnderscore {
+  border-bottom: 10px solid black;
+  margin-left: 40%;
+  margin-right: 40%;
+}
+
+
 /*
 .paperGroupWrapper{
   border: 5px solid yellow;

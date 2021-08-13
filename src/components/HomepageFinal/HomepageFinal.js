@@ -8,6 +8,48 @@ import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
 import { Link } from 'react-router-dom'
 import Pluralize from 'react-pluralize'
 
+
+function GlassHomepageCover(props){
+  return(
+    <div>
+      <img className={styles.image} src={`${process.env.REACT_APP_API_AUDIENCE}media/${props.topic.image}`}></img>
+      <div className={styles.topicInfoWrapper}>
+        <div className={styles.topicTitle}>
+          <h1 className={styles.topicTitleText}>{props.topic.header}</h1>
+        </div>
+        <div className={styles.topicFlexParent}>
+          <div className={styles.topicMetadata}>
+            <p className={styles.metricText}><b>
+              <Pluralize singular={'paper'} plural={'papers'} count={props.topic.paperCount} showCount={true} />
+            </b></p>
+            <p className={styles.metricText}><b>
+              <Pluralize singular={'annotation'} plural={'annotations'} count={props.topic.annotationCount} showCount={true} />
+            </b></p>
+            <p className={styles.metricText}><b>
+              <Pluralize singular={'scientist'} plural={'scientists'} count={props.topic.scientistCount} showCount={true} />
+            </b></p>
+
+          </div>
+          <div className={styles.topicDescription}>
+            <p className={styles.topicDescriptionText}>{props.topic.description}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function WhitespaceHomepageCover(props){
+  return(
+    <div>
+    <div className={styles.whitespaceTitleWrapper}>
+      <h1 className={styles.whitespaceTitle}>Poverty</h1>
+    </div>
+    <div className={styles.whitespaceTitleUnderscore}/>
+  </div>
+  )
+}
+
 function HomepageFinal(props){
   const arrowStyles: CSSProperties = {
         position: 'absolute',
@@ -84,29 +126,10 @@ function HomepageFinal(props){
                {props.topics.map((topic, index)=>
                 <>
                 <div className={styles.topicViewWrapper}>
-                   <img className={styles.image} src={`${process.env.REACT_APP_API_AUDIENCE}media/${topic.image}`}></img>
-                   <div className={styles.topicInfoWrapper}>
-                     <div className={styles.topicTitle}>
-                       <h1 className={styles.topicTitleText}>{topic.header}</h1>
-                     </div>
-                     <div className={styles.topicFlexParent}>
-                       <div className={styles.topicMetadata}>
-                         <p className={styles.metricText}><b>
-                           <Pluralize singular={'paper'} plural={'papers'} count={topic.paperCount} showCount={true} />
-                         </b></p>
-                         <p className={styles.metricText}><b>
-                           <Pluralize singular={'annotation'} plural={'annotations'} count={topic.annotationCount} showCount={true} />
-                         </b></p>
-                         <p className={styles.metricText}><b>
-                           <Pluralize singular={'scientist'} plural={'scientists'} count={topic.scientistCount} showCount={true} />
-                         </b></p>
-
-                       </div>
-                       <div className={styles.topicDescription}>
-                         <p className={styles.topicDescriptionText}>{topic.description}</p>
-                       </div>
-                     </div>
-                   </div>
+                  {/*insert homepage cover designs here*/}
+                  <WhitespaceHomepageCover
+                    topic = {topic}
+                    />
                  </div>
 
                 <div className={styles.cardWrapper}>

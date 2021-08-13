@@ -12,8 +12,6 @@ type TextEditorType = {
 const TextEditor: React.FC<TextEditorType> = (props) => {
     return (
         <TextareaAutosize
-            rows={5}
-            cols={20}
             className={styles.main + " " + (props.editable? styles.editable: styles.locked)}
             readOnly={!props.editable}
             placeholder={props.editable? props.placeholder: ""}

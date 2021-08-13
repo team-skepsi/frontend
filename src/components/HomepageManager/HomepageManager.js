@@ -1,6 +1,7 @@
 import React from 'react'
 import Homepage from '../Homepage/Homepage.js'
 import { useQuery, gql } from '@apollo/client'
+import HomepageFinal from '../HomepageFinal/HomepageFinal.js'
 
 const GET_ALL_TOPICS_AND_PAPERS = gql`
 query AllTopicsAndPapers{
@@ -10,9 +11,20 @@ query AllTopicsAndPapers{
     domain
     paperCount
     slug
+    description
     image
     annotationCount
     scientistCount
+    papers{
+      id
+      title
+      authors
+      citationMLA
+      abstract
+      annotationCount
+      createdDate
+      readingTime
+    }
   }
   allPapers{
     id
@@ -58,7 +70,7 @@ function HomepageManager(){
 
   if(data){
   return(
-    <Homepage
+    <HomepageFinal
       topics={data.allTopics}
       papers={data.allPapers}
       />

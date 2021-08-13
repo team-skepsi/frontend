@@ -4,6 +4,7 @@ import { gql, useMutation } from "@apollo/client"
 import { isValidEmail, isValidPassword, isValidUsername } from "../../utility/user-validators.js"
 import { useHistory } from 'react-router-dom'
 import auth0 from "auth0-js"
+import { useAuth0 } from "@auth0/auth0-react";
 import ScientistDomainPicker from '../ScientistDomainPicker/ScientistDomainPicker.js'
 
 const initialState = {
@@ -63,6 +64,7 @@ function ExpertSignupForm(){
   const [domains, setDomains] = useState()
   const [state, dispatch] = useReducer(reducer, initialState)
   const [addUser] = useMutation(ADD_USER)
+  const { loginWithRedirect } = useAuth0();
 
 
   function handleChange(e){
@@ -142,7 +144,7 @@ function ExpertSignupForm(){
           email: state.email,
           domains: domains.value.join(",")
           }
-        }).then(response => {history.push('/signup-success')})
+        }).then(response => loginWithRedirect())
       }
       else{
         console.log("No", state)
@@ -224,6 +226,7 @@ function ExpertSignupForm(){
         <input
           name='password'
           placeholder='Password'
+          type="password"
           onChange={handleChange}
           />
         {!state.passwordValid &&

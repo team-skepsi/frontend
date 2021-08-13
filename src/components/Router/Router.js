@@ -14,8 +14,10 @@ import Navbar from '../Navbar/Navbar.js'
 // import FeaturedAnnotations from '../FeaturedAnnotations/FeaturedAnnotations.js'
 import HomepageUpdated from '../HomepageUpdated/HomepageUpdated.js'
 import SkepsiIsBroken from '../SkepsiIsBroken/SkepsiIsBroken.js'
+import HomepageFinal from '../HomepageFinal/HomepageFinal.js'
 
 import AnnotationCardTemplate from '../AnnotationCardTemplate/AnnotationCardTemplate.js'
+import SignupHook from '../SignupHook/SignupHook.js'
 
 const GET_ALL_TOPIC_SLUGS = gql`
     query{
@@ -72,12 +74,12 @@ function Router() {
             )}
 
             <Route path="/homepage-test">
-                <HomepageManager />
+                <HomepageFinal />
             </Route>
 
             <Route path="/playground">
                 <div/>
-                <AnnotationCardTemplate />
+                <SignupHook />
             </Route>
 
             <Route path="/broken">

@@ -1,0 +1,20 @@
+.siblingWrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.roleButton {
+  width: 90px;
+  height: 40px;
+  margin: 5px;
+  margin-bottom: 10px;
+}
+
+.roleText {
+  font-size: 12px;
+  color: black;
+}
+
+.emailInput {
+  width: 400px;
+}

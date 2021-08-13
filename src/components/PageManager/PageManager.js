@@ -47,6 +47,7 @@ export const GET_PAPER_AND_ANNOTATION_DATA = gql`
             md
             topic{
                 header
+                slug
             }
             references{
                 id

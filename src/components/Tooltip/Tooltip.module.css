@@ -4,6 +4,8 @@
 }
 
 .dynamicPosition {
+    height: 0;
+    width: 0;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -25,7 +27,7 @@
     height: 24px;
     border-radius: 11px;
     background: #FFFFFF;
-    border: 0.3px solid #E3DBD4;
+    border: 0.3px solid #E9E9E9;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -34,75 +36,134 @@
 }
 
 .knobMain {
-    background: linear-gradient(261.76deg, #FFFFFF 16.93%, #E3DBD4 182.12%);
-    border: 1px dashed #BDBDBD;
+    width: 50px;
+    flex: 0 224px;
+    background-repeat: no-repeat;
+    position: relative;
+    padding: 2px;
+}
+
+.neck {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.neckOverlay {
+    z-index: 10;
+    position: relative;
+}
+
+.knobBigButton {
+
     box-sizing: border-box;
-    border-radius: 35px;
-    padding: 3px;
+    height: 46px;
+    width: 46px;
+    background-color: #656565;
+    border: 2px solid #FFFFFF;
+    border-radius: 50%;
+    position: relative;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
 }
 
-.knobHighlightCursor {
-    width: 32px;
-    height: 32px;
-    border: 2px solid #ccb4ac;
-    border-radius: 18px;
-    background: linear-gradient(52.06deg, #EDD5BA 35.82%, #F6DDE3 76.1%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+.knobBigButtonInner {
+    position: absolute;
+    top: 2px;
+    left: 2px;
 
-.knobHighlightCursorInner {
-    width: 24px;
-    height: 24px;
-    border: 2px solid #ccb4ac;
-    border-radius: 16px;
+    width: 38px;
+    height: 38px;
+    /*border: 2px dashed #656565;*/
+    border-radius: 50%;
     background-color: white;
 }
 
-.knobMainSpacer {
-    height: 10px;
+@keyframes spinner {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.gearSpinning {
+    animation: spinner infinite 1s linear;
 }
 
 .knobMenuButtonsHairline {
-    padding: 1px;
-    border-radius: 25.1424px;
+    position: absolute;
+    top: 62px;
+    padding: 2px;
+
+    box-sizing: border-box;
+    width: 44px;
+    height: 156px;
+
+    background-color: darkgrey;
+
+    border-radius: 25px;
     background-image: linear-gradient(to bottom right, rgba(211, 195, 188, 0.5), rgba(100, 100, 100, 0) 20%),
                         linear-gradient(to top left, rgba(0, 0, 0, 0.2), rgba(237, 237, 237, 0) 20%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .knobMenuButtons {
     box-sizing: border-box;
+    width: 40px;
+    height: 152px;
+
+    position: absolute;
+    top: 2px;
+    left: 2px;
+
     background: #FFFFFF;
     border-radius: 25px;
-    padding: 1px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-around;
 }
 
 .knobMenuButtonEachContainer {
     box-sizing: border-box;
-    height: 25.6px;
-    width: 25.6px;
-    border-radius: 12.8px;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
 
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+.thumbnailContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
 .knobMenuActive {
-    background: linear-gradient(136.3deg, #E3DBD4 37.38%, rgba(255, 255, 255, 0) 184.13%);
+    border: 1.5px solid #656565;
+    position: relative;
+}
+
+.knobMenuActiveInner {
+    box-sizing: border-box;
+    width: 8px;
+    height: 8px;
+    border-radius: 6px;
+
+    background-color: lightgrey;
+    position: absolute;
+    top: 8px;
+    left: 8px;
 }
 
 .knobFeatureContainer {
@@ -111,5 +172,4 @@
     border: 2px solid #BDBDBD;
     color: #BDBDBD;
     background-color: white;
-    z-index: 2000
 }

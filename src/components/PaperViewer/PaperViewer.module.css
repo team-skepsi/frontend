@@ -12,23 +12,9 @@
     font-family: "Computer Modern", sans-serif;
 }
 
-/*.ViewStateManager-Paper-container h1 {*/
-/*  font-weight: bold;*/
-/*  color: #4F4F4F;*/
-/*}*/
-
-/*.ViewStateManager-Paper-container p {*/
-/*  line-height: 1.5;*/
-/*  !* color: #222222; *!*/
-/*  color: orange;*/
-/*  font-family: "Computer Modern", sans-serif;*/
-/*    padding: 8px 20px 0;*/
-/*}*/
-
 .tooltipContainer {
     flex: 0 35%;
     position: relative;
-    /* background-color: orange; */
     background-clip: content-box;
 }
 
@@ -41,11 +27,9 @@
 }
 
 .annotationSidebarContainer{
-    padding-left: 50px;
+    padding-left: 60px;
     padding-right: 10px;
     padding-bottom: 20px;
-    /*height: 100%;*/
-    /*background-color: #F8F8F8;*/
 }
 
 .colorBox{

@@ -3,10 +3,10 @@ import Tooltip from "./Tooltip"
 
 type TooltipRefRelativeType = {
     activeNodeRef: React.RefObject<HTMLDivElement> | null
-    freeze: boolean
     options: [React.ReactElement, React.ReactElement][]
     onPrevious: () => void
     onNext: () => void
+    activeResize: boolean
 }
 
 const TooltipRefRelative: React.FC<TooltipRefRelativeType> = (props) => {
@@ -24,7 +24,7 @@ const TooltipRefRelative: React.FC<TooltipRefRelativeType> = (props) => {
                             ? activeNodeRef.current.getBoundingClientRect().top
                             : NaN) -
                         (thisOne? thisOne.getBoundingClientRect().top : NaN)
-                    )
+                    ) + 45
                     return Math.max(top || 0, 45)
                 }}
                 {...rest}

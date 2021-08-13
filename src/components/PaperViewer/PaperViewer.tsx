@@ -172,7 +172,6 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                         {useMemo(() => (
                             <TooltipRefRelative
                                 activeNodeRef={activeNodeRef}
-                                freeze={activeResize}
                                 options={[
                                     [
                                         <VscInfo/>,
@@ -186,7 +185,8 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                                     [<VscBook/>, <ReferenceViewer paperMetadata={paperMetadata}/>],
                                 ]}
                                 onNext={onNextAnnotation}
-                                onPrevious={onPrevAnnotation}/>
+                                onPrevious={onPrevAnnotation}
+                                activeResize={activeResize}/>
                         ), [activeNodeRef, activeResize, JSON.stringify(paperMetadata), root])}
 
                         {/* what is this for? did i put this here? --Leo */}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './HomepageFinal.module.css'
 import { Carousel } from 'react-responsive-carousel';
 import style from 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -43,21 +43,58 @@ function WhitespaceHomepageCover(props){
   return(
     <div>
     <div className={styles.whitespaceTitleWrapper}>
-      <h1 className={styles.whitespaceTitle}>Poverty</h1>
+      <div className={styles.whitespaceTitleFlexWrapper}>
+      <p className={styles.whitespaceTitleIndex}>0{props.index+1} </p>
+      <h1 className={styles.whitespaceTitle}>{props.topic.header}</h1>
+      </div>
     </div>
     <div className={styles.whitespaceTitleUnderscore}/>
+    <div className={styles.whitespaceDescriptionWrapper}>
+      <p className={styles.whitespaceDescription}>{props.topic.description}</p>
+    </div>
+    <div className={styles.whitespaceMetadataRow}>
+      <div className={styles.whitespaceMetadataWrapper}>
+        <h1 className={styles.whitespaceMetadataNumber} id={styles.whitespacePaperCount}>{props.topic.paperCount}</h1>
+        <p className={styles.whitespaceMetadataText}><b>
+          <Pluralize singular={'paper'} plural={'papers'} count={props.topic.paperCount} showCount={false} />
+        </b></p>
+      </div>
+      <div className={styles.whitespaceMetadataWrapper}>
+        <h1 className={styles.whitespaceMetadataNumber} id={styles.whitespaceAnnotationCount}>{props.topic.annotationCount}</h1>
+        <p className={styles.whitespaceMetadataText}><b>
+          <Pluralize singular={'annotation'} plural={'annotations'} count={props.topic.annotationCount} showCount={false} />
+        </b></p>
+
+      </div>
+      <div className={styles.whitespaceMetadataWrapper}>
+        <h1 className={styles.whitespaceMetadataNumber} id={styles.whitespaceScientistCount}>{props.topic.scientistCount}</h1>
+        <p className={styles.whitespaceMetadataText}><b>
+          <Pluralize singular={'scientist'} plural={'scientists'} count={props.topic.scientistCount} showCount={false} />
+        </b></p>
+      </div>
+    </div>
   </div>
   )
 }
 
 function HomepageFinal(props){
+  const [activeTopicIndex, setActiveTopicIndex] = useState(0)
+
+  function handleChange(e){
+    setActiveTopicIndex(e)
+    console.log("TOPIC INFO", e)
+    console.log("LENGTH", props.topics.length)
+  }
+
   const arrowStyles: CSSProperties = {
         position: 'absolute',
         zIndex: 2,
         top: 'calc(18% - 15px)',
-        width: 60,
-        height: 60,
+        width: 170,
         cursor: 'pointer',
+        border: "none",
+        backgroundColor: "transparent"
+
     };
     const indicatorStyles: CSSProperties = {
         background: '#fff',
@@ -79,20 +116,56 @@ function HomepageFinal(props){
         <div className={styles.carouselWrapper}>
             <Carousel
               autoplay={false}
+              fade
               infiniteLoop
+              onChange={handleChange}
               style={{height: "100vh"}}
               statusFormatter={(current, total) => ""}
               renderArrowPrev={(onClickHandler, hasPrev, label) =>
                    hasPrev && (
-                       <button className={styles.navButton} onClick={onClickHandler} title={label} style={{ ...arrowStyles, left: 15 }}>
-                          <Icon name='angle left' inverted fitted size='huge' />
+                       <button className={styles.navButton} onClick={onClickHandler} title={label} style={{ ...arrowStyles, left: 6 }}>
+                         <div className={styles.navButtonInnerPrev}>
+                          <div className={styles.prevWrapper}>
+                              <p className={styles.nextText}>Previous:</p>
+                          </div>
+                          <div className={styles.topicNavigationWrapper}>
+                            <p className={styles.topicNavigationPrevText}><sup>0{activeTopicIndex === 0 ? props.topics.length: activeTopicIndex}</sup>{activeTopicIndex === 0 ? props.topics[props.topics.length-1].header: props.topics[activeTopicIndex-1].header}</p>
+                          </div>
+                          <div className={styles.topicInfoNavigationPrevWrapper}>
+                            <p className={styles.topicInfoNavigationText}>
+                              <Pluralize
+                                singular={'paper'}
+                                plural={'papers'}
+                                count={activeTopicIndex === 0 ? props.topics[props.topics.length-1].paperCount: props.topics[activeTopicIndex-1].paperCount}
+                                showCount={true} />
+                            </p>
+                          </div>
+                        </div>
                        </button>
                    )
                }
                renderArrowNext={(onClickHandler, hasNext, label) =>
                    hasNext && (
-                       <button className={styles.navButton} type="button" onClick={onClickHandler} title={label} style={{ ...arrowStyles, right: 15 }}>
-                            <Icon name='angle right' inverted fitted size='huge' />
+                       <button className={styles.navButton} type="button" onClick={onClickHandler} title={label} style={{ ...arrowStyles, right: 15, }}>
+                         <div className={styles.navButtonInnerNext}>
+                          <div className={styles.nextWrapper}>
+                              <p className={styles.nextText}>Next:</p>
+                          </div>
+                          <div className={styles.topicNavigationWrapper}>
+                            <p className={styles.topicNavigationText}><sup>0{activeTopicIndex+1 === props.topics.length ? 1 : activeTopicIndex+2}</sup>{activeTopicIndex+1 === props.topics.length ? props.topics[0].header :props.topics[activeTopicIndex+1].header}</p>
+                          </div>
+                          <div className={styles.topicInfoNavigationWrapper}>
+                            <p className={styles.topicInfoNavigationText}>
+                              <Pluralize
+                                singular={'paper'}
+                                plural={'papers'}
+                                count={activeTopicIndex+1 === props.topics.length ? props.topics[0].paperCount :props.topics[activeTopicIndex+1].paperCount}
+                                showCount={true} />
+                            </p>
+                          </div>
+                         </div>
+
+                            {/*<Icon name='angle right' inverted fitted size='huge' /> */}
                        </button>
                    )
                }
@@ -129,6 +202,8 @@ function HomepageFinal(props){
                   {/*insert homepage cover designs here*/}
                   <WhitespaceHomepageCover
                     topic = {topic}
+                    index = {index}
+                    activeTopicIndex = {activeTopicIndex}
                     />
                  </div>
 

@@ -2,14 +2,15 @@ import React from "react"
 import {List, Set, Map} from "immutable"
 import {AnnotationType} from "../../logic/annotation"
 
-const colors = ["transparent", "#e2bc92", "#bd997e", "#9b7768", "#725a57", "#523b3d"]
-
 const highlightStyle = (annotations: Set<AnnotationType>): object => {
     const depth = annotations.size
-    const color = colors[Math.min(depth, colors.length)]
+
+    const colors = ["transparent", "#e2bc92", "#bd997e", "#9b7768", "#725a57", "#523b3d"]
+    const bottomColors = ["transparent", "#e2bc92", "#bd997e", "#9b7768", "#725a57", "#523b3d"]
+
     return {
-        backgroundColor: color,
-        borderBottom: depth > 0 ? "2px solid #CEB4A0": "",
+        backgroundColor: colors[Math.min(depth, colors.length)],
+        borderBottom: depth > 0 ? "2px solid " + bottomColors[Math.min(depth, bottomColors.length)]: "",
     }
 }
 

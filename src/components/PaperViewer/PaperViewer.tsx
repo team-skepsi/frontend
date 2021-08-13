@@ -134,6 +134,7 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
 
     const draggableRef = useRef(null)
 
+    // @ts-ignore
     return (
         <div className={styles.main}>
 
@@ -154,11 +155,8 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                 </div>
 
                 <DraggableCore
-                    // @ts-ignore TODO(Leo): ts thinks axis is irrelevant?
-                    axis={"x"}
                     handle={"." + KNOB_DRAG_HANDLE_CLASS}
-                    // adjustment of half the width of the slider = 21px TODO(Leo): this doesn't work!
-                    onDrag={useCallback(e => setFeatureBarWidth("clientX" in e ? window.innerWidth - e.clientX : + 21), [setFeatureBarWidth])}
+                    onDrag={useCallback(e => setFeatureBarWidth("clientX" in e ? window.innerWidth - e.clientX : + 25), [setFeatureBarWidth])}
                     onStart={useCallback(() => setActiveResize(true), [setActiveResize])}
                     onStop={useCallback(() => setActiveResize(false), [setActiveResize])}
                     nodeRef={draggableRef}>
@@ -188,15 +186,6 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                                 onPrevious={onPrevAnnotation}
                                 activeResize={activeResize}/>
                         ), [activeNodeRef, activeResize, JSON.stringify(paperMetadata), root])}
-
-                        {/* what is this for? did i put this here? --Leo */}
-                        <div style={{
-                            width: '80%',
-                            position: 'relative',
-                            left: '50px'
-                        }}/>
-
-                        <div className={styles.colorBox} />
 
                         {useMemo(() => (
                             // doesn't render on resize

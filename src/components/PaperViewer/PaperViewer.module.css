@@ -20,23 +20,15 @@
 
 .tooltipVertical {
     position: absolute;
-    left: 19px;
+    left: 23px; /* i eyeballed this */
     height: 100%;
-    width: 1px;
-    border-left: 5px solid lightgrey;
+    width: 100%;
+    border-left: 4px solid lightgrey;
+    background-color: #F8F8F8;
 }
 
 .annotationSidebarContainer{
     padding-left: 60px;
     padding-right: 10px;
     padding-bottom: 20px;
-}
-
-.colorBox{
-  height: 100%;
-  width: 100%;
-  background-color: #F8F8F8;
-  position: absolute;
-  background-clip: content-box;
-  padding-left: 22px;
 }

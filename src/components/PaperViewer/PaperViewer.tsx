@@ -65,7 +65,7 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
     }, [_setUserSelection]) // TODO: possible bug here with missing dependency
 
     const [activeResize, setActiveResize] = useState(false)
-    const [featureBarWidth, setFeatureBarWidth] = useState<string | number>("35%")
+    const [featureBarWidth, setFeatureBarWidth] = useState<number>(450)
 
     // memo means paperMetadata remains the same, preventing tooltip rendering on resize
     const {md, ...paperMetadata} = useMemo(() => props.document, [props.document])
@@ -195,9 +195,10 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                                     activeAnnotationId={activeAnnotationId}
                                     setActiveAnnotationId={setActiveAnnotationId}
                                     nodeIdToRef={nodeIdToRef}
-                                    killActiveSelection={() => setUserSelection(null)}/>
+                                    killActiveSelection={() => setUserSelection(null)}
+                                    width={typeof featureBarWidth === "number"? featureBarWidth - 80 : 350}/>
                             </div>
-                            ), [annotations, activeAnnotationId, setActiveAnnotationId, nodeIdToRef, setUserSelection]
+                            ), [annotations, activeAnnotationId, featureBarWidth, setActiveAnnotationId, nodeIdToRef, setUserSelection]
                         )}
                     </div>
                 </DraggableCore>

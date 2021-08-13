@@ -103,6 +103,7 @@ type AnnotationSidebarType = {
     setActiveAnnotationId: (id: number) => void
     nodeIdToRef: Map<number, React.RefObject<HTMLElement>>
     killActiveSelection: () => void
+    width: number
 }
 
 const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
@@ -153,6 +154,7 @@ const AnnotationSidebar: React.FC<AnnotationSidebarType> = (props) => {
                 active={tree.id === props.activeAnnotationId}
                 onClick={() => props.setActiveAnnotationId(tree.id === undefined? NaN: tree.id)}
                 onChange={flush}
+                width={props.width}
                 killActiveSelection={props.killActiveSelection}
                 {...tree} />
             ))

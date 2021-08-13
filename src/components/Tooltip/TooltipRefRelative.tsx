@@ -25,7 +25,7 @@ const TooltipRefRelative: React.FC<TooltipRefRelativeType> = (props) => {
                             : NaN) -
                         (thisOne? thisOne.getBoundingClientRect().top : NaN)
                     ) + 45
-                    return Math.max(top || 0, 45)
+                    return top || 0
                 }}
                 {...rest}
             />

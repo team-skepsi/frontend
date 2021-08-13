@@ -43,13 +43,15 @@ const Tooltip: React.FC<TooltipType> = (props) => {
         }
     }
 
+    const minTop = 70
+
     // if we've been told to freeze, use the saved value, otherwise run the calculation and save the new value
-    const [topPrev, setTopPrev] = useState(45)
+    const [topPrev, setTopPrev] = useState(minTop)
     const getTop = () => {
         if (props.activeResize){
             return topPrev
         } else {
-            const val = (typeof props.top === "function" ? props.top() : props.top) || 45
+            const val = Math.max((typeof props.top === "function" ? props.top() : props.top) || minTop, minTop)
             if (val !== topPrev){
                 setTopPrev(val)
             }

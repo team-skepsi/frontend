@@ -37,20 +37,22 @@
     left: 19px;
     height: 100%;
     width: 1px;
-    border-left: 4px dashed darkgray;
+    border-left: 5px solid lightgrey;
 }
 
 .annotationSidebarContainer{
     padding-left: 50px;
     padding-right: 10px;
     padding-bottom: 20px;
+    /*height: 100%;*/
+    /*background-color: #F8F8F8;*/
 }
 
 .colorBox{
   height: 100%;
   width: 100%;
-  background-color: #FAFAFA;
+  background-color: #F8F8F8;
   position: absolute;
   background-clip: content-box;
-  padding-left: 20px;
+  padding-left: 22px;
 }

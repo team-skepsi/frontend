@@ -196,6 +196,8 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                             left: '50px'
                         }}/>
 
+                        <div className={styles.colorBox} />
+
                         {useMemo(() => (
                             // doesn't render on resize
                             <div className={styles.annotationSidebarContainer}>

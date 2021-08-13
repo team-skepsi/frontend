@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from "react"
+import React, {useContext, useRef, useState, useEffect} from "react"
 import {Button, Icon} from 'semantic-ui-react'
 import {useMutation} from '@apollo/client'
 import {AuthenticationContext, UserContext} from '../../App.js'
@@ -109,6 +109,10 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
     const [updateScore] = useMutation(UPDATE_SCORE, {refetchQueries: [{query: GET_PAPER_AND_ANNOTATION_DATA, variables: {paperId: paperId}}]})
     const [deleteScore] = useMutation(DELETE_SCORE, {refetchQueries: [{query: GET_PAPER_AND_ANNOTATION_DATA, variables: {paperId: paperId}}]})
 
+    useEffect(() =>{
+      console.log("STATE!", state)
+    }, [state])
+
     const addScoreBlock = () => {
         setState(state => ({
             ...state,
@@ -116,6 +120,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         }))
         setOpenScoreBlocks(open => [...open, true])
     }
+
 
     const removeScoreBlock = (sbIndex: number) => {
         const sbId = state.scoreBlocks[sbIndex].id
@@ -158,6 +163,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
     }
 
     const saveScoreBlocks = (aId: number) => {
+        console.log("update")
         return Promise.all(
             state.scoreBlocks.map((score) => {
                 const info = {explanation: score.explanation || "", field: score.field, scoreNumber: score.scoreNumber}
@@ -176,7 +182,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
             quote: "",
             content: state.text,
             paperId: paperId,
-            parentId: state.parentId ? state.parentId : undefined
+            parentId: state.parentId ? state.parentId : -1
         }
 
         return createAnnotation({variables: data})
@@ -195,6 +201,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
     }
 
     const onSave = () => {
+        // resets error messages so it can check them again
         setScoreNumberError(false)
         setScoreFieldError(false)
 
@@ -301,7 +308,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                         </p>
                     </div>
                 </div>
-                
+
                 <ScoreBlocks
                     scoreBlocks={state.scoreBlocks}
                     beingEdited={state.beingEdited}

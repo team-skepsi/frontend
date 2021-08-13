@@ -1,9 +1,10 @@
 import React, { useReducer, useEffect, useState } from 'react';
-import { Button, Checkbox, Form, Label, Divider } from 'semantic-ui-react'
+import { Button, Checkbox, Form, Label, Divider, Icon } from 'semantic-ui-react'
 import { gql, useMutation } from "@apollo/client"
 import { isValidEmail, isValidPassword, isValidUsername } from "../../utility/user-validators.js"
 import { useHistory } from 'react-router-dom'
 import auth0 from "auth0-js"
+import { useAuth0 } from "@auth0/auth0-react";
 import ScientistDomainPicker from '../ScientistDomainPicker/ScientistDomainPicker.js'
 
 const initialState = {
@@ -63,6 +64,8 @@ function UserSignupForm(){
   const [domains, setDomains] = useState()
   const [state, dispatch] = useReducer(reducer, initialState)
   const [addUser] = useMutation(ADD_USER)
+  const { loginWithRedirect } = useAuth0();
+
 
   function handleChange(e){
     const user_input = e.target.value
@@ -143,7 +146,7 @@ function UserSignupForm(){
             email: state.email,
             domains: domains.value.join(",")
             }
-          }).then(response => {history.push('/signup-success')})
+          }).then(response => loginWithRedirect())
         }
         else{
           console.log("No", state)
@@ -222,15 +225,20 @@ function UserSignupForm(){
 
       <Form.Field>
         <label>Password</label>
-        <input
-          name='password'
-          placeholder='Password'
-          onChange={handleChange}
-          />
+        <div style={{display: "flex", flexDirection: "row"}}>
+          <input
+            name='password'
+            type='password'
+            placeholder='Password'
+            onChange={handleChange}
+            />
+        </div>
         {!state.passwordValid &&
           <Label basic color="red" pointing>
           Passwords must be 9 characters or more, and must contain at least one letter and one number
+
         </Label>}
+
       </Form.Field>
 
       <Form.Field>

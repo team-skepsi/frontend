@@ -35,7 +35,7 @@ function App() {
     useEffect(() => {
       WebFont.load({
         google: {
-          families: ['Roboto']
+          families: ['Roboto', "Spartan: 300,400,500,600,700,800,900"]
         },
         custom: {
           families: ['Computer Modern'],

@@ -64,8 +64,7 @@ function TopicCardUpdated(props){
                   </div>
                   <div className={styles.labelIconWrapper}>
                     <h2 className={styles.largeNumber}>{topic.annotationCount}</h2>
-                    <p className={styles.metricText}>
-                      <b>
+                    <p className={styles.metricText}><b>
                       <Pluralize singular={'annotation'} plural={'annotations'} count={topic.annotationCount} showCount={false} />
                       </b></p>
                 </div>

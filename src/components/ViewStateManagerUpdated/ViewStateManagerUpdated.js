@@ -2,9 +2,9 @@ import React, {useEffect, useRef} from "react"
 
 import PaperViewer from "../PaperViewer/PaperViewer"
 import Navbar from "../Navbar/Navbar"
-import Cover from "../Cover/Cover"
-import { Loader, Dimmer, Divider } from 'semantic-ui-react'
+import { Loader, Dimmer, Divider, Icon, Button } from 'semantic-ui-react'
 import ScoreMetadata from '../ScoreMetadata/ScoreMetadata.js'
+import { Link } from 'react-router-dom'
 
 import * as styles from "./ViewStateManagerUpdated.module.css"
 
@@ -25,6 +25,14 @@ const ViewStateManager = (props) => {
           </div>
           <div className={styles.coverContainer}>
             <div className={styles.paperWrapper}>
+              <div className={styles.backButtonWrapper}>
+                <Button icon circular inverted>
+                  <Link to={`/${props.document.topic.slug}`}>
+                    <Icon name='angle left' color='black' fitted size='large' />
+                  </Link>
+                </Button>
+              </div>
+              <div style={{flex: 1}}></div>
               <div className={styles.paperContentWrapper}>
                 <p className={styles.titleLabel}>{paperMetadata.journal || "JOURNAL"}</p>
                 <div className={styles.paperTitleWrapper}>

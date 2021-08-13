@@ -1,8 +1,8 @@
 import React, {useState} from "react"
 import {Meta} from "@storybook/react"
 import ContentViewer from "./ContentViewer"
-import {weaveMDAnnotations} from "../processing"
-import {AnnotationType} from "../types"
+import {weaveMDAnnotations} from "../../logic/processing"
+import {AnnotationType} from "../../logic/annotation"
 import {Set} from "immutable"
 
 import "../../App.css"

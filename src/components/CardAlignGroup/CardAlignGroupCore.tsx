@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react"
 import {List, Map} from "immutable"
-import {range} from "../functions"
+import {range} from "../../utility/functions"
 
 type CardContainerType = {
     reportHeight: (height: number) => void

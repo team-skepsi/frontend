@@ -1,0 +1,13 @@
+
+.buttonText {
+    font-family: "Roboto";
+    font-weight: bold;
+}
+
+.yesButton {
+    margin-right: 3px;
+}
+
+.noButton {
+    margin-right: 5px;
+}

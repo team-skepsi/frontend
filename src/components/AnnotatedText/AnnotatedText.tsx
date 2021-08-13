@@ -1,8 +1,7 @@
 import React from "react"
 import {List, Set} from "immutable"
-
-import {assignAnnotations} from "../processing"
-import {AnnotationType} from "../types"
+import {assignAnnotations} from "../../logic/processing"
+import {AnnotationType} from "../../logic/annotation"
 import Section from "./Section"
 
 const breakUpString = (content: string, annotations: Set<AnnotationType>) => {

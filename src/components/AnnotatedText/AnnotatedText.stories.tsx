@@ -1,8 +1,8 @@
 import React from "react"
-import { Meta } from '@storybook/react'
+import {Meta} from '@storybook/react'
 import AnnotatedText from "../AnnotatedText/AnnotatedText"
-import { Set } from "immutable"
-import { Annotation } from "../types"
+import {Set} from "immutable"
+import Annotation from "../../logic/annotation"
 
 import "../../App.css"
 

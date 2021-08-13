@@ -1,9 +1,8 @@
 import React, {useRef} from "react"
 import {Set} from "immutable"
-import {ContentNodeType} from "../types"
+import {ContentNodeType} from "../../logic/contentNode"
 import ContentBlock from "../ContentBlock/ContentBlock"
-import {nodePrettyId} from "../functions"
-import {nodesInNode} from "../processing"
+import {nodePrettyId, nodesInNode} from "../../logic/functions"
 
 import styles from "./TopLevelContentBlock.module.css"
 

@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect, useRef} from "react"
 
 import PaperViewer from "../PaperViewer/PaperViewer"
 import Navbar from "../Navbar/Navbar"
@@ -10,9 +10,16 @@ import * as styles from "./ViewStateManagerUpdated.module.css"
 
 const ViewStateManager = (props) => {
     const {md, ...paperMetadata} = props.document
+    const ref = useRef(null)
+
+    const scrollToTop = () => {
+        if (ref.current){
+            ref.current.scroll({top: 0, behavior: "smooth"})
+        }
+    }
 
     return (
-        <div className={styles.main}>
+        <div ref={ref} className={styles.main}>
           <div style={{height: "60px"}}>
               <Navbar />
           </div>
@@ -61,7 +68,7 @@ const ViewStateManager = (props) => {
           <PaperViewer
             document={props.document}
             annotations={props.annotations}
-            />
+            scrollToTop={scrollToTop}/>
 
         </div>
     )

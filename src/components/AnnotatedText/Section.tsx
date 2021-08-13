@@ -1,6 +1,6 @@
 import React from "react"
 import {List, Set, Map} from "immutable"
-import {AnnotationType} from "../types"
+import {AnnotationType} from "../../logic/annotation"
 
 const highlightStyle = (annotations: Set<AnnotationType>): object => {
     const depth = annotations.size

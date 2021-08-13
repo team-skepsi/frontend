@@ -10,6 +10,8 @@ type TooltipType = {
     freeze: boolean
     top: number | (() => number)
     options: [React.ReactElement, React.ReactElement][]
+    onPrevious: () => void
+    onNext: () => void
 }
 
 const Tooltip: React.FC<TooltipType> = (props) => {
@@ -46,7 +48,7 @@ const Tooltip: React.FC<TooltipType> = (props) => {
             <div className={styles.dynamicPosition} style={{height: 150, top: getTop()}}>
                 <IconContext.Provider value={{color: "#E3DBD4"}}>
                     <div className={styles.knob}>
-                        <div className={styles.knobNav}>
+                        <div className={styles.knobNav} onClick={props.onPrevious}>
                             <VscChevronLeft />
                         </div>
 
@@ -80,7 +82,7 @@ const Tooltip: React.FC<TooltipType> = (props) => {
                             </div>
                         </div>
 
-                        <div className={styles.knobNav}>
+                        <div className={styles.knobNav} onClick={props.onNext}>
                             <VscChevronRight/>
                         </div>
                     </div>

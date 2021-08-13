@@ -1,6 +1,6 @@
 import React from "react"
 import AnnotationCard from "./AnnotationCard"
-import {formatDate} from "../functions"
+import {formatDate} from "../../utility/functions"
 
 export default {
     title: "Annotations/AnnotationCard",

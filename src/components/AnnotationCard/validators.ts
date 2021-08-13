@@ -1,13 +1,6 @@
-export function isNotEmpty(string){
-  if(/\S/.test(string)){
-    return true
-  }
-  else{
-    return false
-  }
-}
+export const isNotEmpty = (s: string) => /\S/.test(s)
 
-export function scoreIsIntegerBetweenOneAndTen(scores){
+export function scoreIsIntegerBetweenOneAndTen(scores: number){
   return true
   // let passArray = []
   // for(let score in scores){

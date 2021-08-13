@@ -2,14 +2,7 @@ import React from "react"
 import {List, Set, Map} from "immutable"
 import {AnnotationType} from "../../logic/annotation"
 
-const colors = [
-    "transparent",
-    "#EDD5BA",
-    "#CEB4A0",
-    "#AF9387",
-    "#8F716D",
-    "#705053"
-]
+const colors = ["transparent", "#e2bc92", "#bd997e", "#9b7768", "#725a57", "#523b3d"]
 
 const highlightStyle = (annotations: Set<AnnotationType>): object => {
     const depth = annotations.size

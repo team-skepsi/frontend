@@ -5,7 +5,10 @@ import {AnnotationType} from "../../logic/annotation"
 const highlightStyle = (annotations: Set<AnnotationType>): object => {
     const depth = annotations.size
     const colors = ["transparent", "yellow", "orange", "red", "purple"]
-    return {backgroundColor: colors[Math.min(depth, colors.length)]}
+    return {
+        backgroundColor: colors[Math.min(depth, colors.length)],
+        // borderBottom: depth > 0 ? "1px solid red": "",
+    }
 }
 
 type SectionType = {

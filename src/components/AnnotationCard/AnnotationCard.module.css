@@ -2,9 +2,7 @@
 
 .annotationCard {
   width: 350px;
-  /* border: 1px solid black; */
   position: relative;
-  z-index: 5;
 }
 
 

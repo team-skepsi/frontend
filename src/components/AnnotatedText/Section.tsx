@@ -4,10 +4,13 @@ import {AnnotationType} from "../../logic/annotation"
 
 const highlightStyle = (annotations: Set<AnnotationType>): object => {
     const depth = annotations.size
-    const colors = ["transparent", "yellow", "orange", "red", "purple"]
+
+    const colors = ["transparent", "#e2bc92", "#bd997e", "#9b7768", "#725a57", "#523b3d"]
+    const bottomColors = ["transparent", "#e2bc92", "#bd997e", "#9b7768", "#725a57", "#523b3d"]
+
     return {
         backgroundColor: colors[Math.min(depth, colors.length)],
-        // borderBottom: depth > 0 ? "1px solid red": "",
+        borderBottom: depth > 0 ? "2px solid " + bottomColors[Math.min(depth, bottomColors.length)]: "",
     }
 }
 

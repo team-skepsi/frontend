@@ -33,10 +33,10 @@ function PaperCards(){
   }})
 
 
-  useEffect(()=>{
-    console.log('PAPERCARDS:', data)
-    console.log("TOKEN CARD", tokenCard)
-  }, [data, tokenCard])
+  // useEffect(()=>{
+  //   console.log('PAPERCARDS:', data)
+  //   console.log("TOKEN CARD", tokenCard)
+  // }, [data, tokenCard])
 
   useEffect(()=>{
     if(data){

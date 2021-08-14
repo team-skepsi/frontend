@@ -1,7 +1,6 @@
 
 
 .annotationCard {
-  width: 350px;
   position: relative;
 }
 
@@ -229,6 +228,4 @@
     text-decoration: underline;
 }
 
-.childrenContainer {
-    margin-left: 20px;
-}
+.childrenContainer {}

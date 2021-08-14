@@ -65,7 +65,7 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
     }, [_setUserSelection]) // TODO: possible bug here with missing dependency
 
     const [activeResize, setActiveResize] = useState(false)
-    const [featureBarWidth, setFeatureBarWidth] = useState<string | number>("35%")
+    const [featureBarWidth, setFeatureBarWidth] = useState<number>(450)
 
     // memo means paperMetadata remains the same, preventing tooltip rendering on resize
     const {md, ...paperMetadata} = useMemo(() => props.document, [props.document])
@@ -134,6 +134,7 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
 
     const draggableRef = useRef(null)
 
+    // @ts-ignore
     return (
         <div className={styles.main}>
 
@@ -154,11 +155,8 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                 </div>
 
                 <DraggableCore
-                    // @ts-ignore TODO(Leo): ts thinks axis is irrelevant?
-                    axis={"x"}
                     handle={"." + KNOB_DRAG_HANDLE_CLASS}
-                    // adjustment of half the width of the slider = 21px TODO(Leo): this doesn't work!
-                    onDrag={useCallback(e => setFeatureBarWidth("clientX" in e ? window.innerWidth - e.clientX : + 21), [setFeatureBarWidth])}
+                    onDrag={useCallback(e => setFeatureBarWidth("clientX" in e ? window.innerWidth - e.clientX : + 25), [setFeatureBarWidth])}
                     onStart={useCallback(() => setActiveResize(true), [setActiveResize])}
                     onStop={useCallback(() => setActiveResize(false), [setActiveResize])}
                     nodeRef={draggableRef}>
@@ -189,15 +187,6 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                                 activeResize={activeResize}/>
                         ), [activeNodeRef, activeResize, JSON.stringify(paperMetadata), root])}
 
-                        {/* what is this for? did i put this here? --Leo */}
-                        <div style={{
-                            width: '80%',
-                            position: 'relative',
-                            left: '50px'
-                        }}/>
-
-                        <div className={styles.colorBox} />
-
                         {useMemo(() => (
                             // doesn't render on resize
                             <div className={styles.annotationSidebarContainer}>
@@ -206,9 +195,10 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                                     activeAnnotationId={activeAnnotationId}
                                     setActiveAnnotationId={setActiveAnnotationId}
                                     nodeIdToRef={nodeIdToRef}
-                                    killActiveSelection={() => setUserSelection(null)}/>
+                                    killActiveSelection={() => setUserSelection(null)}
+                                    width={typeof featureBarWidth === "number"? featureBarWidth - 80 : 350}/>
                             </div>
-                            ), [annotations, activeAnnotationId, setActiveAnnotationId, nodeIdToRef, setUserSelection]
+                            ), [annotations, activeAnnotationId, featureBarWidth, setActiveAnnotationId, nodeIdToRef, setUserSelection]
                         )}
                     </div>
                 </DraggableCore>

@@ -46,7 +46,7 @@ const CardAlignGroupCore: React.FC<CardAlignGroupCoreType> = (props) => {
     // expand cards above
     for (const i of range(activeIndex)){
         adjustedOffsets[i] = Math.max(
-            (adjustedOffsets[i - 1] || 0) + cardHeights.get(i, 0) + margin,
+            (adjustedOffsets[i - 1] || 0) + (i > 0? cardHeights.get(i - 1, 0) + margin : 0),
             preferredOffsets.get(i, 0)
         )
     }

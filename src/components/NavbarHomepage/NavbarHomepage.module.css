@@ -1,0 +1,118 @@
+.whitespaceNavbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+}
+
+/* LEFT NAVBAR CSS */
+
+.leftNavbar {
+  height: 100%;
+  width: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding-left: 10px;
+}
+
+.skepsiWrapper {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.skepsiText {
+  font-family: "Spartan";
+  font-weight: 800;
+  color: rgba(84, 84, 84, 0.8);
+}
+
+.navbarFlex {
+  flex: 1;
+}
+
+
+/* RIGHT NAVBAR CSS */
+.rightNavbar {
+  height: 100%;
+  width: 400px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 10px;
+}
+
+.authButton{
+  width: 90px;
+  height: 40px;
+  margin: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* #pitchButton {
+  background-color: #A89267;
+  border: 3px solid rgba(192, 176, 149, 1);
+}
+
+#signupButton {
+  background-color: #D7BAA0;
+  border: 3px solid rgba(225, 204, 188, 1);
+}
+
+#loginButton {
+  background-color: #F0E0CD;
+  border: 3px solid rgba(242, 230, 219, 1);
+}
+
+#profileButton {
+  background-color: #D7BAA0;
+  border: 3px solid rgba(225, 204, 188, 1);
+}
+
+#logoutButton {
+  background-color: #F0E0CD;
+  border: 3px solid rgba(242, 230, 219, 1);
+} */
+
+#pitchButton {
+  background-color: transparent;
+  border: 3px solid #A89267;
+}
+
+#signupButton {
+  background-color: transparent;
+  border: 3px solid #D7BAA0;
+}
+
+#loginButton {
+  background-color: transparent;
+  border: 3px solid #F0E0CD;
+}
+
+#profileButton {
+  background-color: transparent;
+  border: 3px solid #D7BAA0;
+}
+
+#logoutButton {
+  background-color: transparent;
+  border: 3px solid #F0E0CD;
+}
+
+
+.authButtonText {
+  font-family: "Open Sans";
+  font-weight: 700;
+  font-size: 11px;
+  color: rgba(84, 84, 84, 0.8);
+
+}

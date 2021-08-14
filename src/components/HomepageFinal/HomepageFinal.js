@@ -7,6 +7,7 @@ import PaperContainer from '../PaperContainer/PaperContainer.js'
 import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
 import { Link } from 'react-router-dom'
 import Pluralize from 'react-pluralize'
+import NavbarHomepage from '../NavbarHomepage/NavbarHomepage.js'
 
 
 function GlassHomepageCover(props){
@@ -111,6 +112,7 @@ function HomepageFinal(props){
 
   return(
     <div className={styles.homepageWrapper}>
+      <NavbarHomepage />
       <div className={styles.mainTopicContent}>
         <div className={styles.topDivider} />
         <div className={styles.carouselWrapper}>

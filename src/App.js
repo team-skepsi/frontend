@@ -35,7 +35,12 @@ function App() {
     useEffect(() => {
       WebFont.load({
         google: {
-          families: ['Roboto', "Spartan: 300,400,500,600,700,800,900", "Open Sans: 300,400,500,600,700,800,900", "Alegreya: 300,400,500,600,700,800,900"]
+          families: ['Roboto',
+          "Spartan: 300,400,500,600,700,800,900",
+          "Open Sans: 300,400,500,600,700,800,900",
+          "Alegreya: 300,400,500,600,700,800,900",
+          "Lato: 300,400,500,600,700,800,900"
+          ]
         },
         custom: {
           families: ['Computer Modern'],

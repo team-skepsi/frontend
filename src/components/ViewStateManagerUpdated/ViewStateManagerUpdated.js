@@ -6,6 +6,7 @@ import { Loader, Dimmer, Divider, Icon, Button } from 'semantic-ui-react'
 import ScoreMetadata from '../ScoreMetadata/ScoreMetadata.js'
 import { Link } from 'react-router-dom'
 import NavbarHomepage from '../NavbarHomepage/NavbarHomepage.js'
+import { Fade } from "react-awesome-reveal";
 
 import * as styles from "./ViewStateManagerUpdated.module.css"
 
@@ -24,6 +25,7 @@ const ViewStateManager = (props) => {
           <div style={{height: "60px"}}>
               <NavbarHomepage />
           </div>
+          <Fade triggerOnce>
           <div className={styles.coverContainer}>
             <div className={styles.paperWrapper}>
               {/*}
@@ -73,6 +75,7 @@ const ViewStateManager = (props) => {
             annotations={props.annotations}
             scrollToTop={scrollToTop}/>
 
+        </Fade>
         </div>
     )
 }

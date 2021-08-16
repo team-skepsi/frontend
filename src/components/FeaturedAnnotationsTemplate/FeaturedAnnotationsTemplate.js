@@ -31,7 +31,7 @@ function FeaturedAnnotationsTemplate(props){
             <div className={styles.featuredAuthorFlexWrapper}>
               <h3 className={styles.featuredAuthorText}>{props.topic.annotation.author ? props.topic.annotation.author.username : "NO USERNAME"} <span style={{fontWeight: "normal"}}>on</span></h3>
               <div style={{flex: 1}}/>
-              <p className={styles.featuredScoreText}>{props.activeTopic ? props.activeTopic : ""}: {props.activeTopic ? `${Math.round(props.topic[props.activeTopic.toLowerCase()]*100)}% match` : ""}</p>
+              <p className={styles.featuredScoreText}>{props.activeTopic ? props.activeTopic : ""}: {isNaN(props.topic[props.activeTopic.toLowerCase()]) ? "Not Processed" : `${Math.round(props.topic[props.activeTopic.toLowerCase()]*100)}% match`}</p>
             </div>
             <Link to={props.topic.annotation.paper.id}>
               <h2 className={styles.featuredPaperText}>{props.topic.annotation.paper ? props.topic.annotation.paper.title : "NO PAPER"}</h2>

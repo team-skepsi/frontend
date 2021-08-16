@@ -307,7 +307,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                             <>
                                 <div className={styles.errorDivider}/>
                                 <div className={styles.logInErrorWrapper}>
-                                    <p className={styles.logInErrorText}>If you have an ORCID number, please
+                                    <p className={styles.logInErrorText}>Please
                                         <span className={styles.authText}
                                               onClick={() => loginWithRedirect()}> log in </span>
                                         or

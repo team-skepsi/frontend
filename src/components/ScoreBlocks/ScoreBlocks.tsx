@@ -65,9 +65,22 @@ const ScoreBlocks: React.FC<ScoreBlocksType> = (props) => {
                                                   value={titleize(sb.field)}
                                                   options={optionizeArray(props.scoreFieldOptions)}
                                             // @ts-ignore
-                                                  onChange={(e) => props.editScoreBlock(sbIndex, {field: e.target.innerText})}/>
+                                                  onChange={(e) => props.editScoreBlock(sbIndex, {field: e.target.innerText})}>
+                                        </Dropdown>
                                     </span>
                                 }
+                                {/*
+                                  FINN WORK IN PROGRESS
+                                  <Dropdown.Menu>
+                                  {optionizeArray(props.scoreFieldOptions).map((option, index)=>
+                                    <Dropdown.Item key={option.value}
+                                      value={option.value}
+                                      text={`${option.text}Hi`}
+                                      >
+                                    </Dropdown.Item>
+                                  )}
+                                </Dropdown.Menu>
+                                 */}
                             </div>
 
                             {/* score explanation */}

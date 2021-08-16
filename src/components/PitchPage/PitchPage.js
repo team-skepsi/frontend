@@ -30,7 +30,6 @@ function PitchPage(){
     <NavbarHomepage />
     <Fade direction="up">
       <div className={styles.hookWrapper}>
-        <h1 className={styles.hookNumber}>87,000 </h1>
         <h2 className={styles.hookText}>papers have been published about Covid-19 since the beginning of this year</h2>
       </div>
     </Fade>

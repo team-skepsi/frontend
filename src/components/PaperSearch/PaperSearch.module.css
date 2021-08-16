@@ -7,9 +7,10 @@
 }
 
 #searchBar{
-  height: 50px;
+  height: 30px;
   font-size: 16px;
   font-family: "Roboto";
+  border-radius: 2px;
 }
 
 ::-webkit-input-placeholder {

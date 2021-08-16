@@ -6,7 +6,7 @@ import styles from './LogoutButton.module.css'
 const LogoutButton = () => {
   const { logout } = useAuth0();
   return (
-    <Button className={styles.logoutButton} onClick = {() => logout({returnTo: window.location.origin})}>
+    <Button className={styles.logoutButton}  basic color='gray' onClick = {() => logout({returnTo: window.location.origin})}>
       Logout
     </Button>
   );

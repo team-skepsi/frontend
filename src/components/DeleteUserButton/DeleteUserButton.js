@@ -32,7 +32,7 @@ function DeleteUserButton(){
   }
 
   return(
-    <Button basic color='gray' onClick={handleClick}>
+    <Button basic color='gray' style={{border: "1px solid darkgray"}} onClick={handleClick}>
       Delete User
     </Button>
   )

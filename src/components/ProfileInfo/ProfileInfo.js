@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './ProfileInfo.module.css'
 import DeleteUserButton from '../DeleteUserButton/DeleteUserButton.js'
-
+import LogoutButton from '../LogoutButton/LogoutButton.js'
 
 function ProfileInfo(props){
 
@@ -37,6 +37,7 @@ function ProfileInfo(props){
         </div>
         <div className={styles.contentWrapper}>
           <DeleteUserButton />
+          <LogoutButton />
         </div>
       </div>
       </div>

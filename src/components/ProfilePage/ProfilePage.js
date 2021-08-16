@@ -25,18 +25,18 @@ function ProfilePage(){
   }, [getAccessTokenSilently, isAuthenticated])
 
   const panes = [
-    {menuItem: "Annotations", render: ()=> <Tab.Pane>
-      <ProfilePageAnnotations
-        username={user["http://www.skepsi.com/username"]}
-        />
-    </Tab.Pane>},
     {menuItem: "User Profile", render: ()=> <Tab.Pane>
       <ProfileInfo
         isLoading={isLoading}
         user={user}
         accessToken={accessToken}
         />
-    </Tab.Pane>}
+    </Tab.Pane>},
+    {menuItem: "Annotations", render: ()=> <Tab.Pane>
+      <ProfilePageAnnotations
+        username={user["http://www.skepsi.com/username"]}
+        />
+    </Tab.Pane>},
   ]
 
   if (isLoading) {

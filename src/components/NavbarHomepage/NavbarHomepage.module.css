@@ -44,6 +44,9 @@
 
 .navbarFlex {
   flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .popupText {
@@ -72,6 +75,10 @@
   border-radius: 4px;
   cursor: pointer;
   overflow: hidden;
+  border: 1px solid darkgray;
+  background-color: #fff;
+  box-shadow: 0 0 0 1px rgb(34, 36, 38, 0.35);
+  color: rgba(0, 0, 0, 0.8);
 }
 
 /* #pitchButton {
@@ -99,7 +106,7 @@
   border: 3px solid rgba(242, 230, 219, 1);
 } */
 
-#pitchButton {
+/* #pitchButton {
   background-color: transparent;
   border: 3px solid #A89267;
 }
@@ -122,13 +129,12 @@
 #logoutButton {
   background-color: transparent;
   border: 3px solid #F0E0CD;
-}
-
+} */
 
 .authButtonText {
-  font-family: "Open Sans";
-  font-weight: 700;
-  font-size: 11px;
+  font-family: "Roboto";
+  font-weight: 600;
+  font-size: 1rem;
   color: rgba(84, 84, 84, 0.8);
 
 }

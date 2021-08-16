@@ -4,14 +4,36 @@ import styles from './NavbarHomepage.module.css'
 import LoginButton from "../LoginButton/LoginButton.js"
 import LogoutButton from "../LogoutButton/LogoutButton.js"
 import SignupButton from "../SignupButton/SignupButton.js"
+import PaperSearch from '../PaperSearch/PaperSearch.js'
 
 import {Button, Icon, Popup} from "semantic-ui-react"
 import {Link} from 'react-router-dom'
 
 import {useAuth0} from "@auth0/auth0-react"
+import { gql, useQuery } from '@apollo/client'
 
+
+const ALL_PAPERS = gql`
+query AllPapers{
+  allPapers{
+    id
+    title
+    authors
+    citationMLA
+    abstract
+    annotationCount
+    createdDate
+    topic{
+      header
+      description
+      image
+    }
+  }
+}
+`
 
 function NavbarHomepage(){
+  const {data, error, loading} = useQuery(ALL_PAPERS)
   const {isAuthenticated, user, loginWithRedirect, logout} = useAuth0()
 
   return(
@@ -35,26 +57,6 @@ function NavbarHomepage(){
               }>
               <h4 className={styles.popupText}>Featured Annotations</h4>
               </Popup>
-              <Popup
-                style={{boxShadow: "none"}}
-                size='small'
-                trigger={
-                <Link to='/search'>
-                  <Icon name='search' size='big' style={{color: 'gray'}}/>
-                </Link>
-              }>
-              <h4 className={styles.popupText}>Search</h4>
-              </Popup>
-              <Popup
-                style={{boxShadow: "none"}}
-                size='small'
-                trigger={
-                <Link to='/about'>
-                  <Icon name='question' size='big' style={{color: 'gray'}}/>
-                </Link>
-              }>
-              <h4 className={styles.popupText}>Learn More</h4>
-              </Popup>
             </div>
           </Link>
           {/*<div className={styles.featuredAnnotationsWrapper}>
@@ -62,7 +64,11 @@ function NavbarHomepage(){
           </div>
           */}
         </div>
-        <div className={styles.navbarFlex} />
+        <div className={styles.navbarFlex}>
+          <PaperSearch
+            papers={data ? data.allPapers : []}
+            />
+        </div>
         <div className={styles.rightNavbar}>
           {isAuthenticated &&
             <>

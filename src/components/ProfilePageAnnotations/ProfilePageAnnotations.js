@@ -15,7 +15,7 @@ const GET_ANNOTATIONS_BY_AUTHOR = gql`
       scores{
         field
         explanation
-        score
+        scoreNumber
       }
     }
   }
@@ -28,7 +28,6 @@ function ProfilePageAnnotations(props){
   useEffect(() => {
     console.log(data)
   }, [data])
-
 
 
   if(loading){

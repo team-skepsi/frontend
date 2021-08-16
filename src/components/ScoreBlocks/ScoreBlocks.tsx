@@ -52,12 +52,14 @@ const ScoreBlocks: React.FC<ScoreBlocksType> = (props) => {
                         </div>
 
                         <div className={styles.scoreMainContainer}>
-
                             {/* the thing where you can select the field */}
                             <div>
                                 {!props.beingEdited
-                                    ? <p className={styles.scoreLabel}>
-                                        <b>{sb.field ? titleize(sb.field) : "No field selected"}</b></p>
+                                    ?
+                                    <div className={styles.scoreLabelWrapper}>
+                                     <p className={styles.scoreLabel}>
+                                        <b>{sb.field ? titleize(sb.field.replace('_', " ")) : "No field selected"}</b></p>
+                                    </div>
                                     : <span className={styles.dropdownWrapper}>
                                         <Dropdown inline placeholder={"Please select a field"}
                                                   value={titleize(sb.field)}

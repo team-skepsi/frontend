@@ -4,7 +4,7 @@ import {Bar} from 'react-chartjs-2'
 
 function VerticalBarChart(props) {
     const data = {
-        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        labels: [1, 2, 3, 4, 5],
         datasets: [
             {
                 data: props.xAxisData,

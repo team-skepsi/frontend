@@ -106,11 +106,13 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
     //     open.map((each, i) => i === sbIndex ? !each : each))
 
     const [createAnnotation] = useMutation(CREATE_ANNOTATION, {refetchQueries: [{query: GET_PAPER_AND_ANNOTATION_DATA, variables: {paperId: paperId}}]})
+    const [createAnnotationWithoutRefetch] = useMutation(CREATE_ANNOTATION)
     const [updateAnnotation] = useMutation(UPDATE_ANNOTATION, {refetchQueries: [{query: GET_PAPER_AND_ANNOTATION_DATA, variables: {paperId: paperId}}]})
     const [deleteAnnotation] = useMutation(DELETE_ANNOTATION, {refetchQueries: [{query: GET_PAPER_AND_ANNOTATION_DATA, variables: {paperId: paperId}}]})
     const [createScore] = useMutation(CREATE_SCORE, {refetchQueries: [{query: GET_PAPER_AND_ANNOTATION_DATA, variables: {paperId: paperId}}]})
     const [updateScore] = useMutation(UPDATE_SCORE, {refetchQueries: [{query: GET_PAPER_AND_ANNOTATION_DATA, variables: {paperId: paperId}}]})
     const [deleteScore] = useMutation(DELETE_SCORE, {refetchQueries: [{query: GET_PAPER_AND_ANNOTATION_DATA, variables: {paperId: paperId}}]})
+
 
     const addScoreBlock = () => {
         setState(state => ({
@@ -182,10 +184,16 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
             paperId: paperId,
             parentId: state.parentId ? state.parentId : -1
         }
-
-        return createAnnotation({variables: data})
-            .then(response => response && response.data && response.data.createAnnotation.annotation.id)
-            .then(parseInt)
+        if(state.scoreBlocks.length > 0){
+          return createAnnotationWithoutRefetch({variables: data})
+          .then(response => response && response.data && response.data.createAnnotation.annotation.id)
+          .then(parseInt)
+        }
+        else{
+          return createAnnotation({variables: data})
+              .then(response => response && response.data && response.data.createAnnotation.annotation.id)
+              .then(parseInt)
+        }
     }
 
     const saveAndUpdate = () => {
@@ -237,6 +245,10 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
             setState(stateRevertRef.current)
         }
     }
+
+    useEffect(()=>{
+      console.log("STATE", state)
+    }, [state])
 
     return (
         <div

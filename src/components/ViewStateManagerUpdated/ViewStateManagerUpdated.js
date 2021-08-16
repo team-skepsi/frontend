@@ -39,7 +39,7 @@ const ViewStateManager = (props) => {
               <div className={styles.paperContentWrapper}>
                 <p className={styles.titleLabel}>{paperMetadata.journal || "JOURNAL"}</p>
                 <div className={styles.paperTitleWrapper}>
-                  <h1 className={styles.paperTitle} style={{color: "black"}}>{paperMetadata.title || "TITLE"}</h1>
+                  <h1 className={styles.paperTitle}>{paperMetadata.title || "TITLE"}</h1>
                 </div>
                 <div className={styles.metadataWrapper}>
 

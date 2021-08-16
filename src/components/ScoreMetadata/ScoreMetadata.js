@@ -71,7 +71,7 @@ function ScoreMetadata(props) {
             {
                 key: `${field}`,
                 value: `${field}`,
-                text: titleize(`${field}`)
+                text: titleize(`${field.replace("_", " ")}`)
             }
         )
     )

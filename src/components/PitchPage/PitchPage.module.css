@@ -1,0 +1,62 @@
+.hookWrapper{
+  text-align: center;
+  margin-bottom: 20px;
+  padding-top: 25px;
+}
+
+.hookText{
+  font-family: "Spartan";
+  color: #545454;
+  font-size: 40px;
+  font-weight: 500;
+}
+
+
+.secondaryHookText {
+  font-family: "Spartan";
+  color: #545454;
+  font-weight: 500;
+}
+
+.pitchCardGroup{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.pitchCardWrapper{
+  width: 200px;
+  height: 300px;
+  border: 2px solid black;
+  border-radius: 10%;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.pitchCardTitleWrapper{
+  padding-top: 30px;
+  margin-bottom: 30px;
+}
+
+.pitchCardTitle{
+  font-size: 30px;
+  font-family: "Spartan"
+}
+
+
+.pitchCardContentWrapper{
+  text-align: center;
+}
+
+
+.pitchCardContent{
+  font-family: "Spartan";
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 17px;
+}

@@ -1,0 +1,77 @@
+.userSelectionWrapper {
+  margin-bottom: 20px;
+}
+
+
+.userSelectionTitleWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.userSelectionTitle{
+  font-family: "Spartan";
+  font-size: 20px;
+  margin-bottom: 2px;
+  color: #545454;
+}
+
+.userSelectionTitleUnderscore{
+  border-bottom: 2px solid #545454;
+  width: 20%;
+  margin-top: 2px;
+  margin-bottom: 10px;
+}
+
+
+.buttonOuterGroup{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonInnerGroup{
+  display: flex;
+  justify-content: center;
+}
+
+.activeTopicButton{
+  width: 100px;
+  height: 60px;
+  margin: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.activeTopicButton:active {
+  transform: scale(1.03)
+}
+
+.activeTopicButtonText {
+  font-size: 12px;
+  font-family: "Roboto"
+}
+
+.allTopicsWrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+.annotationListFlexWrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.annotationListWrapper {
+  width: 50vw;
+}

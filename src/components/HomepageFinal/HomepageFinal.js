@@ -8,7 +8,7 @@ import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
 import { Link } from 'react-router-dom'
 import Pluralize from 'react-pluralize'
 import NavbarHomepage from '../NavbarHomepage/NavbarHomepage.js'
-
+import { Fade } from "react-awesome-reveal";
 
 function GlassHomepageCover(props){
   return(
@@ -116,6 +116,7 @@ function HomepageFinal(props){
       <div className={styles.mainTopicContent}>
         <div className={styles.topDivider} />
         <div className={styles.carouselWrapper}>
+            <Fade cascade={true} triggerOnce={true}>
             <Carousel
               autoplay={false}
               fade
@@ -225,6 +226,7 @@ function HomepageFinal(props){
                 </>
                )}
             </Carousel>
+            </Fade>
           </div>
       </div>
 åå

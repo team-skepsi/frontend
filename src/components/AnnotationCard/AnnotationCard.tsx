@@ -413,8 +413,22 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
 
                 {Boolean(props.replies && props.replies.length) &&
                     (repliesOpen
-                        ? <div className={styles.linkish} onClick={() => setRepliesOpen(false)}>hide replies</div>
-                        : <div className={styles.linkish} onClick={() => setRepliesOpen(true)}>show replies</div>
+                        ?
+                        <Button icon basic size={"mini"}
+                          className={styles.editButton}
+                          style={{margin: "10px"}}
+                          onClick={() => setRepliesOpen(false)}>
+                            <Icon name="compress" />
+                            <span className={styles.buttonText}> Hide Replies</span>
+                        </Button>
+                        :
+                        <Button icon basic size={"mini"}
+                          className={styles.editButton}
+                          style={{margin: "10px"}}
+                          onClick={() => setRepliesOpen(true)}>
+                            <Icon name="expand" />
+                            <span className={styles.buttonText}> Show Replies</span>
+                        </Button>
                 )}
             </div>
         </div>

@@ -1,0 +1,415 @@
+
+.featuredCardHeader {
+  display: flex;
+  flex-direction: row;
+}
+
+.indentOverflowWrapper {
+}
+
+.featuredCardHeaderIndent {
+  width: 30px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-top: 5px;
+}
+
+.featuredNumberSquareWrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.featuredNumberSquare {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #545454;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 3px;
+}
+
+.featuredNumber {
+  font-family: "Alegreya";
+  margin: unset;
+}
+
+
+.featuredHeaderIndentFlexOuter{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featuredHeaderIndentFlex {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  height: 100%;
+}
+
+.featuredHeaderIndentLineLeft {
+  border-bottom: 2px solid #545454;
+  border-right: 2px solid #545454;
+  width: 0px;
+  height: 130%;
+  flex: 1;
+  position: relative;
+  top: 0px;
+
+}
+.featuredHeaderIndentLineRight {
+  width: 0px;
+  height: 130%;
+  flex: 1;
+  border-bottom: 2px solid #545454;
+  position: relative;
+  top: 0px;
+}
+
+.featuredBottomLineWrapper {
+  border-bottom: 1px solid black;
+  position: relative;
+  top: 10px;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.featuredCardHeaderTextOuterWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 8px;
+  width: 100%;
+}
+
+.featuredCardHeaderTextInnerWrapper{
+  width: 100%;
+}
+
+.featuredAuthorFlexWrapper{
+  display: flex;
+  flex-direction: row;
+}
+
+.featuredAuthorText{
+  margin: unset;
+  font-family: "Roboto";
+  color: #828383;
+  font-size: 16px;
+}
+
+.featuredPaperText {
+  margin: unset;
+  font-family: "Roboto";
+  color: #4F4F4F;
+  font-size: 18px;
+}
+
+.featuredScoreText {
+  font-size: 12px;
+  font-family: "Roboto";
+  color: gray;
+}
+
+/* FEATURED SCORES */
+.featuredScores{
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #E2E5ED;
+}
+
+.featuredScoreIndent {
+  background-color: rgb(245, 245, 245);
+  width: 30px;
+  display: flex;
+  flex-direction: column;
+  border-right: 3px solid #E2E5ED;
+}
+
+.featuredScoreButtonWrapper {
+  border-bottom: 3px solid #E2E5ED;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(148, 105, 75, 0.6);;
+}
+/*
+.featuredScoreButton{
+  height: 18px;
+  width: 18px;
+  border-radius: 100%;
+  background-color: rgba(148, 105, 75, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+.featuredScoreButtonText{
+  font-family: "Roboto";
+  font-weight: bold;
+  color: #545454;
+  font-size: 12px;
+}
+
+.featuredScoreTextWrapper{
+  flex: 1;
+  max-width: 94%;
+  word-wrap: break-word;
+}
+
+.featuredScoreFieldWrapper{
+  height: 30px;
+  padding-left: 5px;
+}
+
+.featuredScoreField{
+  font-size: 16px;
+  font-weight: bold;
+  font-family: "Roboto";
+  color: #545454;
+
+}
+
+.featuredScoreExplanationWrapper{
+  padding-left: 5px;
+  padding-right: 5px;
+  max-width: 100%;
+}
+
+.featuredScoreExplanation{
+  color: #545454
+}
+
+
+.annotationCard {
+  position: relative;
+}
+
+/* HEADER CSS */
+.cardHeader {
+  height: 30px;
+  border: 1px solid #E2E5ED;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2px;
+}
+
+.headerIcon {
+  border-right: 3px solid #E2E5ED;
+  border-bottom: 1px solid #E2E5ED;
+  background-color: rgb(245, 245, 245);
+  width: 30px;
+  height: 105%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerIconCircle {
+  border-radius: 100%;
+  width: 6px;
+  height: 6px;
+  background-color: black;
+}
+
+.headerTextWrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.flexComponent {
+  flex: 1
+}
+
+.authorNameWrapper {
+  margin-right: 10px;
+  padding-left: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.authorName {
+  font-family: "Roboto";
+  font-weight: bold;
+  color: #959AA4;
+}
+
+.createdTimeWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.createdTime {
+  font-family: "Roboto";
+  font-weight: normal;
+  color: #959AA4;
+}
+
+.headerButton {
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 10px;
+}
+
+.headerButtonText {
+  color: #959AA4
+}
+
+.cardBodyAndScores {
+  border: 1px solid #E2E5ED;
+  border-radius: 2px;
+}
+
+/* BODY CSS */
+.annotationCardBody{
+ display: flex;
+ flex-direction: row;
+ border-bottom: 1px solid #E2E5ED;
+}
+
+.bodyIndent {
+  background-color: lightgray;
+  width: 30px;
+  min-width: 30px;
+}
+
+.bodyTextWrapper{
+  padding: 5px;
+  min-width: 0px;
+  flex: 1;
+}
+
+.bodyText {
+  font-size: 14px;
+  font-family: "Roboto";
+}
+
+/* SCORE CSS */
+
+.scoreIndent {
+  background-color: rgb(245, 245, 245);
+  width: 30px;
+  display: flex;
+  flex-direction: column;
+  border-right: 3px solid #E2E5ED;
+}
+
+.responseText {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  font-family: "Roboto";
+}
+
+/* BUTTONS */
+
+.buttonRow{
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+}
+
+.buttonFlex{
+  flex: 1;
+}
+
+.buttonWrapper{
+
+}
+
+.buttonContents {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonText {
+  font-family: "Roboto";
+  font-weight: bold;
+}
+
+/* ERROR AND AUTH MANAGEMENT */
+
+.scoreInnerWarningBox {
+  border: 2px solid rgb(213, 163, 165);
+  margin-bottom: 3px;
+  padding: 5px;
+  border-radius: 4px;
+  background-color: rgb(254, 243, 244);
+}
+
+.scoreInnerWarningText{
+  color: rgb(122, 29, 32);
+  font-family: "Roboto";
+  /* font-weight: bold; */
+  font-size: 12px;
+}
+
+.deleteModalContent {
+  font-family: "Roboto";
+  font-size: 16px;
+}
+
+.errorDivider {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.logInErrorWrapper {
+  text-align: center;
+  padding: 5px;
+}
+
+.logInErrorText {
+  font-family: "Roboto";
+  font-size: 12px;
+  color: rgba(150, 150, 150, 0.5);
+}
+
+.authText {
+  color: rgba(215, 186, 160, 0.5);
+  font-weight: 700;
+  font-family: "Roboto";
+}
+
+.authText:hover {
+  cursor: pointer;
+}
+
+/* OLD COMPONENT CSS */
+
+.header {
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+}
+
+.headerSpacer {
+    flex: 1;
+}
+
+.scoreBlockHeader {
+    display: flex;
+    flex-direction: row;
+    font-style: italic;
+}
+
+.linkish {
+    color: blue;
+    text-decoration: underline;
+}
+
+.childrenContainer {}

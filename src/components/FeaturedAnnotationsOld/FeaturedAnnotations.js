@@ -32,6 +32,7 @@ query GetUserByUsername($username: String!) {
   }
 }
 `
+
 function FeaturedAnnotations(){
   const { user, isAuthenticated } = useAuth0()
   const { data, error, loading } = useQuery(GET_ALL_ANNOTATIONS)
@@ -81,8 +82,8 @@ function FeaturedAnnotations(){
 
   // converts annotation string from server into arrays that we can work with
   useEffect(()=>{
-    console.log("All annotations", data ? data.allAnnotations: undefined)
-    console.log('Annotation Data:', data ? data.allAnnotations['2'].aiData.split(':')['2'].slice(0, -10) : "")
+    // console.log("All annotations", data ? data.allAnnotations: undefined)
+    // console.log('Annotation Data:', data.allAnnotations ? data.allAnnotations['2'].aiData.split(':')['2'].slice(0, -10) : "")
     if(data  && activeTopic){
       var annotationTopicArray = []
       for(let annotation of data.allAnnotations){

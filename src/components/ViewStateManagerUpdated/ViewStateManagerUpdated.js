@@ -5,6 +5,7 @@ import Navbar from "../Navbar/Navbar"
 import { Loader, Dimmer, Divider, Icon, Button } from 'semantic-ui-react'
 import ScoreMetadata from '../ScoreMetadata/ScoreMetadata.js'
 import { Link } from 'react-router-dom'
+import NavbarHomepage from '../NavbarHomepage/NavbarHomepage.js'
 
 import * as styles from "./ViewStateManagerUpdated.module.css"
 
@@ -21,10 +22,11 @@ const ViewStateManager = (props) => {
     return (
         <div ref={ref} className={styles.main}>
           <div style={{height: "60px"}}>
-              <Navbar />
+              <NavbarHomepage />
           </div>
           <div className={styles.coverContainer}>
             <div className={styles.paperWrapper}>
+              {/*}
               <div className={styles.backButtonWrapper}>
                 <Button icon circular inverted>
                   <Link to={`/${props.document.topic.slug}`}>
@@ -32,6 +34,7 @@ const ViewStateManager = (props) => {
                   </Link>
                 </Button>
               </div>
+              */}
               <div style={{flex: 1}}></div>
               <div className={styles.paperContentWrapper}>
                 <p className={styles.titleLabel}>{paperMetadata.journal || "JOURNAL"}</p>

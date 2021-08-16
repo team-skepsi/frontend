@@ -5,7 +5,7 @@ import LoginButton from "../LoginButton/LoginButton.js"
 import LogoutButton from "../LogoutButton/LogoutButton.js"
 import SignupButton from "../SignupButton/SignupButton.js"
 
-import {Button} from "semantic-ui-react"
+import {Button, Icon, Popup} from "semantic-ui-react"
 import {Link} from 'react-router-dom'
 
 import {useAuth0} from "@auth0/auth0-react"
@@ -23,6 +23,44 @@ function NavbarHomepage(){
               <h1 className={styles.skepsiText}>Skepsi</h1>
             </div>
           </Link>
+          <Link>
+            <div className={styles.featuredAnnotationsWrapper}>
+              <Popup
+                style={{boxShadow: "none"}}
+                size='small'
+                trigger={
+              <Link to='/featured-annotations'>
+                <Icon name='fire' size='big' style={{color: 'gray'}}/>
+              </Link>
+              }>
+              <h4 className={styles.popupText}>Featured Annotations</h4>
+              </Popup>
+              <Popup
+                style={{boxShadow: "none"}}
+                size='small'
+                trigger={
+                <Link to='/search'>
+                  <Icon name='search' size='big' style={{color: 'gray'}}/>
+                </Link>
+              }>
+              <h4 className={styles.popupText}>Search</h4>
+              </Popup>
+              <Popup
+                style={{boxShadow: "none"}}
+                size='small'
+                trigger={
+                <Link to='/about'>
+                  <Icon name='question' size='big' style={{color: 'gray'}}/>
+                </Link>
+              }>
+              <h4 className={styles.popupText}>Learn More</h4>
+              </Popup>
+            </div>
+          </Link>
+          {/*<div className={styles.featuredAnnotationsWrapper}>
+            <Icon name='search' size='big' color='gray'/>
+          </div>
+          */}
         </div>
         <div className={styles.navbarFlex} />
         <div className={styles.rightNavbar}>

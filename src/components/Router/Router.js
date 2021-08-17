@@ -20,7 +20,6 @@ import AnnotationCardTemplate from '../AnnotationCardTemplate/AnnotationCardTemp
 import SignupHook from '../SignupHook/SignupHook.js'
 import PitchPage from '../PitchPage/PitchPage.js'
 import FeaturedAnnotationsPage from '../FeaturedAnnotationsPage/FeaturedAnnotationsPage.js'
-import SearchPage from '../SearchPage/SearchPage.js'
 
 const GET_ALL_TOPIC_SLUGS = gql`
     query{
@@ -82,10 +81,6 @@ function Router() {
 
             <Route path='/featured-annotations'>
               <FeaturedAnnotationsPage />
-            </Route>
-
-            <Route path='/search'>
-              <SearchPage />
             </Route>
 
             <Route path="/playground">

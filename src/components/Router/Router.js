@@ -8,7 +8,7 @@ import RoleSelection from '../RoleSelection/RoleSelection.js'
 import SignupView from '../SignupView/SignupView.js'
 import PageManager from '../PageManager/PageManager.js'
 import ProfilePage from '../ProfilePage/ProfilePage.js'
-import Navbar from '../Navbar/Navbar.js'
+import NavbarHomepage from '../NavbarHomepage/NavbarHomepage.js'
 // import PaperCardTemplate from '../PaperCardTemplate/PaperCardTemplate.js'
 // import ScientistDomainPicker from '../ScientistDomainPicker/ScientistDomainPicker.js'
 // import FeaturedAnnotations from '../FeaturedAnnotations/FeaturedAnnotations.js'
@@ -98,21 +98,21 @@ function Router() {
 
             <Route path='/user-info'>
                 <React.Fragment>
-                    <Navbar />
+                    <NavbarHomepage />
                     <ProfilePage />
                 </React.Fragment>
             </Route>
 
             <Route path='/signup'>
                 <React.Fragment>
-                    <Navbar />
+                    <NavbarHomepage />
                     <RoleSelection />
                 </React.Fragment>
             </Route>
 
             <Route path={['/scientist-signup', '/user-signup', '/expert-signup']}>
                 <React.Fragment>
-                    <Navbar />
+                    <NavbarHomepage />
                     <SignupView/>
                 </React.Fragment>
             </Route>

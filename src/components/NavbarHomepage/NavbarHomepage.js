@@ -84,14 +84,6 @@ function NavbarHomepage(){
                   </button>
               </Link>
             </div>
-            <div className={styles.authButtonText}>
-              <button
-                className={styles.authButton}
-                id={styles.logoutButton}
-                onClick = {() => logout({returnTo: window.location.origin})}>
-                <p className={styles.authButtonText}>Log Out</p>
-              </button>
-            </div>
             </>
           }
           {!isAuthenticated &&

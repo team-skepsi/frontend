@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import {Card, Icon, Image, Label, Loader, Modal} from 'semantic-ui-react'
 import {Img} from 'react-image'
-import styles from './FigureViewer.module.css'
+import styles from './TableViewer.module.css'
 
-function FigureViewer(props) {
+function TableViewer(props) {
     const [open, setOpen] = useState(false)
     const [activeImage, setActiveImage] = useState("")
 
@@ -15,30 +15,28 @@ function FigureViewer(props) {
         console.log(data.target.offsetParent.childNodes[0].firstChild.firstChild.id)
     }
 
-
-    if (props.paperMetadata && Array.isArray(props.paperMetadata.figures)) {
+    if (props.paperMetadata && Array.isArray(props.paperMetadata.tables)) {
         return (
-            <div className={styles.figureWrapper}>
+            <div className={styles.tableWrapper}>
                 <Card.Group centered>
-                    {props.paperMetadata.figures.map((figure, index) =>
+                    {props.paperMetadata.tables.map((table, index) =>
 
-                        <Card className={styles.figureCard} key={index}>
+                        <Card className={styles.tableCard} key={index}>
                             <Card.Content>
                                 <div className={styles.imageWrapper}>
                                     <Img
-                                        className={styles.figureImage}
-                                        id={figure.image}
-                                        src={`${process.env.REACT_APP_API_AUDIENCE}media/${figure.image}`}
+                                        className={styles.tableImage}
+                                        id={table.image}
+                                        src={`${process.env.REACT_APP_API_AUDIENCE}media/${table.image}`}
                                         loader={<Loader/>}
                                     />
-
                                 </div>
                             </Card.Content>
                             <Card.Content extra>
                                 <div className={styles.titleWrapper}>
                                   <div className={styles.titleInnerWrapper}>
-                                    <p className={styles.figureTitle}>
-                                        <b>[{figure.figureNumber}]</b> {figure.name}
+                                    <p className={styles.tableTitle}>
+                                        <b>[{table.tableNumber}]</b> {table.name}
                                     </p>
                                   </div>
                                   <div style={{flex: 1}}/>
@@ -50,8 +48,8 @@ function FigureViewer(props) {
                                            }}><Icon fitted name='expand' style={{pointerEvents: 'none'}}/></Label>
                                   </div>
                                 </div>
-                                <p className={styles.figureCaption}>
-                                    <em>{figure.caption}</em>
+                                <p className={styles.tableCaption}>
+                                    <em>{table.caption}</em>
                                 </p>
                             </Card.Content>
 
@@ -74,10 +72,10 @@ function FigureViewer(props) {
         )
     }
 
-    return <div>No Figures to Show</div>
+    return <div>No Tables to Show</div>
 }
 
-export default FigureViewer
+export default TableViewer
 
 //src={`${process.env.REACT_APP_API_AUDIENCE}media/${figure.image}`}
 

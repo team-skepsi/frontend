@@ -36,10 +36,17 @@ export const GET_PAPER_AND_ANNOTATION_DATA = gql`
             createdDate
             abstract
             citationAPA
+            doi
             citationMLA
             figures{
                 image
                 figureNumber
+                name
+                caption
+            }
+            tables{
+                image
+                tableNumber
                 name
                 caption
             }

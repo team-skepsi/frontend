@@ -2,6 +2,7 @@ import React, {useCallback, useMemo, useRef, useState} from "react"
 import {DraggableCore} from "react-draggable"
 import {Set, Map, List} from "immutable"
 import {VscInfo, VscSymbolRuler, VscFileMedia, VscBook} from "react-icons/all"
+import { Icon } from 'semantic-ui-react'
 
 import Annotation, {AnnotationType} from "../../logic/annotation"
 import {ContentNodeType} from "../../logic/contentNode"
@@ -14,7 +15,7 @@ import TooltipRefRelative from "../Tooltip/TooltipRefRelative"
 import AnnotationSidebar from "../AnnotationSidebar/AnnotationSidebar"
 import CitationViewer from "../CitationViewer/CitationViewer"
 import TableContents from "../TableContents/TableContents"
-import FigureViewer from "../FigureViewer/FigureViewer"
+import TableAndFigureViewer from "../TableAndFigureViewer/TableAndFigureViewer.js"
 import ReferenceViewer from "../ReferenceViewer/ReferenceViewer"
 
 import {KNOB_DRAG_HANDLE_CLASS} from "../Tooltip/Tooltip"
@@ -172,15 +173,19 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                                 activeNodeRef={activeNodeRef}
                                 options={[
                                     [
-                                        <VscInfo/>,
+                                        <VscInfo style={{color: 'gray'}}/>,
                                         <div>
-                                            <button onClick={props.scrollToTop}>top</button>
+                                            <button
+                                              className={styles.scrollToTopButton}
+                                              onClick={props.scrollToTop}>
+                                              <Icon fitted name="angle double up" color='grey'/>
+                                            </button>
                                             <CitationViewer paperMetadata={paperMetadata}/>
                                         </div>
                                     ],
-                                    [<VscSymbolRuler/>, <TableContents content={root}/>],
-                                    [<VscFileMedia/>, <FigureViewer paperMetadata={paperMetadata}/>],
-                                    [<VscBook/>, <ReferenceViewer paperMetadata={paperMetadata}/>],
+                                    [<VscSymbolRuler style={{color: 'gray'}}/>, <TableContents content={root}/>],
+                                    [<VscFileMedia style={{color: 'gray'}}/>, <TableAndFigureViewer paperMetadata={paperMetadata}/>],
+                                    [<VscBook style={{color: 'gray'}}/>, <ReferenceViewer paperMetadata={paperMetadata}/>],
                                 ]}
                                 onNext={onNextAnnotation}
                                 onPrevious={onPrevAnnotation}

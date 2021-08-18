@@ -81,6 +81,10 @@
   color: rgba(0, 0, 0, 0.8);
 }
 
+.authButton:active{
+  background-color: darkgray;
+}
+
 /* #pitchButton {
   background-color: #A89267;
   border: 3px solid rgba(192, 176, 149, 1);
@@ -136,5 +140,4 @@
   font-weight: 600;
   font-size: 1rem;
   color: rgba(84, 84, 84, 0.8);
-
 }

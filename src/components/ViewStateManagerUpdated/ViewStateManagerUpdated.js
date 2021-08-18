@@ -44,18 +44,17 @@ const ViewStateManager = (props) => {
                   <h1 className={styles.paperTitle}>{paperMetadata.title || "TITLE"}</h1>
                 </div>
                 <div className={styles.metadataWrapper}>
-
-                  <div>
-                    <p className={styles.metadata}>{paperMetadata.createdDate || "DATE"}</p>
-                    <p className={styles.metadataSmall}>July 23rd</p>
+                  <div className={styles.metadataInnerWrapper}>
+                    <p className={styles.metadata}>{paperMetadata.createdDate ? paperMetadata.createdDate.split(" ").slice(-1).join(" ") || "No date" : "DATE"}</p>
+                    <p className={styles.metadataSmall}>{paperMetadata.createdDate ? paperMetadata.createdDate.split(" ").slice(0, 2).join(" ") || "No date" : "DATE"}</p>
                   </div>
-                  <div>
+                  <div className={styles.metadataInnerWrapper}>
                   <p className={styles.metadata}>{paperMetadata.topic ? paperMetadata.topic.header : "HEADER"}</p>
-                  <p className={styles.metadataSmall}>Biomedical and Diagnostic Science</p>
+                  <p className={styles.metadataSmall}></p>
                   </div>
-                  <div>
+                  <div className={styles.metadataInnerWrapper} id={styles.authorsInnerWrapper}>
                   <p className={styles.metadata}>{paperMetadata.authors || "AUTHOR"}</p>
-                  <p className={styles.metadataSmall}>{paperMetadata.doi || ""}</p>
+                  <p className={styles.metadataSmall}>{paperMetadata.doi || "x"}</p>
                   </div>
                 </div>
               </div>

@@ -1,10 +1,10 @@
-.figureWrapper {
+.tableWrapper {
   max-height: 450px;
   overflow-y: auto;
   width: 25vw;
 }
 
-.figureCard {
+.tableCard {
   max-width: 300px;
   max-height: 300px;
   max-width: 600px;
@@ -22,7 +22,7 @@
 
 }
 
-.figureImage {
+.tableImage {
   max-width: 100%;
   max-height: 100%;
 }
@@ -43,11 +43,11 @@
   justify-content: center;
 }
 
-.figureTitle {
+.tableTitle {
   color: #222222;
 }
 
-.figureCaption {
+.tableCaption {
   color: gray;
 }
 

@@ -1,0 +1,37 @@
+.outerWrapper{
+  max-height: 450px;
+  overflow-y: auto;
+  width: 25vw;
+}
+
+.toggleButtonRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.authButton{
+  width: 90px;
+  height: 40px;
+  margin: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  border: 1px solid darkgray;
+  background-color: #fff;
+  box-shadow: 0 0 0 1px rgb(34, 36, 38, 0.35);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.authButton:active{
+  background-color: darkgray;
+}
+
+.authButtonText {
+  font-family: "Roboto";
+  font-weight: 600;
+  font-size: 1rem;
+  color: rgba(84, 84, 84, 0.8);
+}

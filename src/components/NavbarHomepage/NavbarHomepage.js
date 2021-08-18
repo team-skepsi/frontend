@@ -47,7 +47,7 @@ function NavbarHomepage(){
           </Link>
           <Link>
             <div className={styles.featuredAnnotationsWrapper}>
-              <Popup
+              {/*<Popup
                 style={{boxShadow: "none"}}
                 size='small'
                 trigger={
@@ -57,6 +57,7 @@ function NavbarHomepage(){
               }>
               <h4 className={styles.popupText}>Featured Annotations</h4>
               </Popup>
+              */}
             </div>
           </Link>
           {/*<div className={styles.featuredAnnotationsWrapper}>
@@ -72,10 +73,10 @@ function NavbarHomepage(){
         <div className={styles.rightNavbar}>
           {isAuthenticated &&
             <>
-            <div>
-              <Link to='/about'>
+            <div className={styles.rightNavbarButtonWrapper}>
+              <Link to='/featured-annotations'>
                 <button className={styles.authButton} id={styles.pitchButton}>
-                  <p className={styles.authButtonText}>Learn More</p>
+                  <p className={styles.authButtonText}>Featured Comments</p>
                 </button>
               </Link>
               <Link to="/user-info">
@@ -88,10 +89,10 @@ function NavbarHomepage(){
           }
           {!isAuthenticated &&
             <>
-            <div>
-              <Link to='/about'>
+            <div className={styles.rightNavbarButtonWrapper}>
+              <Link to='/featured-annotations'>
                 <button className={styles.authButton} id={styles.pitchButton}>
-                  <p className={styles.authButtonText}>Learn More</p>
+                  <p className={styles.authButtonText}>Featured Comments</p>
                 </button>
               </Link>
             </div>

@@ -71,10 +71,11 @@ function ScoreMetadata(props) {
             {
                 key: `${field}`,
                 value: `${field}`,
-                text: titleize(`${field.replace("_", " ")}`)
+                text: field ? titleize(`${field.replace("_", " ")}`) : ""
             }
         )
     )
+
     //
     // useEffect(()=>{
     //   console.log("This is the x axis data", xAxisData)
@@ -92,7 +93,7 @@ function ScoreMetadata(props) {
                                     options={dropdownOptions}
                                     selection
                                     onChange={(data, { value }) => setChart(value)}
-                                    placeholder={titleize(chart.replace("_", " "))}
+                                    placeholder={chart ? titleize(chart.replace("_", " ")) : ""}
                                 />
                             </div>
                             <div className={styles.horizontalFlex}/>

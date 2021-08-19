@@ -71,7 +71,7 @@ function ScoreMetadata(props) {
             {
                 key: `${field}`,
                 value: `${field}`,
-                text: field ? titleize(`${field.replace("_", " ")}`) : ""
+                text: field ? titleize(`${field}`) : ""
             }
         )
     )
@@ -93,7 +93,7 @@ function ScoreMetadata(props) {
                                     options={dropdownOptions}
                                     selection
                                     onChange={(data, { value }) => setChart(value)}
-                                    placeholder={chart ? titleize(chart.replace("_", " ")) : ""}
+                                    placeholder={chart ? titleize(chart) : ""}
                                 />
                             </div>
                             <div className={styles.horizontalFlex}/>

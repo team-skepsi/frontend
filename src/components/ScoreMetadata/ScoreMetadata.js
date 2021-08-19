@@ -9,14 +9,14 @@ import './ScoreMetadata.css' // TODO(Leo): convert to css module
 function ScoreMetadata(props) {
     const fieldSet = new Set(props.scores ? props.scores.map(score => score.field) : {})
     const fieldArray = Array.from(fieldSet)
-    const [chart, setChart] = useState(titleize(fieldArray[0]))
+    const [chart, setChart] = useState(fieldArray[0])
     const [xAxisData, setXAxisData] = useState()
 
-    // useEffect(()=>{
-    //   console.log("PROPS.SCORES", props.scores)
-    //   console.log("FIELD SET", fieldSet)
-    //   console.log("FIELD ARRAY", fieldArray)
-    // }, [props.scores, fieldSet, fieldArray])
+    useEffect(()=>{
+      console.log("PROPS.SCORES", props.scores)
+      console.log("FIELD SET", fieldSet)
+      console.log("FIELD ARRAY", fieldArray)
+    }, [props.scores, fieldSet, fieldArray])
 
     // CALCULATING METADATA
     let scoreArray = []
@@ -40,7 +40,7 @@ function ScoreMetadata(props) {
                     }
                     // add other metadata calculations to this section
                     let obj = {}
-                    obj["field"] = titleize(name)
+                    obj["field"] = name
                     obj["average"] = Number(sum / counter).toFixed(2)
                     obj["standard_deviation"] = std(tempArray).toFixed(2)
                     scoreArray.push(obj)
@@ -57,7 +57,7 @@ function ScoreMetadata(props) {
     useEffect(() => {
         let scoreDistribution = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         for (let score of props.scores) {
-            if (titleize(score.field) === chart) {
+            if(score.field === chart) {
                 scoreDistribution[`${score.scoreNumber - 1}`] += 1
             }
         }
@@ -91,8 +91,8 @@ function ScoreMetadata(props) {
                                 <Dropdown
                                     options={dropdownOptions}
                                     selection
-                                    onChange={(data) => setChart(data.target.innerText)}
-                                    placeholder={chart}
+                                    onChange={(data, { value }) => setChart(value)}
+                                    placeholder={titleize(chart.replace("_", " "))}
                                 />
                             </div>
                             <div className={styles.horizontalFlex}/>

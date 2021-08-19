@@ -136,6 +136,13 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                     setOpenScoreBlocks(openScoreBlocks.slice(0, sbIndex).concat(openScoreBlocks.slice(sbIndex + 1)))
                 })
         }
+      else{
+        setState({
+            ...state,
+            scoreBlocks: state.scoreBlocks.slice(0, sbIndex).concat(state.scoreBlocks.slice(sbIndex + 1))
+        })
+        setOpenScoreBlocks(openScoreBlocks.slice(0, sbIndex).concat(openScoreBlocks.slice(sbIndex + 1)))
+      }
     }
 
     const editScoreBlock = (sbIndex: number, newVals: ScoreBlockType) => {

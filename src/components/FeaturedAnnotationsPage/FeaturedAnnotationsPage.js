@@ -122,7 +122,8 @@ useEffect(()=>{
     console.log("SORTED TOPICS", sortedTopics)
     console.log("ALL ANNOTATIONS", data)
     console.log("ANNOTATION TOPICS", annotationTopics)
-  }, [activeTopic, userTopicInfoArray, sortedTopics, data, annotationTopics])
+    console.log("TOPIC DROPDOWN OPTIONS", topicDropdownOptions)
+  }, [activeTopic, userTopicInfoArray, sortedTopics, data, annotationTopics, topicDropdownOptions])
 
 
   useEffect(()=>{
@@ -162,7 +163,6 @@ useEffect(()=>{
             <div className={styles.buttonInnerGroup}>
               {userTopicInfoArray && userTopicInfoArray.map((topic, index)=>
                 <button
-                  style={{border: `4px solid ${sepiaPalette[index] ? sepiaPalette[index] : "#E3DBD4"}`}}
                   className={styles.activeTopicButton}
                   onClick={()=>setActiveTopic(topic.value)}
                   >
@@ -209,7 +209,6 @@ useEffect(()=>{
   return(
     <>
     <NavbarHomepage />
-    <div>Hi</div>
     </>
   )
 }

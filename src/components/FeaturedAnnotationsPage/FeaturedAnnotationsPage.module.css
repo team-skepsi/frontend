@@ -46,15 +46,18 @@
   cursor: pointer;
   overflow: hidden;
   background-color: transparent;
+  border: 2px solid darkgray;
 }
 
 .activeTopicButton:active {
-  transform: scale(1.03)
+  background-color: 1px solid darkgray;
 }
 
 .activeTopicButtonText {
   font-size: 12px;
-  font-family: "Roboto"
+  font-family: "Roboto";
+  color: #545454;
+  font-weight: bold;
 }
 
 .allTopicsWrapper{

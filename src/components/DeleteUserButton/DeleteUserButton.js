@@ -26,7 +26,7 @@ function DeleteUserButton(){
       clientID: 'V1VsPEgl7mgPORdnpFApnJVWLvf4xkbe',
     });
     webAuth.logout({
-    returnTo: 'http://localhost:3000/',
+    returnTo: `${process.env.REACT_APP_URL}`,
     client_id: 'V1VsPEgl7mgPORdnpFApnJVWLvf4xkbe',
   });
   }

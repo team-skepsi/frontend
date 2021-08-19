@@ -319,7 +319,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                                               onClick={() => loginWithRedirect()}> log in </span>
                                         or
                                         <Link to='/signup'><span className={styles.authText}> sign up </span></Link>
-                                        to reply to annotations
+                                        to annotate
                                     </p>
                                 </div>
                             </>}

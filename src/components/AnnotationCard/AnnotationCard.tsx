@@ -83,6 +83,9 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         _setState(valSetRevert, () => props.onChange && props.onChange())
     }
 
+    // when we become active, we show some buttons, so we need to reflow the sidebar
+    useEffect(() => props.onChange && props.onChange() , [props.active])
+
     const childrenIndent = 20
     const width = props.width || 450
     const annotationId = typeof props.id === "number"? props.id: NaN
@@ -253,10 +256,6 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
         }
     }
 
-    useEffect(()=>{
-      console.log("STATE", state)
-    }, [state])
-
     return (
         <div
             ref={props.nodeRef}
@@ -336,7 +335,7 @@ const AnnotationCard: React.FC<SecretRealAnnotationCardType> = (props) => {
                     editScoreBlock={editScoreBlock}
                     scoreBlockOpen={i => openScoreBlocks[i]}/>
 
-                {isAuthenticated &&
+                {isAuthenticated && props.active &&
                 <div className={styles.buttonRow}>
 
                     {/* close/expand ScoreBlock explanations */}

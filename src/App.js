@@ -1,6 +1,5 @@
-import React, {useEffect, useState, useContext } from 'react'
-import './App.css'
-import "semantic-ui-css/semantic.min.css";
+import React, {useEffect, useState } from 'react'
+import "semantic-ui-css/semantic.min.css"
 
 // FONTS
 import WebFont from 'webfontloader'
@@ -17,10 +16,10 @@ import WebFont from 'webfontloader'
 // import SignupAndTopicsRouter from './components/routers/signup-and-topics-router.js'
 import Router from './components/Router/Router.js'
 
-import {useAuth0} from "@auth0/auth0-react";
+import {useAuth0} from "@auth0/auth0-react"
 
 import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client"
-import TexProvider from "./components/Tex/TexProvider";
+import TexProvider from "./components/Tex/TexProvider"
 
 // STYLES
 

@@ -1,7 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React, {useRef} from 'react'
 import {gql, useQuery} from '@apollo/client'
 import {useLocation} from 'react-router-dom'
-import ViewStateManagerUpdated from '../ViewStateManagerUpdated/ViewStateManagerUpdated.js'
+import {Fade} from "react-awesome-reveal"
+
+import NavbarHomepage from "../NavbarHomepage/NavbarHomepage"
+import PaperViewer from "../PaperViewer/PaperViewer"
+import Cover from "../Cover/Cover"
 
 export const GET_PAPER_AND_ANNOTATION_DATA = gql`
     query GetPaperAndAnnotationData($paperId:ID!){
@@ -71,56 +75,46 @@ export const GET_PAPER_AND_ANNOTATION_DATA = gql`
     }
 `
 
-function PageManager() {
-    // DOCUMENT ROUTER
-    const [dataState, setDataState] = useState()
+const PageManager = () => {
+
     const location = useLocation()
-    // replace the paperId variable below with "location.pathname.replace('/','')"
-    // when you want to integrate with router
+    const paperId = location.pathname.replace('/', '')
+    const {data, error, loading} = useQuery(GET_PAPER_AND_ANNOTATION_DATA, {variables: {"paperId": paperId}})
 
+    const ref = useRef(null)
 
-    //NETWORK LOGIC
-    // the network logic currently sets the paper to one for testing,
-    // hook up to the document router output when integrating into the application
-    const {
-        data: paperAndAnnotationData,
-        error: networkRequestError,
-        // loading
-    } = useQuery(GET_PAPER_AND_ANNOTATION_DATA, {
-        variables: {"paperId": location.pathname.replace('/', '')}
-    })
-
-    // used to refresh all children components if there are changes
-    useEffect(() => {
-        setDataState(paperAndAnnotationData)
-    }, [paperAndAnnotationData])
-
-    //DEBUGGING LOGS
-    if (networkRequestError) {
-        console.log(
-            `NETWORK LOGIC ERROR
-    There was a network request error. To debug, make sure the backend is running, and double check the useQuery() hook, the GET_PAPER_AND_ANNOTATION_DATA constant, and the document router logic. Here's the network error: \n`
-            , networkRequestError)
+    const scrollToTop = () => {
+        if (ref.current) {
+            ref.current.scroll({top: 0, behavior: "smooth"})
+        }
     }
 
-    // useEffect(() => {
-    //     console.log("NETWORK DATA [PAGE MANAGER]:", paperAndAnnotationData)
-    // }, [paperAndAnnotationData])
+    if (error){
+        console.log(error)
+        alert("An error occurred. Please reload the page, or check the console for details.")
+    }
 
-
-    if (paperAndAnnotationData) {
-        return (
-            <div>
-                <ViewStateManagerUpdated
-                    document={paperAndAnnotationData.papersById}
-                    annotations={paperAndAnnotationData.annotationsByPaperId}
-                    scores={paperAndAnnotationData.scoresByPaperId}
-                />
+    return (
+        <div ref={ref}>
+            <div style={{height: "60px"}}>
+                <NavbarHomepage/>
             </div>
-        )
-    } else {
-        return null
-    }
+            {(loading || error)
+                ? "loading..."
+                : <Fade triggerOnce>
+                    <Cover
+                        paperMetadata={data.papersById}
+                        annotations={data.annotationsByPaperId}
+                        scores={data.scoresByPaperId}/>
+
+                    <PaperViewer
+                        document={data.papersById}
+                        annotations={data.annotationsByPaperId}
+                        scrollToTop={scrollToTop}/>
+                </Fade>
+            }
+        </div>
+    )
 }
 
 export default PageManager

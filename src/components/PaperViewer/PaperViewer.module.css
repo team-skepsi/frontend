@@ -38,8 +38,9 @@
   height: 33px;
   width: 33px;
   background-color: white;
-  border: 2px solid gray;
+  border: 0px solid gray;
   cursor: pointer;
+  margin-bottom: 5px;
 }
 
 .scrollToTopButton:active{

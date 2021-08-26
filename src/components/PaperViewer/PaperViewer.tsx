@@ -177,6 +177,7 @@ const PaperViewer: React.FC<PaperViewerType> = (props) => {
                                         <div>
                                             <button
                                               className={styles.scrollToTopButton}
+                                              style={{borderColor: "none"}}
                                               onClick={props.scrollToTop}>
                                               <Icon fitted name="angle double up" color='grey'/>
                                             </button>

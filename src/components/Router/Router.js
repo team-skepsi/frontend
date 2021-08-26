@@ -42,7 +42,8 @@ function Router() {
     const {data, loading, error} = useQuery(GET_ALL_TOPIC_SLUGS)
     const {data: paperData, loading: paperLoading, error: paperError} = useQuery(GET_ALL_PAPERS)
 
-  if(loading || paperLoading){
+  if(paperLoading || loading){
+    console.log("Loading")
     return(
       <div>
       </div>

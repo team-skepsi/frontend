@@ -100,7 +100,7 @@ const PageManager = () => {
                 <NavbarHomepage/>
             </div>
             {(loading || error)
-                ? "loading..."
+                ? ""
                 : <Fade triggerOnce>
                     <Cover
                         paperMetadata={data.papersById}
